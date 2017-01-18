@@ -465,21 +465,6 @@ A prefix arg forces clock in of the default task."
   (interactive)
   (org-table-move-single-cell 'right))
 
-(provide 'init-org-table-shift)
-;; init-org-table-shift.el end here
-
-;; add font-config for chinese double-width fonts issue
-(use-package chinese-fonts-setup
-  :config
-  (setq cfs-profiles
-        '("program" "org-mode" "read-book"))
-)
-
-;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
-;; Reference: https://github.com/tumashu/chinese-fonts-setup
-(global-unset-key (kbd "C-x C-=")) ;; remove original font-resize
-(global-set-key (kbd "C-x C-=") 'cfs-increase-fontsize)
-(global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
 
 ;; -----------------------------------------
 ;;key bindings for org mode

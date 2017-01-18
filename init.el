@@ -15,7 +15,7 @@ values."
    ;; with a supported type is opened). Possible values are `all', `unused'
    ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
    ;; not listed in variable `dotspacemacs-configuration-layers'), `all' will
-   ;; lazy install any Thelayer that support lazy installation even the layers
+   ;; lazy install anasy Thelayer that support lazy installation even the layers
    ;; listed in `dotspacemacs-configuration-layers'. `nil' disable the lazy
    ;; installation feature and you have to explicitly list a layer in the
    ;; variable `dotspacemacs-configuration-layers' to install it.
@@ -52,7 +52,6 @@ values."
      javascript
      lua
      haskell
-     
      sql
      ruby
      java
@@ -72,6 +71,9 @@ values."
      spell-checking
      syntax-checking
      version-control
+
+     ;; my customized layer
+     chinese-fonts-setup 
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -155,6 +157,7 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+                         zenburn
                          solarized-light
                          monokai
                          spacemacs-light
@@ -320,7 +323,8 @@ values."
 
    mac-right-option-modifier 'control
    ;;mac-right-command-modifier 'meta
-   mac-command-modifier 'meta
+   ;;mac-command-modifier 'meta
+   mac-left-command-modifer 'meta
 
    exec-path-from-shell-check-startup-files nil
    ))
