@@ -1,3 +1,20 @@
+;;; packages.el --- Search function for spacemacs
+;;
+;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
+;;
+;; Author: Lukasz Klich <klich.lukasz@gmail.com>
+;; URL: https://github.com/syl20bnr/spacemacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+
+;; add search function addtion packages support
+
+(setq search-packages
+      '(ace-isearch))
+
+(defun search/init-ace-isearch ()
 
 (use-package avy
   :defer t)
@@ -34,3 +51,6 @@
     (define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)
     )
 )
+
+)
+  
