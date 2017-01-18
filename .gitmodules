@@ -1,3 +1,6 @@
 [submodule "third-plugins/chinese-fonts-setup"]
 	path = third-plugins/chinese-fonts-setup
 	url = git@github.com:lujianmei/chinese-fonts-setup.git
+[submodule "third-plugins/org-html-themes"]
+	path = third-plugins/org-html-themes
+	url = git@github.com:lujianmei/org-html-themes.git
