@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: seealso
+# key: seealso
+# --
+#+begin_seealso
+$0
+#+end_seealso

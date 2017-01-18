@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: error
+# key: error
+# --
+#+begin_error
+$0
+#+end_error

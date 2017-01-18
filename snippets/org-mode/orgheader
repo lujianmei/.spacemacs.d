@@ -1,0 +1,33 @@
+# -*- mode: snippet -*-
+# name: orgheader
+# key: orgheader
+# --
+#+TITLE: ${1:title}
+#+DESCRIPTION: $1
+#+KEYWORDS: ${3:keywords}
+#+AUTHOR: Lu jianmei
+#+EMAIL:  anysky130@163.com
+#+OPTIONS:   H:3 num:t   toc:3 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t p:t pri:t
+#+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   author:t creator:t timestamp:t email:t
+#+INFOJS_OPT: view:nil toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+
+#+SETUPFILE: ~/.emacs.d/org-html-themes/setup/theme-readtheorg.setup
+
+#+PROPERTY:  header-args :eval yes :exports both :results replace
+
+# #+MACRO: longtext this is a very very long text to include
+
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+
+#+LATEX_HEADER: \usepackage{xeCJK}
+#+LATEX_HEADER: \setCJKmainfont{SimSun}
+#+LATEX_CLASS: cn-article
+#+STARTUP: logredeadline, logreschedule
+#+ATTR_HTML: :border 2 :rules all :frame all
+
+
+$0
+
+

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: sidebar
+# key: sidebar
+# --
+#+begin_sidebar
+$0
+#+end_sidebar

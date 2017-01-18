@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: right
+# key: right
+# --
+#+begin_right
+$0
+#+end_right

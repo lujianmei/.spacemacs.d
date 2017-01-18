@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: left
+# key: left
+# --
+#+begin_left
+$0
+#+end_left
