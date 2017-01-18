@@ -12,13 +12,13 @@
 ;; add font-config for chinese double-width fonts issue
 
 (setq fonts-setup-packages
-      '(fonts-setup))
+      '(chinese-fonts-setup))
 
-(defun chinese-fonts-setup/init-fonts-setup ()
+(defun fonts-setup/init-chinese-fonts-setup ()
   (use-package chinese-fonts-setup
     :config
     (progn
-      (setq cfs-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/")
+      (setq cfs-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
       (setq cfs-profiles
             '("program" "org-mode" "read-book"))
             ;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
