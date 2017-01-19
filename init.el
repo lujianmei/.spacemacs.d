@@ -35,7 +35,7 @@ values."
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
+     ;; ------------------------------------------------ace-isearch-input-length----------------
      (helm :variables
            ;; Use fuzzy match in helm
            helm-M-x-fuzzy-match t
@@ -55,7 +55,8 @@ values."
      sql
      ruby
      java
-     dired
+     (plantuml :variables
+               org-plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar")
      python
      git
      markdown
@@ -368,9 +369,19 @@ you should place your code here."
   ;; add org-mode configuration
   (require 'init-org-mode)
   (require 'init-org-jekyll)
+  ;; add java support
+  (require 'init-java)
 
 
 
+  ;; add keybindings
+  (defconst *is-a-mac* (eq system-type 'darwin))
+
+  (when *is-a-mac*
+    (setq mac-command-modifier 'meta)
+    (setq mac-option-modifier 'control)
+    (setq default-input-method "MacOSX")
+    )
 
   )
 
