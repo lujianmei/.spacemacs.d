@@ -55,6 +55,7 @@ values."
      sql
      ruby
      java
+     dired
      python
      git
      markdown
@@ -157,10 +158,10 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+                         spacemacs-dark
                          solarized-light
                          monokai
                          spacemacs-light
-                         spacemacs-dark
                          solarized-dark
                          leuven
                          zenburn)
@@ -323,7 +324,8 @@ values."
    mac-right-option-modifier 'control
    ;;mac-right-command-modifier 'meta
    ;;mac-command-modifier 'meta
-   mac-left-command-modifer 'meta
+   mac-command-modifier 'meta
+   ;;mac-left-command-modifer 'meta
 
    exec-path-from-shell-check-startup-files nil
    ))
