@@ -157,7 +157,6 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         zenburn
                          solarized-light
                          monokai
                          spacemacs-light
