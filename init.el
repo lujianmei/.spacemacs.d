@@ -24,10 +24,23 @@ values."
    ;; If non-nil then Spacemacs will ask for confirmation before installing
    ;; a layer lazily. (default t)
    dotspacemacs-ask-for-lazy-installation t
-   ;; /")If non-nil layers with lazy install support are lazy installed.
+   ;; /")If non-nil layers w;;; layers.el --- For font setup private layers
+;;
+;; Copyright (c) 2012-2016 Sylvain Benner & Contributors
+;;
+;; Author: Andrea Moretti <axyzxp@gmail.com>
+;; URL: https://github.com/axyz
+;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+
+;; Prerequisites
+
+;;ith lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/private/")
+   dotspacemacs-configuration-layer-path '("~/.spacemacs.d/layers/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
@@ -56,8 +69,11 @@ values."
      ruby
      java
      (plantuml :variables
-               org-plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar")
+               org-ditaa-jar-path "~/.spacemacs.d/third-plugins/ditaa0_9.jar"
+               org-plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar"
+               plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar")
      python
+     ipython-notebook
      git
      markdown
      org
@@ -65,6 +81,7 @@ values."
             shell-default-height 30
             shell-default-term-shell "/usr/local/bin/zsh"
             shell-default-position 'bottom)
+     shell-scripts
      (osx :variables
           osx-use-option-as-meta t)
      (mu4e :variables
@@ -81,7 +98,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(chinese-fonts-setup)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -172,7 +189,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Yahei Consolas Hybrid"
-                               :size 18
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -339,6 +356,8 @@ values."
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
+
+
 It is called immediately after `dotspacemacs/init', before layer configuration
 executes.
  This function is mostly useful for variables that need to be set
@@ -372,6 +391,9 @@ you should place your code here."
   ;; add java support
   (require 'init-java)
 
+  ;; set jar path for plantuml
+  ;;(setq org-plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar")
+
 
 
   ;; add keybindings
@@ -382,8 +404,20 @@ you should place your code here."
     (setq mac-option-modifier 'control)
     (setq default-input-method "MacOSX")
     )
+  ;; change font size
+  (require 'chinese-fonts-setup)
+  (setq cfs-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
+  (setq cfs-profiles
+        '("program" "org-mode" "read-book"))
+  ;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
+  ;; Reference: https://github.com/tumashu/chinese-fonts-setup
+  (global-unset-key (kbd "C-x C-=")) ;; remove original font-resize
+  (global-set-key (kbd "C-x C-=") 'cfs-increase-fontsize)
+  (global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
+  (chinese-fonts-setup-enable)
 
-  )
+
+    )
 
 
 
@@ -420,3 +454,26 @@ you should place your code here."
 
 
   
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(cfs--current-profile "program" t)
+ '(cfs--profiles-steps (quote (("program" . 5))) t)
+ '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
+ '(package-selected-packages
+   (quote
+    (chinese-fonts-setup winum unfill helm-purpose window-purpose imenu-list monokai-theme yapfify xterm-color web-mode web-beautify tagedit sql-indent smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder rbenv rake pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro org-download mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode livid-mode skewer-mode simple-httpd live-py-mode less-css-mode launchctl json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib package-build spacemacs-theme))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+)

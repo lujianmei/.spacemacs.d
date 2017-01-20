@@ -12,10 +12,11 @@
 ;; add font-config for chinese double-width fonts issue
 
 (setq fonts-setup-packages
-      '(chinese-fonts-setup))
+      '(c-fonts-setup))
 
-(defun fonts-setup/init-chinese-fonts-setup ()
+(defun fonts-setup/init-c-fonts-setup ()
   (use-package chinese-fonts-setup
+    :defer t
     :config
     (progn
       (setq cfs-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
