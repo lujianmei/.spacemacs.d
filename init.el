@@ -86,7 +86,7 @@ values."
      graphviz
      imenu-list
      (imenu-list :variables
-                 imenu-list-auto-resize t
+                 imenu-list-auto-resize nil
                  imenu-list-size 0.25)
      (latex :variables
             latex-build-command "LaTeX"
@@ -469,7 +469,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cfs--current-profile "program" t)
- '(cfs--profiles-steps (quote (("program" . 5))) t)
+ '(cfs--profiles-steps (quote (("program" . 3))) t)
  '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
    (quote
