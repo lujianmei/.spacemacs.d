@@ -60,13 +60,18 @@ values."
            helm-ff-file-name-history-use-recentf t)
      auto-completion
      better-defaults
+     (better-defaults :variables
+                      better-defaults-move-to-end-of-code-first t
+                      better-defaults-move-to-beginning-of-code-first t)
+     (ibuffer :variables
+              ibuffer-group-buffers-by 'projects)
      emacs-lisp
      html
      javascript
      lua
-     haskell
+     ;;haskell
      sql
-     ruby
+     ;;ruby
      java
      (plantuml :variables
                org-ditaa-jar-path "~/.spacemacs.d/third-plugins/ditaa0_9.jar"
@@ -77,6 +82,16 @@ values."
      git
      markdown
      org
+     emoji
+     graphviz
+     imenu-list
+     (imenu-list :variables
+                 imenu-list-auto-resize t
+                 imenu-list-size 0.25)
+     (latex :variables
+            latex-build-command "LaTeX"
+            latex-enable-auto-fill t
+            latex-enable-folding t)
      (shell :variables
             shell-default-height 30
             shell-default-term-shell "/usr/local/bin/zsh"
@@ -92,7 +107,7 @@ values."
      version-control
 
      ;; my customized layer
-     fonts-setup
+     ;;fonts-setup
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -339,12 +354,6 @@ values."
    dotspacemacs-whitespace-cleanup t
 
 
-   mac-right-option-modifier 'control
-   ;;mac-right-command-modifier 'meta
-   ;;mac-command-modifier 'meta
-   mac-command-modifier 'meta
-   ;;mac-left-command-modifer 'meta
-
    exec-path-from-shell-check-startup-files nil
    ))
 
@@ -390,11 +399,6 @@ you should place your code here."
   (require 'init-org-jekyll)
   ;; add java support
   (require 'init-java)
-
-  ;; set jar path for plantuml
-  ;;(setq org-plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar")
-
-
 
   ;; add keybindings
   (defconst *is-a-mac* (eq system-type 'darwin))
@@ -469,7 +473,7 @@ This function is called at the very end of Spacemacs initialization."
  '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
    (quote
-    (chinese-fonts-setup winum unfill helm-purpose window-purpose imenu-list monokai-theme yapfify xterm-color web-mode web-beautify tagedit sql-indent smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder rbenv rake pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro org-download mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode livid-mode skewer-mode simple-httpd live-py-mode less-css-mode launchctl json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib package-build spacemacs-theme))))
+    (ibuffer-projectile graphviz-dot-mode emoji-cheat-sheet-plus company-emoji company-auctex auctex chinese-fonts-setup winum unfill helm-purpose window-purpose imenu-list monokai-theme yapfify xterm-color web-mode web-beautify tagedit sql-indent smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder rbenv rake pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro org-download mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode livid-mode skewer-mode simple-httpd live-py-mode less-css-mode launchctl json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib package-build spacemacs-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
