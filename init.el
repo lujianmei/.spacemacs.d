@@ -469,7 +469,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cfs--current-profile "program" t)
- '(cfs--profiles-steps (quote (("program" . 3))) t)
+ '(cfs--profiles-steps (quote (("program" . 5))) t)
  '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
    (quote

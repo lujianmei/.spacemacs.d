@@ -525,6 +525,7 @@ A prefix arg forces clock in of the default task."
   (global-set-key (kbd "<f11>") 'org-clock-goto)
   (global-set-key (kbd "C-<f11>") 'org-clock-in)
 
+  (setq org-image-actual-width '(300))
   )
 (provide 'init-org-mode)
 ;; init-org-mode.el end here
