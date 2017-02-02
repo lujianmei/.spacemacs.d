@@ -420,7 +420,7 @@ you should place your code here."
   (global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
   (chinese-fonts-setup-enable)
 
-
+  (setq truncate-lines nil)
     )
 
 

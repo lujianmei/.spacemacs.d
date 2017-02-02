@@ -527,5 +527,10 @@ A prefix arg forces clock in of the default task."
 
   (setq org-image-actual-width '(300))
   )
+
+
+;; config for org-projectile
+(setq org-projectile-file "~/workspace/github/my-blog/work-notes/project-documents/")
+(setq org-agenda-files (list "~/workspace/github/my-blog/work-notes/project-documents/"))
 (provide 'init-org-mode)
 ;; init-org-mode.el end here
