@@ -384,6 +384,9 @@ you should place your code here."
 
 
 
+  ;; add keybindings
+  (defconst *is-a-mac* (eq system-type 'darwin))
+
 
   ;; add my own configurations
   (push "/Users/kevin/.spacemacs.d/" load-path)
@@ -392,18 +395,17 @@ you should place your code here."
   (require 'init-defuns)
   ;; add base keybindings
   (require 'init-keybindings) 
-  ;; add mu4e
-  (require 'init-mu4e)
+  ;; add mu4e only for mac
+  (when *is-a-mac*
+    (require 'init-mu4e))
+  
   ;; add org-mode configuration
   (require 'init-org-mode)
   (require 'init-org-jekyll)
   ;; add java support
   (require 'init-java)
 
-  ;; add keybindings
-  (defconst *is-a-mac* (eq system-type 'darwin))
-
-  (when *is-a-mac*
+    (when *is-a-mac*
     (setq mac-command-modifier 'meta)
     (setq mac-option-modifier 'control)
     (setq default-input-method "MacOSX")
@@ -420,7 +422,7 @@ you should place your code here."
   (global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
   (chinese-fonts-setup-enable)
 
-  (setq truncate-lines nil)
+  (setq truncate-lines t)
     )
 
 
