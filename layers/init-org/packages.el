@@ -11,12 +11,13 @@
 
 (defconst init-org-packages
   '(
-    (org :location built-in)
+    ;;(org :location built-in)
+    org
     org-mac-link
     org-promodoro
     deft
     org2jekyll
-    ))
+    )
 
 (defun init-org/post-init-org-promodoro ()
   (progn
