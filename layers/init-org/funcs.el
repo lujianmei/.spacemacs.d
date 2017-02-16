@@ -193,3 +193,75 @@ A prefix arg forces clock in of the default task."
     (org-table-move-single-cell 'right))
 
 
+;; set parent node into DONE when all sub-tasks are done in org mode
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+
+
+
+;; http://blog.lojic.com/2009/08/06/send-growl-notifications-from-carbon-emacs-on-osx/
+(defun init-org/growl-notification (title message &optional sticky)
+  "Send a Growl notification"
+  (do-applescript
+   (format "tell application \"GrowlHelperApp\" \n
+              notify with name \"Emacs Notification\" title \"%s\" description \"%s\" application name \"Emacs.app\" sticky \"%s\"
+              end tell
+              "
+           title
+           message
+           (if sticky "yes" "no"))))
+
+(defun init-org/growl-timer (minutes message)
+  "Issue a Growl notification after specified minutes"
+  (interactive (list (read-from-minibuffer "Minutes: " "10")
+                     (read-from-minibuffer "Message: " "Reminder") ))
+  (run-at-time (* (string-to-number minutes) 60)
+               nil
+               (lambda (minute message)
+                 (zilongshanren/growl-notification "Emacs Reminder" message t))
+               minutes
+               message))
+
+
+(defun init-org/org-insert-src-block (src-code-type)
+  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+  (interactive
+   (let ((src-code-types
+          '("emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+            "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+            "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+            "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
+            "scheme" "sqlite")))
+     (list (ido-completing-read "Source code type: " src-code-types))))
+  (progn
+    (newline-and-indent)
+    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
+    (newline-and-indent)
+    (insert "#+END_SRC\n")
+    (previous-line 2)
+    (org-edit-src-code)))
+
+(defun init-org/insert-chrome-current-tab-url()
+  "Get the URL of the active tab of the first window"
+  (interactive)
+  (insert (init-org/retrieve-chrome-current-tab-url)))
+
+(defun init-org/retrieve-chrome-current-tab-url()
+  "Get the URL of the active tab of the first window"
+  (interactive)
+  (let ((result (do-applescript
+                 (concat
+                  "set frontmostApplication to path to frontmost application\n"
+                  "tell application \"Google Chrome\"\n"
+                  "	set theUrl to get URL of active tab of first window\n"
+                  "	set theResult to (get theUrl) \n"
+                  "end tell\n"
+                  "activate application (frontmostApplication as text)\n"
+                  "set links to {}\n"
+                  "copy theResult to the end of links\n"
+                  "return links as string\n"))))
+    (format "%s" (s-chop-suffix "\"" (s-chop-prefix "\"" result)))))
+

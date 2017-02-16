@@ -314,7 +314,14 @@
   (global-set-key (kbd "<f11>") 'org-clock-goto)
   (global-set-key (kbd "C-<f11>") 'org-clock-in)
 
-  (setq org-image-actual-width '(300))
+(setq org-image-actual-width '(300))
+
+
+(global-set-key "\C-c a" 'org-agenda)
+;; I use C-c c to start capture mode
+(global-set-key (kbd "C-c c") 'org-capture)
+
+
 
 
 ;; -----------------------------------------
