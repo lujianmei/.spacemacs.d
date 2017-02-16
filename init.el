@@ -109,7 +109,8 @@ values."
           osx-dictionary-dictionary-choice "Simplified Chinese - English")
      docker
      (mu4e :variables
-           mu4e-installation-path "~/.spacemacs.d/third-plugins/mu4e"
+           ;; change to built in mode
+           ;;mu4e-installation-path "~/.spacemacs.d/third-plugins/mu4e"
            mu4e-enable-notifications t)
      spell-checking
      syntax-checking

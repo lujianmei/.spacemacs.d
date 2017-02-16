@@ -10,15 +10,16 @@
 ;;; License: GPLv3
 
 (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
-
+;; config for org-projectile
+(setq org-projectile-file "~/workspace/github/my-blog/work-notes/project-documents/projects-file.org")
 ;; define the refile targets
-(setq-default
+(setq
  org-directory "~/workspace/github/my-blog/work-notes/captures"
  org-agenda-dir "~/workspace/github/my-blog/work-notes/agenda-notes"
  deft-dir "~/workspace/github/my-blog/work-notes/agenda-notes"
  blog-admin-dir "~/workspace/github/my-blog"
- ;; config for org-projectile
- org-projectile-file "~/workspace/github/my-blog/work-notes/project-documents/"
+ 
+ 
  ;;org-agenda-files (list "~/workspace/github/my-blog/work-notes/project-documents/")
  snippet-dir "~/.spacemacs.d/snippets"
  )

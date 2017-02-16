@@ -294,12 +294,6 @@
   (global-set-key (kbd "<f9> v") 'visible-mode)
   (global-set-key (kbd "C-c c") 'org-capture)
 
-  ;; add ~/notes/front-end-dev-plan.org into agenda
-  ;; (setq org-agenda-files (list "~/notes/front-end-dev-plan.org"))
-  (global-set-key "\C-c a" 'org-agenda)
-  ;; I use C-c c to start capture mode
-  (global-set-key (kbd "C-c c") 'org-capture)
-
 
   ;; config for export-mutilpul files
   (global-set-key (kbd "C-<f12>") 'bh/save-then-publish)

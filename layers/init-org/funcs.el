@@ -8,6 +8,41 @@
 ;; This file is not part of GNU Emacs.
 ;;
 ;;; License: GPLv3
+
+
+
+(defun bh/punch-in (arg)
+  "Start continuous clocking and set the default task to the
+selected task.  If no task is selected set the Organization task
+as the default task."
+  (interactive "p")
+  (setq bh/keep-clock-running t)
+  (if (equal major-mode 'org-agenda-mode)
+      ;;
+      ;; We're in the agenda
+      ;;
+      (let* ((marker (org-get-at-bol 'org-hd-marker))
+             (tags (org-with-point-at marker (org-get-tags-at))))
+        (if (and (eq arg 4) tags)
+            (org-agenda-clock-in '(16))
+          (bh/clock-in-organization-task-as-default)))
+    ;;
+    ;; We are not in the agenda
+    ;;
+    (save-restriction
+      (widen)
+      ; Find the tags on the current task
+      (if (and (equal major-mode 'org-mode) (not (org-before-first-heading-p)) (eq arg 4))
+          (org-clock-in '(16))
+        (bh/clock-in-organization-task-as-default)))))
+
+(defun bh/punch-out ()
+  (interactive)
+  (setq bh/keep-clock-running nil)
+  (when (org-clock-is-active)
+    (org-clock-out))
+  (org-agenda-remove-restriction-lock))
+
   (defun bh/clock-in-to-next (kw)
     "Switch a task from TODO to NEXT when clocking in.
 Skips capture tasks, projects, and subprojects.
@@ -32,37 +67,7 @@ Switch projects and subprojects from NEXT back to TODO"
         (goto-char parent-task)
         parent-task)))
 
-  (defun bh/punch-in (arg)
-    "Start continuous clocking and set the default task to the
-selected task.  If no task is selected set the Organization task
-as the default task."
-    (interactive "p")
-    (setq bh/keep-clock-running t)
-    (if (equal major-mode 'org-agenda-mode)
-        ;;
-        ;; We're in the agenda
-        ;;
-        (let* ((marker (org-get-at-bol 'org-hd-marker))
-               (tags (org-with-point-at marker (org-get-tags-at))))
-          (if (and (eq arg 4) tags)
-              (org-agenda-clock-in '(16))
-            (bh/clock-in-organization-task-as-default)))
-      ;;
-      ;; We are not in the agenda
-      ;;
-      (save-restriction
-        (widen)
-                                        ; Find the tags on the current task
-        (if (and (equal major-mode 'org-mode) (not (org-before-first-heading-p)) (eq arg 4))
-            (org-clock-in '(16))
-          (bh/clock-in-organization-task-as-default)))))
-
-  (defun bh/punch-out ()
-    (interactive)
-    (setq bh/keep-clock-running nil)
-    (when (org-clock-is-active)
-      (org-clock-out))
-    (org-agenda-remove-restriction-lock))
+ 
 
   (defun bh/clock-in-default-task ()
     (save-excursion

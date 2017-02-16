@@ -11,8 +11,8 @@
 
 (defconst init-org-packages
   '(
-    ;;(org :location built-in)
-    org-custom
+    (org :location built-in)
+    ;;org
     org-mac-link
     org-promodoro
     deft
@@ -28,10 +28,10 @@
     ))
 
 
-;;In order to export pdf to support Chinese, I should install Latex at here: https://www.tug.org/mactex/
+;;In order to export pdf to support Chinese, I should install Latex at her(require 'org-id) e: https://www.tug.org/mactex/
 ;; http://freizl.github.io/posts/2012-04-06-export-orgmode-file-in-Chinese.html
 ;;http://stackoverflow.com/questions/21005885/export-org-mode-code-block-and-result-with-different-styles
-(defun init-org/post-init-org-custom ()
+(defun init-org/post-init-org ()
  (add-hook 'org-mode-hook (lambda () (spacemacs/toggle-line-numbers-off)) 'append)
   (with-eval-after-load 'org
     (progn
@@ -84,6 +84,8 @@
 
 
 
+      (require 'org-id)
+      
        ;;================================================================
   ;; Config for TODO Configuration
   ;;================================================================
@@ -92,39 +94,39 @@
   ;;               (sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "DONE(d)")
   ;;               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 
-  (setq org-todo-keywords
-        (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "MAYBE(m)" "|" "DONE(d!/!)")
-                (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
-                (sequence "WAITING(w@/!)" "HOLD(h)" "|" "CANCELLED(c@/!)"))))
+      (setq org-todo-keywords
+            (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "MAYBE(m)" "|" "DONE(d!/!)")
+                    (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
+                    (sequence "WAITING(w@/!)" "HOLD(h)" "|" "CANCELLED(c@/!)"))))
 
-  (setq org-todo-keyword-faces
-        (quote (;;("NEXT" :inherit warning)
-                ("PROJECT" :inherit font-lock-string-face)
-                ("TODO" :foreground "red" :weight bold)
-                ("NEXT" :foreground "blue" :weight bold)
-                ("STARTED" :foreground "green" :weight bold)
-                ("DONE" :foreground "forest green" :weight bold)
-                ("WAITING" :foreground "orange" :weight bold)
-                ("MAYBE" :foreground "grey" :weight bold)
-                ("HOLD" :foreground "magenta" :weight bold)
-                ("CANCELLED" :foreground "forest green" :weight bold)
-                )))
-
-
-  (setq org-use-fast-todo-selection t)
-  (setq org-todo-state-tags-triggers
-        (quote (("CANCELLED" ("CANCELLED" . t))
-                ("WAITING" ("WAITING" . t))
-                ("MAYBE" ("WAITING" . t))
-                ("HOLD" ("WAITING") ("HOLD" . t))
-                (done ("WAITING") ("HOLD"))
-                ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-                ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-                ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+      (setq org-todo-keyword-faces
+            (quote (;;("NEXT" :inherit warning)
+                    ("PROJECT" :inherit font-lock-string-face)
+                    ("TODO" :foreground "red" :weight bold)
+                    ("NEXT" :foreground "blue" :weight bold)
+                    ("STARTED" :foreground "green" :weight bold)
+                    ("DONE" :foreground "forest green" :weight bold)
+                    ("WAITING" :foreground "orange" :weight bold)
+                    ("MAYBE" :foreground "grey" :weight bold)
+                    ("HOLD" :foreground "magenta" :weight bold)
+                    ("CANCELLED" :foreground "forest green" :weight bold)
+                    )))
 
 
+      (setq org-use-fast-todo-selection t)
+      (setq org-todo-state-tags-triggers
+            (quote (("CANCELLED" ("CANCELLED" . t))
+                    ("WAITING" ("WAITING" . t))
+                    ("MAYBE" ("WAITING" . t))
+                    ("HOLD" ("WAITING") ("HOLD" . t))
+                    (done ("WAITING") ("HOLD"))
+                    ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+                    ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+                    ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
-           (setq org-structure-template-alist
+
+
+      (setq org-structure-template-alist
             '(("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
               ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
               ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
@@ -170,32 +172,31 @@
                                                  'init-org/org-insert-src-block)))
 
 
+      ;; Resume clocking task when emacs is restarted
+      (org-clock-persistence-insinuate)
       ;;
-  ;; Resume clocking task when emacs is restarted
-  (org-clock-persistence-insinuate)
-  ;;
-  ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
-  (setq org-clock-history-length 23)
-  ;; Resume clocking task on clock-in if the clock is open
-  (setq org-clock-in-resume t)
-  ;; Change tasks to NEXT when clocking in
-  (setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
-  ;; Separate drawers for clocking and logs
-  (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
-  ;; Save clock data and state changes and notes in the LOGBOOK drawer
-  (setq org-clock-into-drawer t)
-  ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-  (setq org-clock-out-remove-zero-time-clocks t)
-  ;; Clock out when moving task to a done state
-  (setq org-clock-out-when-done t)
-  ;; Save the running clock and all clock history when exiting Emacs, load it on startup
-  (setq org-clock-persist t)
-  ;; Do not prompt to resume an active clock
-  (setq org-clock-persist-query-resume nil)
-  ;; Enable auto clock resolution for finding open clocks
-  (setq org-clock-auto-clock-resolution (quote when-no-clock-is-running))
-  ;; Include current clocking task in clock reports
-  (setq org-clock-report-include-clocking-task t)
+      ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
+      (setq org-clock-history-length 23)
+      ;; Resume clocking task on clock-in if the clock is open
+      (setq org-clock-in-resume t)
+      ;; Change tasks to NEXT when clocking in
+      ;;(setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
+      ;; Separate drawers for clocking and logs
+      (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
+      ;; Save clock data and state changes and notes in the LOGBOOK drawer
+      (setq org-clock-into-drawer t)
+      ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+      (setq org-clock-out-remove-zero-time-clocks t)
+      ;; Clock out when moving task to a done state
+      (setq org-clock-out-when-done t)
+      ;; Save the running clock and all clock history when exiting Emacs, load it on startup
+      (setq org-clock-persist t)
+      ;; Do not prompt to resume an active clock
+      (setq org-clock-persist-query-resume nil)
+      ;; Enable auto clock resolution for finding open clocks
+      (setq org-clock-auto-clock-resolution (quote when-no-clock-is-running))
+      ;; Include current clocking task in clock reports
+      (setq org-clock-report-include-clocking-task t)
 
 
 
@@ -203,50 +204,49 @@
       ;; Org publish
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-     (require 'ox-publish)
+      (require 'ox-publish)
 
       ;; update dynamic blocks when save file
-  (add-hook 'before-save-hook 'org-update-all-dblocks)
+      (add-hook 'before-save-hook 'org-update-all-dblocks)
 
-  ;;================================================================
-  ;; Config for File Export HTML Format
-  ;;================================================================ 
+      ;;================================================================
+      ;; Config for File Export HTML Format
+      ;;================================================================ 
 
-  ;; Increase default number of headings to export
-  (setq org-export-headline-levels 6)
-  ;; List of projects
-  ;; Work-notes
+      ;; Increase default number of headings to export
+      (setq org-export-headline-levels 6)
+      ;; List of projects
+      ;; Work-notes
 
-  (setq org-publish-project-alist
+      (setq org-publish-project-alist
+            ;; (work notes for)
+            (quote (("work-notes"
+                     :base-directory "~/workspace/github/my-blog/work-notes/"
+                     :publishing-directory "~/workspace/github/my-blog/publish-works"
+                     :recursive t
+                     :table-of-contents t
+                     :base-extension "org"
+                     :publishing-function org-html-publish-to-html
+                     :style-include-default t
+                     :section-numbers y
+                     :table-of-contents y
+                     :author-info y
+                     :creator-info y)
+                    ("work-notes-extra"
+                     :base-directory "~/workspace/github/my-blog/work-notes/"
+                     :publishing-directory "~/workspace/github/my-blog/publish-works"
+                     :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                     :publishing-function org-publish-attachment
+                     :recursive t
+                     :author nil)
+                    ("worknotes"
+                     :components ("work-notes" "work-notes-extra"))
+                    )))
+      
 
-        ;; (work notes for)
-        (quote (("work-notes"
-                 :base-directory "~/workspace/github/my-blog/work-notes/"
-                 :publishing-directory "~/workspace/github/my-blog/publish-works"
-                 :recursive t
-                 :table-of-contents t
-                 :base-extension "org"
-                 :publishing-function org-html-publish-to-html
-                 :style-include-default t
-                 :section-numbers y
-                 :table-of-contents y
-                 :author-info y
-                 :creator-info y)
-                ("work-notes-extra"
-                 :base-directory "~/workspace/github/my-blog/work-notes/"
-                 :publishing-directory "~/workspace/github/my-blog/publish-works"
-                 :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-                 :publishing-function org-publish-attachment
-                 :recursive t
-                 :author nil)
-                ("worknotes"
-                 :components ("work-notes" "work-notes-extra"))
-                )))
-  
-
-  ;;================================================================
-  ;; Config for File Export PDF format
-  ;;================================================================ 
+      ;;================================================================
+      ;; Config for File Export PDF format
+      ;;================================================================ 
       (add-to-list 'org-latex-classes '("ctexart" "\\documentclass[11pt]{ctexart}
                                         [NO-DEFAULT-PACKAGES]
                                         \\usepackage[utf8]{inputenc}
@@ -373,13 +373,21 @@ unwanted space when exporting org-mode to html."
           "." 'spacemacs/org-agenda-transient-state/body)
         )
 
-      
       ;; the %i would copy the selected text into the template
       ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
       ;;add multi-file journal
       (setq org-capture-templates
-            '(("t" "Todo" entry (file+headline org-agenda-file-gtd "Workspace")
+            '(("t" "卡萨帝积分中心 TODO " entry (file+headline org-agenda-file-gtd "卡萨帝积分中心")
                "* TODO [#B] %?\n  %i\n"
+               :empty-lines 1)
+              ("d" "数据中心 TODO" entry (file+headline org-agenda-file-gtd "数据中心")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("r" "Book Reading TODO" entry (file+headline org-agenda-file-gtd "Reading")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("w" "Writing TODO" entry (file+headline org-agenda-file-gtd "Writing")
+               "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
               ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
                "* %?\n  %i\n %U"
@@ -390,9 +398,7 @@ unwanted space when exporting org-mode to html."
               ("s" "Code Snippet" entry
                (file org-agenda-file-code-snippet)
                "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-              ("w" "work" entry (file+headline org-agenda-file-gtd "Data Center")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
+              
               ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick notes")
                "* TODO [#C] %?\n %(init-org/retrieve-chrome-current-tab-url)\n %i\n %U"
                :empty-lines 1)
@@ -403,10 +409,6 @@ unwanted space when exporting org-mode to html."
                entry (file+datetree org-agenda-file-journal)
                "* %?"
                :empty-lines 1)))
-
-
-
-  
 
       ;;An entry without a cookie is treated just like priority ' B '.
       ;;So when create new task, they are default 重要且紧急
@@ -426,20 +428,13 @@ unwanted space when exporting org-mode to html."
                 ))))
 
 
-
-
       (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-
       (define-key org-mode-map (kbd "s-p") 'org-priority)
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
         "tl" 'org-toggle-link-display)
       (define-key evil-normal-state-map (kbd "C-c C-w") 'org-refile)
 
 
-      (define-key org-mode-map (kbd "s-p") 'org-priority)
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "tl" 'org-toggle-link-display)
-      (define-key evil-normal-state-map (kbd "C-c C-w") 'org-refile)
 
       ;; hack for org headline toc
       (defun org-html-headline (headline contents info)
@@ -519,7 +514,54 @@ holding contextual information."
                         (if (eq (org-element-type first-content) 'section) contents
                           (concat (org-html-section first-content "" info) contents))
                         (org-html--container headline info)))))))
+      ;;================================================================
+      ;; Config for Global column view and properties
+      ;;================================================================
+      ;; Set default column view headings: Task Effort Clock_Summary
+      ;;(setq org-columns-default-format "%25ITEM %10Effort(Effort){:} %SCHEDULED %DEADLINE %11Status %20TAGS %PRIORITY %TODO")
+      ;;(setq org-columns-default-format "%25ITEM  %9Approved(Approved?){X} %SCHEDULED %DEADLINE %11Status %TAGS %PRIORITY %TODO")
+      
+      (setq org-columns-default-format
+            ;;" %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
+            " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:}"
+            )
 
+      ;; global Effort estimate values
+      ;; global STYLE property values for completion
+      (setq org-global-properties (quote (
+                                          ;;("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+                                          ("Status_ALL" . "Not-start In-Progress Delay Finished Cancled")
+                                          ("ID_ALL" . "")
+                                          ("STYLE_ALL" . "habit"))))
+
+      ;;================================================================
+      ;; Config for Tags
+      ;;================================================================
+      ;; Config TODO tags
+                                        ; Tags with fast selection keys
+      (setq org-tag-alist (quote ((:startgroup)
+                                  ("@errand" . ?e)
+                                  ("@office" . ?o)
+                                  ("@home" . ?H)
+                                  ("@farm" . ?f)
+                                  (:endgroup)
+                                  ("WAITING" . ?w)
+                                  ("HOLD" . ?h)
+                                  ("PERSONAL" . ?P)
+                                  ("WORK" . ?W)
+                                  ("FARM" . ?F)
+                                  ("ORG" . ?O)
+                                  ("NORANG" . ?N)
+                                  ("crypt" . ?E)
+                                  ("NOTE" . ?n)
+                                  ("CANCELLED" . ?c)
+                                  ("FLAGGED" . ??))))
+
+      ;; Allow setting single tags without the menu
+      (setq org-fast-tag-selection-single-key (quote expert))
+
+      ;; For tag searches ignore tasks with scheduled and deadline dates
+      (setq org-agenda-tags-todo-honor-ignore-options t)
 
 
 
@@ -530,7 +572,6 @@ holding contextual information."
 
 
 
-(require 'org-id)
 (defun init-org/post-init-org2jekyll ()
 ;; 添加org-jekyll包
   (use-package org2jekyll
@@ -590,43 +631,6 @@ holding contextual information."
                            :recursive t)
                           ("web" :components ("images" "js" "css"))
                           ))))
-
-  ;;================================================================
-  ;; Config for Global column view and properties
-  ;;================================================================
-  ;; Set default column view headings: Task Effort Clock_Summary
-  ;;(setq org-columns-default-format "%25ITEM %10Effort(Effort){:} %SCHEDULED %DEADLINE %11Status %20TAGS %PRIORITY %TODO")
-  ;;(setq org-columns-default-format "%25ITEM  %9Approved(Approved?){X} %SCHEDULED %DEADLINE %11Status %TAGS %PRIORITY %TODO")
-  
-  (setq org-columns-default-format
-        ;;" %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
-        " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:}"
-        )
-
-  ;; global Effort estimate values
-  ;; global STYLE property values for completion
-  (setq org-global-properties (quote (
-                                      ;;("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                                      ("Status_ALL" . "Not-start In-Progress Delay Finished Cancled")
-                                      ("ID_ALL" . "")
-                                      ("STYLE_ALL" . "habit"))))
-
-  ;;================================================================
-  ;; Config for Tags
-  ;;================================================================
-  ;; Config TODO tags
-  (setq org-tag-alist '((:startgroup)
-                        ("Develop" . ?1)
-                        (:grouptags )
-                        ("陆健美" . ?z)
-                        (:endgroup)
-
-                        ))
-  ;; Allow setting single tags without the menu
-  (setq org-fast-tag-selection-single-key (quote expert))
-
-  ;; For tag searches ignore tasks with scheduled and deadline dates
-  (setq org-agenda-tags-todo-honor-ignore-options t)
 
 
 )
