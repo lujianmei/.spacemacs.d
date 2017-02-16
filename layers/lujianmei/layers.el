@@ -16,4 +16,5 @@
                                       ;;init-programming
                                       ;;init-better-defaults
                                       ;;init-ui
+                                      zilongshanren-ui
                                       ))

@@ -9,7 +9,7 @@
 ;;
 ;;; License: GPLv3
 
-
+(setq bh/keep-clock-running nil)
 
 (defun bh/punch-in (arg)
   "Start continuous clocking and set the default task to the

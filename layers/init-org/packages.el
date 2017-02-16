@@ -28,9 +28,9 @@
     ))
 
 
-;;In order to export pdf to support Chinese, I should install Latex at her(require 'org-id) e: https://www.tug.org/mactex/
+;;In order to export pdf to support Chinese, I should install Latex at heSymbol’s function definition is void: evil-define-keyr(require 'org-id) e: https://www.tug.org/mactex/
 ;; http://freizl.github.io/posts/2012-04-06-export-orgmode-file-in-Chinese.html
-;;http://stackoverflow.com/questions/21005885/export-org-mode-code-block-and-result-with-different-styles
+;;http://stackoverflow.com/questions/21005885/export-org-Symbol’s function definition is void: evil-define-keymode-code-block-and-result-with-different-styles
 (defun init-org/post-init-org ()
  (add-hook 'org-mode-hook (lambda () (spacemacs/toggle-line-numbers-off)) 'append)
   (with-eval-after-load 'org
