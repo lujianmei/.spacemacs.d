@@ -332,3 +332,4 @@
 (global-unset-key (kbd "C-x C-=")) ;; remove original font-resize
 (global-set-key (kbd "C-x C-=") 'cfs-increase-fontsize)
 (global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
+(define-key global-map (kbd "C-c y") 'youdao-dictionary-search-at-point+)

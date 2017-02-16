@@ -10,15 +10,24 @@
 ;;; License: GPLv3
 
 (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
-;; add some capture config
-(setq org-directory "~/workspace/github/my-blog/work-notes/captures")
-;;================================================================
-;; Config for Picture Drawing
-;;================================================================
-;; set for plantuml
-(setq org-ditaa-jar-path "~/.spacemacs.d/third-plugins/ditaa0_9.jar")
-(setq org-plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar")
-;; config for org-projectile
-(setq org-projectile-file "~/workspace/github/my-blog/work-notes/project-documents/")
-(setq org-agenda-files (list "~/workspace/github/my-blog/work-notes/project-documents/"))
-                                       ;
+
+;; define the refile targets
+(setq-default
+ org-directory "~/workspace/github/my-blog/work-notes/captures"
+ org-agenda-dir "~/workspace/github/my-blog/work-notes/agenda-notes"
+ deft-dir "~/workspace/github/my-blog/work-notes/agenda-notes"
+ blog-admin-dir "~/workspace/github/my-blog"
+ ;; config for org-projectile
+ org-projectile-file "~/workspace/github/my-blog/work-notes/project-documents/"
+ ;;org-agenda-files (list "~/workspace/github/my-blog/work-notes/project-documents/")
+ snippet-dir "~/.spacemacs.d/snippets"
+ )
+
+
+(setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+(setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
+(setq org-agenda-file-journal (expand-file-name "journals.org" org-agenda-dir))
+(setq org-agenda-file-code-snippet (expand-file-name "snippets.org" snippet-dir))
+(setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
+(setq org-agenda-files (list org-agenda-dir))
+

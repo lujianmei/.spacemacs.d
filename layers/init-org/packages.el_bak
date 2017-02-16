@@ -12,13 +12,12 @@
 (defconst init-org-packages
   '(
     ;;(org :location built-in)
-    org-custom
+    org
     org-mac-link
     org-promodoro
     deft
     org2jekyll
     )
-  )
 
 (defun init-org/post-init-org-promodoro ()
   (progn
@@ -31,7 +30,7 @@
 ;;In order to export pdf to support Chinese, I should install Latex at here: https://www.tug.org/mactex/
 ;; http://freizl.github.io/posts/2012-04-06-export-orgmode-file-in-Chinese.html
 ;;http://stackoverflow.com/questions/21005885/export-org-mode-code-block-and-result-with-different-styles
-(defun init-org/post-init-org-custom ()
+(defun init-org/post-init-org ()
  (add-hook 'org-mode-hook (lambda () (spacemacs/toggle-line-numbers-off)) 'append)
   (with-eval-after-load 'org
     (progn
@@ -204,49 +203,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
      (require 'ox-publish)
-
-      ;; update dynamic blocks when save file
-  (add-hook 'before-save-hook 'org-update-all-dblocks)
-
-  ;;================================================================
-  ;; Config for File Export HTML Format
-  ;;================================================================ 
-
-  ;; Increase default number of headings to export
-  (setq org-export-headline-levels 6)
-  ;; List of projects
-  ;; Work-notes
-
-  (setq org-publish-project-alist
-
-        ;; (work notes for)
-        (quote (("work-notes"
-                 :base-directory "~/workspace/github/my-blog/work-notes/"
-                 :publishing-directory "~/workspace/github/my-blog/publish-works"
-                 :recursive t
-                 :table-of-contents t
-                 :base-extension "org"
-                 :publishing-function org-html-publish-to-html
-                 :style-include-default t
-                 :section-numbers y
-                 :table-of-contents y
-                 :author-info y
-                 :creator-info y)
-                ("work-notes-extra"
-                 :base-directory "~/workspace/github/my-blog/work-notes/"
-                 :publishing-directory "~/workspace/github/my-blog/publish-works"
-                 :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-                 :publishing-function org-publish-attachment
-                 :recursive t
-                 :author nil)
-                ("worknotes"
-                 :components ("work-notes" "work-notes-extra"))
-                )))
-  
-
-  ;;================================================================
-  ;; Config for File Export PDF format
-  ;;================================================================ 
       (add-to-list 'org-latex-classes '("ctexart" "\\documentclass[11pt]{ctexart}
                                         [NO-DEFAULT-PACKAGES]
                                         \\usepackage[utf8]{inputenc}
@@ -292,6 +248,47 @@
                                         ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
                                         ("\\paragraph{%s}" . "\\paragraph*{%s}")
                                         ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+
+
+      ;; update dynamic blocks when save file
+  (add-hook 'before-save-hook 'org-update-all-dblocks)
+
+  ;;================================================================
+  ;; Config for File Export HTML Format
+  ;;================================================================ 
+
+  ;; Increase default number of headings to export
+  (setq org-export-headline-levels 6)
+  ;; List of projects
+  ;; Work-notes
+
+  (setq org-publish-project-alist
+
+        ;; (work notes for)
+        (quote (("work-notes"
+                 :base-directory "~/workspace/github/my-blog/work-notes/"
+                 :publishing-directory "~/workspace/github/my-blog/publish-works"
+                 :recursive t
+                 :table-of-contents t
+                 :base-extension "org"
+                 :publishing-function org-html-publish-to-html
+                 :style-include-default t
+                 :section-numbers y
+                 :table-of-contents y
+                 :author-info y
+                 :creator-info y)
+                ("work-notes-extra"
+                 :base-directory "~/workspace/github/my-blog/work-notes/"
+                 :publishing-directory "~/workspace/github/my-blog/publish-works"
+                 :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                 :publishing-function org-publish-attachment
+                 :recursive t
+                 :author nil)
+                ("worknotes"
+                 :components ("work-notes" "work-notes-extra"))
+                )))
+  
 
 
       ;; {{ export org-mode in Chinese into PDF
@@ -390,7 +387,7 @@ unwanted space when exporting org-mode to html."
               ("s" "Code Snippet" entry
                (file org-agenda-file-code-snippet)
                "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-              ("w" "work" entry (file+headline org-agenda-file-gtd "Data Center")
+              ("w" "work" entry (file+headline org-agenda-file-gtd "Cocos2D-X")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
               ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick notes")
@@ -418,7 +415,7 @@ unwanted space when exporting org-mode to html."
               ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
               ("b" "Blog" tags-todo "BLOG")
               ("p" . "项目安排")
-              ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"Data-Center\"")
+              ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"cocos2d-x\"")
               ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"projects\"")
               ("W" "Weekly Review"
                ((stuck "") ;; review stuck projects as designated by org-stuck-projects
@@ -663,7 +660,7 @@ holding contextual information."
 (defun init-org/init-plain-org-wiki ()
   (use-package plain-org-wiki
     :init
-    (setq pow-directory "~/workspace/github/my-blog/work-notes")))
+    (setq pow-directory "~/org-notes")))
 
 (defun init-org/init-worf ()
   (use-package worf
