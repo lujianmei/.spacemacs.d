@@ -80,7 +80,13 @@ values."
                plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar")
      python
      ipython-notebook
-     git
+     (git :variables
+          git-magit-status-fullscreen t
+          magit-push-always-verify nil
+          magit-save-repository-buffers 'dontask
+          magit-revert-buffers 'silent
+          magit-refs-show-commit-count 'all
+          magit-revision-show-gravatars nil)
      markdown
      org
      emoji
@@ -99,13 +105,18 @@ values."
             shell-default-position 'bottom)
      shell-scripts
      (osx :variables
-          osx-use-option-as-meta t)
+          osx-use-option-as-meta t
+          osx-dictionary-dictionary-choice "Simplified Chinese - English")
+     docker
      (mu4e :variables
            mu4e-installation-path "~/.spacemacs.d/third-plugins/mu4e"
            mu4e-enable-notifications t)
      spell-checking
      syntax-checking
      version-control
+     (chinese :packages youdao-dictionary fcitx
+              :variables chinese-enable-fcitx nil
+              chinese-enable-youdao-dict t)
 
      ;; my customized layer
      ;;fonts-setup
@@ -393,16 +404,16 @@ you should place your code here."
   (push "/Users/kevin/.spacemacs.d/" load-path)
 
   ;; add default functions
-  (require 'init-defuns)
+  ;;(require 'init-defuns)
   ;; add base keybindings
-  (require 'init-keybindings) 
+  ;;(require 'init-keybindings) 
   ;; add mu4e only for mac
   (when *is-a-mac*
     (require 'init-mu4e))
   
   ;; add org-mode configuration
-  (require 'init-org-mode)
-  (require 'init-org-jekyll)
+  ;;(require 'init-org-mode)
+  ;;(require 'init-org-jekyll)
   ;; add java support
   (require 'init-java)
 
@@ -411,17 +422,7 @@ you should place your code here."
     (setq mac-option-modifier 'control)
     (setq default-input-method "MacOSX")
     )
-  ;; change font size
-  (require 'chinese-fonts-setup)
-  (setq cfs-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
-  (setq cfs-profiles
-        '("program" "org-mode" "read-book"))
-  ;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
-  ;; Reference: https://github.com/tumashu/chinese-fonts-setup
-  (global-unset-key (kbd "C-x C-=")) ;; remove original font-resize
-  (global-set-key (kbd "C-x C-=") 'cfs-increase-fontsize)
-  (global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
-  (chinese-fonts-setup-enable)
+  
 
   (setq truncate-lines t)
     )
@@ -472,7 +473,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cfs--current-profile "program" t)
- '(cfs--profiles-steps (quote (("program" . 5))) t)
+ '(cfs--profiles-steps (quote (("program" . 4))) t)
  '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
    (quote
