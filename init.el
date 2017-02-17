@@ -119,6 +119,9 @@ values."
               :variables chinese-enable-fcitx nil
               chinese-enable-youdao-dict t)
 
+     spacemacs-ui-visual
+     (spacemacs-layouts :variables layouts-enable-autosave nil
+                        layouts-autosave-delay 300)
      ;; my customized layer
      ;;fonts-setup
      lujianmei

@@ -15,6 +15,6 @@
                                       ;;init-mail
                                       ;;init-programming
                                       ;;init-better-defaults
-                                      ;;init-ui
-                                      zilongshanren-ui
+                                      init-ui
+                                      ;;zilongshanren-ui
                                       ))
