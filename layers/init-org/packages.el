@@ -11,11 +11,11 @@
 
 (defconst init-org-packages
   '(
-    (org :location built-in)
-    ;;org
+    ;;(org :location built-in)
+    org
     org-mac-link
     org-promodoro
-    deft
+    ;;deft
     org2jekyll
     )
   )
@@ -28,7 +28,7 @@
     ))
 
 
-;;In order to export pdf to support Chinese, I should install Latex at heSymbol’s function definition is void: evil-define-keyr(require 'org-id) e: https://www.tug.org/mactex/
+;;In order to export pdf to support Chinese, I should install Latex at heSymbol’s function definition is void: eSymbol’s function definition is void: evil-define-keyvil-define-keyr(require 'org-id) e: https://www.tug.org/mactex/
 ;; http://freizl.github.io/posts/2012-04-06-export-orgmode-file-in-Chinese.html
 ;;http://stackoverflow.com/questions/21005885/export-org-Symbol’s function definition is void: evil-define-keymode-code-block-and-result-with-different-styles
 (defun init-org/post-init-org ()
@@ -346,18 +346,6 @@
 
 
       (require 'ox-md nil t)
-      ;; copy from chinese layer
-      (defadvice org-html-paragraph (before org-html-paragraph-advice
-                                            (paragraph contents info) activate)
-        "Join consecutive Chinese lines into a single long line without
-unwanted space when exporting org-mode to html."
-        (let* ((origin-contents (ad-get-arg 1))
-               (fix-regexp "[[:multibyte:]]")
-               (fixed-contents
-                (replace-regexp-in-string
-                 (concat
-                  "\\(" fix-regexp "\\) *\n *\\(" fix-regexp "\\)") "\\1\\2" origin-contents)))
-          (ad-set-arg 1 fixed-contents)))
 
       ;;================================================================
       ;; Config for Org Agenda
@@ -387,6 +375,9 @@ unwanted space when exporting org-mode to html."
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
               ("w" "Writing TODO" entry (file+headline org-agenda-file-gtd "Writing")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("o" "其它" entry (file+headline org-agenda-file-gtd "Others")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
               ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
@@ -436,85 +427,7 @@ unwanted space when exporting org-mode to html."
 
 
 
-      ;; hack for org headline toc
-      (defun org-html-headline (headline contents info)
-        "Transcode a HEADLINE element from Org to HTML.
-CONTENTS holds the contents of the headline.  INFO is a plist
-holding contextual information."
-        (unless (org-element-property :footnote-section-p headline)
-          (let* ((numberedp (org-export-numbered-headline-p headline info))
-                 (numbers (org-export-get-headline-number headline info))
-                 (section-number (and numbers
-                                      (mapconcat #'number-to-string numbers "-")))
-                 (level (+ (org-export-get-relative-level headline info)
-                           (1- (plist-get info :html-toplevel-hlevel))))
-                 (todo (and (plist-get info :with-todo-keywords)
-                            (let ((todo (org-element-property :todo-keyword headline)))
-                              (and todo (org-export-data todo info)))))
-                 (todo-type (and todo (org-element-property :todo-type headline)))
-                 (priority (and (plist-get info :with-priority)
-                                (org-element-property :priority headline)))
-                 (text (org-export-data (org-element-property :title headline) info))
-                 (tags (and (plist-get info :with-tags)
-                            (org-export-get-tags headline info)))
-                 (full-text (funcall (plist-get info :html-format-headline-function)
-                                     todo todo-type priority text tags info))
-                 (contents (or contents ""))
-                 (ids (delq nil
-                            (list (org-element-property :CUSTOM_ID headline)
-                                  (org-export-get-reference headline info)
-                                  (org-element-property :ID headline))))
-                 (preferred-id (car ids))
-                 (extra-ids
-                  (mapconcat
-                   (lambda (id)
-                     (org-html--anchor
-                      (if (org-uuidgen-p id) (concat "ID-" id) id)
-                      nil nil info))
-                   (cdr ids) "")))
-            (if (org-export-low-level-p headline info)
-                ;; This is a deep sub-tree: export it as a list item.
-                (let* ((type (if numberedp 'ordered 'unordered))
-                       (itemized-body
-                        (org-html-format-list-item
-                         contents type nil info nil
-                         (concat (org-html--anchor preferred-id nil nil info)
-                                 extra-ids
-                                 full-text))))
-                  (concat (and (org-export-first-sibling-p headline info)
-                               (org-html-begin-plain-list type))
-                          itemized-body
-                          (and (org-export-last-sibling-p headline info)
-                               (org-html-end-plain-list type))))
-              (let ((extra-class (org-element-property :HTML_CONTAINER_CLASS headline))
-                    (first-content (car (org-element-contents headline))))
-                ;; Standard headline.  Export it as a section.
-                (format "<%s id=\"%s\" class=\"%s\">%s%s</%s>\n"
-                        (org-html--container headline info)
-                        (org-export-get-reference headline info)
-                        (concat (format "outline-%d" level)
-                                (and extra-class " ")
-                                extra-class)
-                        (format "\n<h%d id=\"%s\">%s%s</h%d>\n"
-                                level
-                                preferred-id
-                                extra-ids
-                                (concat
-                                 (and numberedp
-                                      (format
-                                       "<span class=\"section-number-%d\">%s</span> "
-                                       level
-                                       (mapconcat #'number-to-string numbers ".")))
-                                 full-text)
-                                level)
-                        ;; When there is no section, pretend there is an
-                        ;; empty one to get the correct <div
-                        ;; class="outline-...> which is needed by
-                        ;; `org-info.js'.
-                        (if (eq (org-element-type first-content) 'section) contents
-                          (concat (org-html-section first-content "" info) contents))
-                        (org-html--container headline info)))))))
-      ;;================================================================
+     ;;================================================================
       ;; Config for Global column view and properties
       ;;================================================================
       ;; Set default column view headings: Task Effort Clock_Summary
@@ -646,9 +559,6 @@ holding contextual information."
                   (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link))))
     :defer t))
 
-(defun init-org/post-init-ox-reveal ()
-  (setq org-reveal-root "file:///Users/guanghui/.emacs.d/reveal-js"))
-
 
 
 
@@ -664,10 +574,6 @@ holding contextual information."
     :init
     (org-download-enable)))
 
-(defun init-org/init-plain-org-wiki ()
-  (use-package plain-org-wiki
-    :init
-    (setq pow-directory "~/workspace/github/my-blog/work-notes")))
 
 (defun init-org/init-worf ()
   (use-package worf
@@ -675,11 +581,4 @@ holding contextual information."
     :init
     (add-hook 'org-mode-hook 'worf-mode)))
 
-(defun init-org/post-init-deft ()
-  (progn
-    (setq deft-use-filter-string-for-filename t)
-    (spacemacs/set-leader-keys-for-major-mode 'deft-mode "q" 'quit-window)
-    (setq deft-recursive t)
-    (setq deft-extension "org")
-    (setq deft-directory deft-dir)))
 ;;; packages.el ends here
