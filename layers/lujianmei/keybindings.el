@@ -327,3 +327,12 @@
 (global-set-key (kbd "C-x C-=") 'cfs-increase-fontsize)
 (global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
 (define-key global-map (kbd "C-c y") 'youdao-dictionary-search-at-point+)
+;; -----------------------------------------
+;; start tabbar-mode
+;; -----------------------------------------
+(global-set-key (kbd "C-c t") 'tabbar-mode)
+;; Tabbar, following is default key binding, no need to set again
+;;(global-set-key (kbd "C-c <C-left>") 'tabbar-forward-tab)
+;;(global-set-key (kbd "C-c <C-right>") 'tabbar-backward-tab)
+;;(global-set-key (kbd "C-c <C-up>") 'tabbar-forward-group)
+;;(global-set-key (kbd "C-c <C-down>") 'tabbar-backward-group)
