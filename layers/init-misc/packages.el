@@ -55,7 +55,7 @@
       (setq ace-isearch-funtion-from-isearch 'helm-swoop-from-isearch)
       ;; (setq ace-isearch-funtion-from-isearch 'helm-occur-from-isearch) ; alternative way
 
-      ;; blew configuration can be support for Chinese
+      ;; blew configuratioisearchn can be support for Chinese
       (defadvice ace-jump-char-category (around adv-ace-jump-support-umlauts activate)
         (unless (= (char-syntax (ad-get-arg 0)) ?w)
           ad-do-it)
@@ -79,12 +79,12 @@
     :init
     (progn
 
-      (bind-key* "C-s-l" 'mc/edit-lines)
-      (bind-key* "C-s-f" 'mc/mark-all-dwim)
-      (bind-key* "C-s-." 'mc/mark-next-like-this)
-      (bind-key* "C-s-," 'mc/mark-previous-like-this)
-      (bind-key* "s->" 'mc/unmark-next-like-this)
-      (bind-key* "s-<" 'mc/unmark-previous-like-this)
+      (bind-key* "C-c C-l" 'mc/edit-lines)
+      (bind-key* "C-c C->" 'mc/mark-all-dwim)
+      (bind-key* "C->" 'mc/mark-next-like-this)
+      (bind-key* "C-<" 'mc/mark-previous-like-this)
+      (bind-key* "C-M->" 'mc/unmark-next-like-this)
+      (bind-key* "C-M-<" 'mc/unmark-previous-like-this)
       (bind-key* "C-c C-s-." 'mc/mark-all-like-this)
 
       ;; http://endlessparentheses.com/multiple-cursors-keybinds.html?source=rss
