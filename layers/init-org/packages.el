@@ -183,11 +183,7 @@
       ;;(setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
       ;; Separate drawers for clocking and logs
       (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
-      ;; Save clock data and state changes and notes in the LOGBOOK drawer
-      (setq org-clock-into-drawer t)
       ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-      (setq org-clock-out-remove-zero-time-clocks t)
-      ;; Clock out when moving task to a done state
       (setq org-clock-out-when-done t)
       ;; Save the running clock and all clock history when exiting Emacs, load it on startup
       (setq org-clock-persist t)
