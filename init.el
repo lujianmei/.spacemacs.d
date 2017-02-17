@@ -60,7 +60,9 @@ values."
            helm-ff-search-library-in-sexp t
            helm-ff-file-name-history-use-recentf t)
      auto-completion
-     ;;better-defaults
+     spacemacs-ui-visual
+     (spacemacs-layouts :variables layouts-enable-autosave nil
+                        layouts-autosave-delay 300)
      (better-defaults :variables
                       better-defaults-move-to-end-of-code-first t
                       better-defaults-move-to-beginning-of-code-first t)
@@ -119,9 +121,6 @@ values."
               :variables chinese-enable-fcitx nil
               chinese-enable-youdao-dict t)
 
-     spacemacs-ui-visual
-     (spacemacs-layouts :variables layouts-enable-autosave nil
-                        layouts-autosave-delay 300)
      ;; my customized layer
      ;;fonts-setup
      lujianmei
