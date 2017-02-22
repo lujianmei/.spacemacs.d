@@ -13,9 +13,18 @@
   '(
     spaceline
     chinese-fonts
+    page-break-lines
     )
   )
 
+(defun init-ui/post-init-page-break-lines()
+  (use-package page-break-lines
+                                        ;  (set-fontset-font "fontset-default"
+                                        ;                (cons page-break-lines-char page-break-lines-char)
+                                        ;                  (face-attribute 'default :family))
+    )
+  (turn-on-page-break-lines-mode)
+  )
 (defun init-ui/post-init-spaceline()
   (require 'spaceline-config)
   ;;(spaceline-spacemacs-theme)

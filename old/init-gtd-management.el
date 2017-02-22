@@ -22,6 +22,7 @@
                                "~/workspace/github/work-notes/captures"
                                )))
 
+
 ;; Set the agenda view to show the tasks on day/week/month/year
 (setq org-agenda-span 'week)
 ;; Set the agenda view to show the tasks on how many days, same effect as org-agenda-span
