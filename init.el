@@ -127,7 +127,7 @@ values."
 
      ;; my customized layer
      ;;fonts-setup
-     lujianmei
+    lujianmei
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -311,17 +311,17 @@ values."
    ;; If non nil a progress bar is displayed when spacemacs is loading. This
    ;; may increase the boot time on some systems and emacs builds, set it to
    ;; nil to boost the loading time. (default t)
-   dotspacemacs-loading-progress-bar t
+   dotspacemacs-loading-progress-bar nil
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-tartup t
+   dotspacemacs-maximized-at-tartup nil
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -405,10 +405,8 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
 
-
   ;; add keybindings
   (defconst *is-a-mac* (eq system-type 'darwin))
-
 
   ;; add my own configurations
   (push "/Users/kevin/.spacemacs.d/" load-path)
@@ -417,6 +415,7 @@ you should place your code here."
   ;;(when *is-a-mac*
    ;;(require 'init-mu4e))
   
+
   ;; add org-mode configuration
   ;;(require 'init-org-mode)
   ;;(require 'init-org-jekyll)
