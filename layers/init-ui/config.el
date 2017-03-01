@@ -10,3 +10,5 @@
 ;;; License: GPLv3
 
 
+(require 'chinese-fonts-setup)
+(chinese-fonts-setup-enable)
