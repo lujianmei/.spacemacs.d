@@ -496,8 +496,8 @@ This function is called at the very end of Spacemacs initialization."
  '(ace-isearch-input-length 6)
  '(ace-isearch-jump-delay 0.25)
  '(ace-isearch-use-jump (quote printing-char))
- '(cfs--current-profile "program" t)
- '(cfs--profiles-steps (quote (("program" . 4))) t)
+ '(cfs--current-profile "profile1" t)
+ '(cfs--profiles-steps (quote (("profile1" . 5) ("program" . 4))) t)
  '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
    (quote

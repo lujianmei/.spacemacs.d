@@ -14,7 +14,7 @@
                                       init-org
                                       init-mail
                                       ;;init-programming
-                                      init-better-defaults
+                                      ;;init-better-defaults
                                       init-ui
                                       ;;zilongshanren-ui
                                       ))

@@ -244,7 +244,8 @@
 (global-set-key (kbd "C-c C-k") 'eval-buffer)
 
 ;; Make shell more convenient
-(global-set-key (kbd "C-z") 'shell)
+;; do not use shell in emacs, we've already have tmux
+;;(global-set-key (kbd "C-z") 'shell)
 
 ;; Completion at point
 (global-set-key (kbd "C-<tab>") 'completion-at-point)

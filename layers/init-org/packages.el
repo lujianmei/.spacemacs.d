@@ -33,14 +33,15 @@
 ;;http://stackoverflow.com/questions/21005885/export-org-Symbol’s function definition is void: evil-define-keymode-code-block-and-result-with-different-styles
 (defun init-org/post-init-org ()
  (add-hook 'org-mode-hook (lambda () (spacemacs/toggle-line-numbers-off)) 'append)
-  (with-eval-after-load 'org
+ (with-eval-after-load 'org
     (progn
       
       (spacemacs|disable-company org-mode)
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
         "," 'org-priority)
-      (require 'org-compat)
       (require 'org)
+      (require 'org-compat)
+      
       ;; (add-to-list 'org-modules "org-habit")
       (add-to-list 'org-modules 'org-habit)
       (require 'org-habit)
@@ -80,6 +81,7 @@
       (setq org-crypt-key nil)
 
       ;; (add-to-list 'auto-mode-alist '("\.org\\'" . org-mode))
+
 
 
 
@@ -376,6 +378,9 @@
               ("o" "其它" entry (file+headline org-agenda-file-gtd "Others")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
+              ("m" "午睡" entry (file+headline org-agenda-file-gtd "午睡")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
               ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
                "* %?\n  %i\n %U"
                :empty-lines 1)
@@ -435,7 +440,7 @@
       
       (setq org-columns-default-format
             ;;" %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
-            " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:}"
+            " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
             )
 
       ;; global Effort estimate values
