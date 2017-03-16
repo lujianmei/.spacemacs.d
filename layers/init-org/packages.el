@@ -378,6 +378,9 @@
               ("w" "Writing TODO" entry (file+headline org-agenda-file-gtd "Writing")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
+              ("h" "会议安排" entry (file+headline org-agenda-file-gtd "会议安排")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
               ("o" "其它" entry (file+headline org-agenda-file-gtd "Others")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
@@ -396,12 +399,8 @@
               ("s" "Code Snippet" entry
                (file org-agenda-file-code-snippet)
                "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-              
-              ("c" "Chrome" entry (file+headline org-agenda-file-note "Quick notes")
+              ("c" "Chrome" entry (file+headline org-agenda-file-note "Links")
                "* TODO [#C] %?\n %(init-org/retrieve-chrome-current-tab-url)\n %i\n %U"
-               :empty-lines 1)
-              ("l" "links" entry (file+headline org-agenda-file-note "Quick notes")
-               "* TODO [#C] %?\n  %i\n %a \n %U"
                :empty-lines 1)
               ("j" "Journal Entry"
                entry (file+datetree org-agenda-file-journal)
