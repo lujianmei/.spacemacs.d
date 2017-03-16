@@ -30,7 +30,7 @@
   ;;(spaceline-spacemacs-theme)
   (use-package nyan-mode
     :defer t
-    :ensure t
+    ;;:ensure t
     :config
     (set nyan-animate-nyancat t)
     (setq mode-line-format
@@ -40,7 +40,7 @@
     )
   (use-package anzu
     :defer t
-    :ensure t
+    ;;:ensure t
     :config
     (global-anzu-mode +1))
   (spaceline-helm-mode)
