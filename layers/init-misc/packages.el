@@ -23,6 +23,7 @@
 (defun init-misc/init-tabbar()
   (use-package tabbar
     :defer t
+    :ensure t
     :config
     (progn
 
@@ -153,6 +154,7 @@ Default is t."
 ;;(require 's)
 (defun init-misc/init-highlight-global ()
   (use-package highlight-global
+    :ensure t
     :init
     (progn
       (spacemacs/set-leader-keys "hh" 'highlight-frame-toggle)

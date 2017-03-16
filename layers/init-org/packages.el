@@ -205,7 +205,7 @@
       (require 'ox-publish)
 
       ;; update dynamic blocks when save file
-      (add-hook 'before-save-hook 'org-update-all-dblocks)
+      ;;(add-hook 'before-save-hook 'org-update-all-dblocks) commend because it is too slow in gtd.org
 
       ;;================================================================
       ;; Config for File Export HTML Format
@@ -369,6 +369,9 @@
               ("d" "数据中心 TODO" entry (file+headline org-agenda-file-gtd "数据中心")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
+              ("a" "AI项目" entry (file+headline org-agenda-file-gtd "AI智能桌面")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
               ("r" "Book Reading TODO" entry (file+headline org-agenda-file-gtd "Reading")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
@@ -493,6 +496,7 @@
 ;; 添加org-jekyll包
   (use-package org2jekyll
     :defer 3
+    :ensure t
     :config
     (custom-set-variables '(org2jekyll-blog-author "lujianmei")
                       '(org2jekyll-source-directory (expand-file-name "~/workspace/github/my-blog/work-notes/notes/"))
@@ -561,13 +565,15 @@
       (add-hook 'org-mode-hook
                 (lambda ()
                   (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link))))
-    :defer t))
+    :defer t
+    :ensure t))
 
 
 
 
 (defun init-org/init-org-tree-slide ()
   (use-package org-tree-slide
+    :ensure t
     :init
     (spacemacs/set-leader-keys "oto" 'org-tree-slide-mode)))
 

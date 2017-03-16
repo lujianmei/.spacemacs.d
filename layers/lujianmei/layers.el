@@ -13,7 +13,7 @@
                                       init-misc
                                       init-org
                                       init-mail
-                                      ;;init-programming
+                                      init-programming
                                       ;;init-better-defaults
                                       init-ui
                                       ;;zilongshanren-ui

@@ -339,3 +339,7 @@
 ;;(global-set-key (kbd "C-c <C-right>") 'tabbar-backward-tab)
 ;;(global-set-key (kbd "C-c <C-up>") 'tabbar-forward-group)
 ;;(global-set-key (kbd "C-c <C-down>") 'tabbar-backward-group)
+
+
+;; set for update all dynamic blogs in current file
+(global-set-key (kbd "C-c C-x b") 'org-update-all-dblocks)

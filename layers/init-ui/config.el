@@ -10,5 +10,8 @@
 ;;; License: GPLv3
 
 
-(require 'chinese-fonts-setup)
-(chinese-fonts-setup-enable)
+(with-eval-after-load 'chinese-fonts-setup
+                       (require 'chinese-fonts-setup)
+                        (chinese-fonts-setup-enable)
+                       )
+

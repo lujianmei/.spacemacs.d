@@ -27,8 +27,10 @@
 
 (setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
 (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
+(setq org-agenda-file-aigtd (expand-file-name "ai-gtd.org" org-agenda-dir))
 (setq org-agenda-file-journal (expand-file-name "journals.org" org-agenda-dir))
 (setq org-agenda-file-code-snippet (expand-file-name "snippets.org" snippet-dir))
 (setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
 (setq org-agenda-files (list org-agenda-dir))
 
+(setq mode-line-org-clock t)
