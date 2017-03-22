@@ -17,8 +17,16 @@
     org-promodoro
     ;;deft
     org2jekyll
+    org-alert
     )
   )
+(defun init-org/post-init-org-alert ()
+  (use-package org-alert
+    :defer t
+    :ensure t
+    :init
+    (progn
+      (setq alert-default-style 'notifier))))
 
 (defun init-org/post-init-org-promodoro ()
   (progn
