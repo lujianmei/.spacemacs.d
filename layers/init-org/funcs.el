@@ -89,7 +89,6 @@ Switch projects and subprojects from NEXT back to TODO"
             (when bh/keep-clock-running
               (bh/clock-in-default-task)))))))
 
-  (defvar bh/organization-task-id "eb155a82-92b2-4f25-a3c6-0304591af2f9")
 
   (defun bh/clock-in-organization-task-as-default ()
     (interactive)
@@ -102,7 +101,7 @@ Switch projects and subprojects from NEXT back to TODO"
                (marker-buffer org-clock-default-task)
                (not org-clock-resolving-clocks-due-to-idleness))
       (bh/clock-in-parent-task)))
-
+(add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
 
   (defun bh/resume-clock ()
     (interactive)

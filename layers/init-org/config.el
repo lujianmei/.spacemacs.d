@@ -9,6 +9,9 @@
 ;;
 ;;; License: GPLv3
 
+;; define a default task for not record task
+(defvar bh/organization-task-id "eb155a82-92b2-4f25-a3c6-0304591af2f9")
+
 (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
 ;; config for org-projectile
 (setq org-projectile-file "~/workspace/github/my-blog/work-notes/project-documents/projects-file.org")

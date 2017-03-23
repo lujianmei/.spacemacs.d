@@ -343,3 +343,15 @@
 
 ;; set for update all dynamic blogs in current file
 (global-set-key (kbd "C-c C-x b") 'org-update-all-dblocks)
+
+
+;;; applications ---------------------------------------------------------------
+;; add org-mode on the prefix of spacemacs
+(spacemacs/set-leader-keys
+  "os"  'bh/punch-in
+  "oe"  'bh/punch-out
+  "op"  'org-pomodoro
+  "oi"  'org-clock-in
+  "oo"  'org-agenda-clock-out
+  )
+                                        ;

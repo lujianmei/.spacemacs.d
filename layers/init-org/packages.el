@@ -204,7 +204,7 @@
       ;; Include current clocking task in clock reports
       (setq org-clock-report-include-clocking-task t)
 
-
+      (add-hook 'org-pomodoro-killed-hook 'bh/clock-in-organization-task-as-default)
 
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       ;; Org publish
