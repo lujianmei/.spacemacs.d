@@ -14,4 +14,7 @@
                        (require 'chinese-fonts-setup)
                         (chinese-fonts-setup-enable)
                        )
+;; default config for line number
+;;(toggle-truncate-lines)
+;;(spacemacs|add-toggle truncate-lines 'on)
 

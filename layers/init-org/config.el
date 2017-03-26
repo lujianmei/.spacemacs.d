@@ -11,6 +11,8 @@
 
 ;; define a default task for not record task
 (defvar bh/organization-task-id "eb155a82-92b2-4f25-a3c6-0304591af2f9")
+(defvar eating-time-task-id "eating-time-task")
+(defvar sleep-time-task-id "sleep-time-task")
 
 (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
 ;; config for org-projectile

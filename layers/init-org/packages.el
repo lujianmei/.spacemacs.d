@@ -167,7 +167,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
       ;; Change task state to STARTED when clocking in
-      (setq org-clock-in-switch-to-state "STARTED")
+      ;;(setq org-clock-in-switch-to-state "STARTED")
       ;; Save clock data and notes in the LOGBOOK drawer
       (setq org-clock-into-drawer t)
       ;; Removes clocked tasks with 0:00 duration
@@ -190,7 +190,7 @@
       ;; Resume clocking task on clock-in if the clock is open
       (setq org-clock-in-resume t)
       ;; Change tasks to NEXT when clocking in
-      ;;(setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
+      (setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
       ;; Separate drawers for clocking and logs
       (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
       ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration

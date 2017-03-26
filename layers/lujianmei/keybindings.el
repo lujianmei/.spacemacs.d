@@ -25,7 +25,7 @@
 
 
 ;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
-;; Reference: https://github.com/tumashu/chinese-fonts-setup
+;;                                         ;;Reference: https://github.com/tumashu/chinese-fonts-setup
 (global-unset-key (kbd "C-x C-=")) ;; remove original font-resize
 (global-set-key (kbd "C-x C-=") 'cfs-increase-fontsize)
 (global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
@@ -81,39 +81,39 @@
 (global-set-key (kbd "<XF86WakeUp>") 'beginning-of-buffer)
 
 (defun copy-to-end-of-line ()
-    (interactive)
-    (kill-ring-save (point)
-                    (line-end-position))
-    (message "Copied to end of line")
+  (interactive)
+  (kill-ring-save (point)
+                  (line-end-position))
+  (message "Copied to end of line")
+  )
+
+(defun copy-whole-lines (arg)
+  "Copy lines in the kill ring, whole line"
+  (interactive "p")
+  (kill-ring-save (line-begining-position)
+                  (line-begining-position (+ 1 arg)))
+  (message "%d line%s copied" arg (if (=1 arg) "" "s"))
+  )
+
+(defun copy-line (arg)
+  "Copy to end of line, or as many lines as prefix argument"
+  (interactive "P")
+  (if (null arg)
+      (copy-to-end-of-line)
+    (copy-whole-lines (prefix-numeric-value arg))
     )
+  )
 
-  (defun copy-whole-lines (arg)
-    "Copy lines in the kill ring, whole line"
-    (interactive "p")
-    (kill-ring-save (line-begining-position)
-                    (line-begining-position (+ 1 arg)))
-    (message "%d line%s copied" arg (if (=1 arg) "" "s"))
-    )
+(defun save-region-or-current-line (arg)
+  (interactive "P")
+  (if (region-active-p)
+      (kill-ring-save (region-beginning) (region-end))
+    (copy-line arg)))
 
-  (defun copy-line (arg)
-    "Copy to end of line, or as many lines as prefix argument"
-    (interactive "P")
-    (if (null arg)
-        (copy-to-end-of-line)
-      (copy-whole-lines (prefix-numeric-value arg))
-      )
-    )
-
-  (defun save-region-or-current-line (arg)
-    (interactive "P")
-    (if (region-active-p)
-        (kill-ring-save (region-beginning) (region-end))
-      (copy-line arg)))
-
-  ;; copy region or current line
-  (global-set-key (kbd "M-w") 'save-region-or-current-line)
-  (global-set-key (kbd "M-c") 'save-region-or-current-line)
-  (global-set-key (kbd "s-w") 'save-region-or-current-line)
+;; copy region or current line
+(global-set-key (kbd "M-w") 'save-region-or-current-line)
+(global-set-key (kbd "M-c") 'save-region-or-current-line)
+(global-set-key (kbd "s-w") 'save-region-or-current-line)
 
 
 
@@ -285,31 +285,31 @@
 (global-unset-key (kbd "C-SPC"))
 
 
-  ;; -----------------------------------------
-  ;;key bindings for org mode
-  ;; -----------------------------------------
+;; -----------------------------------------
+;;key bindings for org mode
+;; -----------------------------------------
 
-  (global-unset-key (kbd "C-'")) ;; this setting has no use, and conflict with smart
-
-
-  ;;(global-set-key (kbd "<f12>") 'org-agenda) ;; configured blew
-  (global-set-key (kbd "<f9> c") 'calendar)
-  (global-set-key (kbd "<f9> v") 'visible-mode)
-  (global-set-key (kbd "C-c c") 'org-capture)
+(global-unset-key (kbd "C-'")) ;; this setting has no use, and conflict with smart
 
 
-  ;; config for export-mutilpul files
-  (global-set-key (kbd "C-<f12>") 'bh/save-then-publish)
+;;(global-set-key (kbd "<f12>") 'org-agenda) ;; configured blew
+(global-set-key (kbd "<f9> c") 'calendar)
+(global-set-key (kbd "<f9> v") 'visible-mode)
+(global-set-key (kbd "C-c c") 'org-capture)
 
-  ;; config for clocking
-  (global-set-key (kbd "<f9> I") 'bh/punch-in)
-  (global-set-key (kbd "<f9> O") 'bh/punch-out)
 
-  (global-set-key (kbd "<f9> l") 'org-toggle-link-display)
-  (global-set-key (kbd "<f9> SPC") 'bh/clock-in-last-task)
+;; config for export-mutilpul files
+(global-set-key (kbd "C-<f12>") 'bh/save-then-publish)
 
-  (global-set-key (kbd "<f11>") 'org-clock-goto)
-  (global-set-key (kbd "C-<f11>") 'org-clock-in)
+;; config for clocking
+(global-set-key (kbd "<f9> I") 'bh/punch-in)
+(global-set-key (kbd "<f9> O") 'bh/punch-out)
+
+(global-set-key (kbd "<f9> l") 'org-toggle-link-display)
+(global-set-key (kbd "<f9> SPC") 'bh/clock-in-last-task)
+
+(global-set-key (kbd "<f11>") 'org-clock-goto)
+(global-set-key (kbd "C-<f11>") 'org-clock-in)
 
 (setq org-image-actual-width '(300))
 
@@ -353,5 +353,18 @@
   "op"  'org-pomodoro
   "oi"  'org-clock-in
   "oo"  'org-agenda-clock-out
+  "ou"  'org-update-all-dblocks
+  "on"  'clock-in-sleep-task
+  "oa"  'clock-in-eating-task
+  "od"  'bh/clock-in-organization-task-as-default
   )
-                                        ;
+;; add global key binding for chinese-pyim
+(global-set-key (kbd "C-\\") 'toggle-input-method)
+(global-set-key (kbd "M-f") 'pyim-forward-word)
+;;(global-set-key (kbd "M-b") 'pyim-backward-word)
+;;(global-set-key (kbd "M-j") 'pyim-convert-code-at-point)
+
+;;(global-set-key (kbd "C-;") 'pyim-delete-word-from-personal-buffer)
+
+
+
