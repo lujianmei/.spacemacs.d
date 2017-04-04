@@ -360,7 +360,7 @@
   )
 ;; add global key binding for chinese-pyim
 (global-set-key (kbd "C-\\") 'toggle-input-method)
-(global-set-key (kbd "M-f") 'pyim-forward-word)
+;;(global-set-key (kbd "M-f") 'pyim-forward-word)
 ;;(global-set-key (kbd "M-b") 'pyim-backward-word)
 ;;(global-set-key (kbd "M-j") 'pyim-convert-code-at-point)
 

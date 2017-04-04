@@ -9,4 +9,4 @@
 ;;
 ;;; License: GPLv3
 
-
+(setq eclim-executable "~/develop/eclipse/Eclipse.app/Contents/Eclipse/eclim")

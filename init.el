@@ -121,7 +121,7 @@ values."
      spell-checking
      syntax-checking
      version-control
-     (chinese :packages youdao-dictionary ;;fcitx
+     (chinese :packages youdao-dictionary fcitx
               :variables chinese-enable-fcitx t 
               chinese-enable-youdao-dict t)
 
@@ -443,7 +443,20 @@ you should place your code here."
     (require 'chinese-fonts-setup)
     (chinese-fonts-setup-enable)
     
-  (setq truncate-lines t)
+  (set-language-environment "UTF-8")
+  (set-default-coding-systems 'utf-8)
+  (set-buffer-file-coding-system 'utf-8)
+  (set-clipboard-coding-system 'utf-8)
+  (set-file-name-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  
+  (setq locale-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  ;;(set-selection-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+  (setq default-buffer-file-coding-system 'utf-8)
+
     )
 
 
