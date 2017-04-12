@@ -133,7 +133,8 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(chinese-fonts-setup)
+   dotspacemacs-additional-packages '(;;chinese-fonts-setup
+                                      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -441,21 +442,21 @@ you should place your code here."
 
     ;;(setq org-pomodoro-length)
     (require 'chinese-fonts-setup)
-    (chinese-fonts-setup-enable)
+    ;;(chinese-fonts-setup-enable)
     
-  (set-language-environment "UTF-8")
-  (set-default-coding-systems 'utf-8)
-  (set-buffer-file-coding-system 'utf-8)
-  (set-clipboard-coding-system 'utf-8)
-  (set-file-name-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
+  ;; (set-language-environment "UTF-8")
+  ;; (set-default-coding-systems 'utf-8)
+  ;; (set-buffer-file-coding-system 'utf-8)
+  ;; (set-clipboard-coding-system 'utf-8)
+  ;; (set-file-name-coding-system 'utf-8)
+  ;; (set-keyboard-coding-system 'utf-8)
   
-  (setq locale-coding-system 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  ;;(set-selection-coding-system 'utf-8)
-  (prefer-coding-system 'utf-8)
-  (setq default-buffer-file-coding-system 'utf-8)
+  ;; (setq locale-coding-system 'utf-8)
+  ;; (set-terminal-coding-system 'utf-8)
+  ;; (set-keyboard-coding-system 'utf-8)
+  ;; ;;(set-selection-coding-system 'utf-8)
+  ;; (prefer-coding-system 'utf-8)
+  ;; (setq default-buffer-file-coding-system 'utf-8)
 
     )
 
@@ -473,9 +474,12 @@ you should place your code here."
  '(ace-isearch-input-length 6)
  '(ace-isearch-jump-delay 0.25)
  '(ace-isearch-use-jump (quote printing-char))
+ '(cfs--current-profile "org-mode" t)
+ '(cfs--profiles-steps (quote (("org-mode" . 5))) t)
+ '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
    (quote
-    (youdao-dictionary names chinese-word-at-point yaml-mode tabbar plantuml-mode peep-dired org-mac-link insert-shebang imenu-list ibuffer-projectile highlight-global helm-dash graphviz-dot-mode fish-mode emoji-cheat-sheet-plus ein websocket dockerfile-mode docker tablist docker-tramp dash-at-point company-shell company-emoji company-auctex chinese-fonts-setup auctex ace-isearch ace-jump-mode monokai-theme yapfify xterm-color web-mode web-beautify tagedit sql-indent smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder rbenv rake pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro org-download mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode livid-mode skewer-mode simple-httpd live-py-mode less-css-mode launchctl json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner package-build spacemacs-theme))))
+    (monokai-theme yapfify xterm-color web-mode web-beautify tagedit sql-indent smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder rbenv rake pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro org-download mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode livid-mode skewer-mode simple-httpd live-py-mode less-css-mode launchctl json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib package-build spacemacs-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

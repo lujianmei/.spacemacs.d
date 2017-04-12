@@ -50,10 +50,10 @@
   (setq spaceline-toggle-org-clock-on t)
   )
 
-(defun init-ui/post-init-chinese-fonts-setup()
+(defun init-ui/init-chinese-fonts-setup()
 
   (use-package chinese-fonts-setup
-    :defer t
+    :defer nil
     :ensure t
     :config
     (setq cfs-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
