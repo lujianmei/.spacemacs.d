@@ -16,7 +16,7 @@
         peep-dired
         (highlight-global :location (recipe :fetcher github :repo "glen-dai/highlight-global"))
         multiple-cursors
-        ace-isearch
+;;        ace-isearch
         tabbar
         ;;chinese-pyim
         ))

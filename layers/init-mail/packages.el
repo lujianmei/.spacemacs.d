@@ -119,7 +119,10 @@
     ;; use helm-mu for search email and contacts etc.
     ;;(use-package helm-mu)
 
-
+    (add-hook 'mu4e-compose-mode-hook
+              (defun my-add-bcc ()
+                "Add a Bcc: header."
+                (save-excursion (message-add-header "Bcc: lu.jianmei@trs.com.cn\n"))))
 
     (setq mu4e-enable-mode-line t)
     (with-eval-after-load 'mu4e-alert
