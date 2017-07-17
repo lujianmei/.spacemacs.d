@@ -16,7 +16,7 @@
         peep-dired
         (highlight-global :location (recipe :fetcher github :repo "glen-dai/highlight-global"))
         multiple-cursors
-;;        ace-isearch
+        ;:ace-isearch
         tabbar
         ;;chinese-pyim
         ))
@@ -252,6 +252,7 @@ Default is t."
     :bind (:map dired-mode-map
                 ("P" . peep-dired))))
 (defun init-misc/init-ace-isearch()
+
   (use-package ace-isearch
     :config
     (progn
@@ -263,17 +264,17 @@ Default is t."
       ;; (setq ace-isearch-funtion-from-isearch 'helm-occur-from-isearch) ; alternative way
 
       ;; blew configuratioisearchn can be support for Chinese
-      (defadvice ace-jump-char-category (around adv-ace-jump-support-umlauts activate)
-        (unless (= (char-syntax (ad-get-arg 0)) ?w)
-          ad-do-it)
-        (setq ad-return-value 'alpha))
+      ;;(defadvice ace-jump-char-category (around adv-ace-jump-support-umlauts activate)
+      ;;  (unless (= (char-syntax (ad-get-arg 0)) ?w)
+      ;;    ad-do-it)
+      ;;  (setq ad-return-value 'alpha))
 
       ;; base configuration 
       (custom-set-variables
        '(ace-isearch-input-length 6)
-       '(ace-isearch-jump-delay 0.25)
-       '(ace-isearch-function 'ace-jump-word-mode)
-       ;;'(ace-isearch-function 'avy-goto-char)
+       '(ace-isearch-jump-delay 0.3)
+       ;;'(ace-isearch-function 'ace-jump-word-mode)
+       '(ace-isearch-function 'avy-goto-char)
        '(ace-isearch-use-jump 'printing-char))
       (define-key isearch-mode-map (kbd "C-'") 'ace-isearch-jump-during-isearch)
       )
