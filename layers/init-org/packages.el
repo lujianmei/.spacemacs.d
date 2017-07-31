@@ -328,9 +328,9 @@
       ;; 各种Babel语言支持
       (org-babel-do-load-languages
        'org-babel-load-languages
-       '((R . t)
+       '(;;(R . t)
          (emacs-lisp . t)
-         (matlab . t)
+         ;;(matlab . t)
          (C . t)
          (perl . t)
          ;;(objc . t)
@@ -341,8 +341,8 @@
          (python . t)
          (sh . t)
          (dot . t)
-         (haskell . t)
-         (dot . t)
+         ;;(haskell . t)
+         ;;(dot . t)
          (latex . t)
          (java . t)
          (js . t)

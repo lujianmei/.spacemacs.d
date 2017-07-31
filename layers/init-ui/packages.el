@@ -12,7 +12,7 @@
 (defconst init-ui-packages
   '(
     spaceline
-    chinese-fonts-setup
+    cnfonts
     page-break-lines
     )
   )
@@ -50,20 +50,20 @@
   (setq spaceline-toggle-org-clock-on t)
   )
 
-(defun init-ui/init-chinese-fonts-setup()
+(defun init-ui/init-cnfonts()
 
-  (use-package chinese-fonts-setup
+  (use-package cnfonts
     :defer nil
     :ensure t
     :config
-    (setq cfs-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
-    (setq cfs-profiles
+    (setq cnfonts-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
+    (setq cnfonts-profiles
           '("org-mode" "program" "read-book"))
     ;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
 
     ;;(require 'chinese-fonts-setup)
-    (chinese-fonts-setup-enable)
-    (cfs-set-spacemacs-fallback-fonts)
+    (cnfonts-enable)
+    (cnfonts-set-spacemacs-fallback-fonts)
     )
   ;; change font size
   

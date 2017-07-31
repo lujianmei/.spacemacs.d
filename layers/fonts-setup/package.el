@@ -15,12 +15,12 @@
       '(c-fonts-setup))
 
 (defun fonts-setup/init-c-fonts-setup ()
-  (use-package chinese-fonts-setup
+  (use-package cnfonts
     :defer t
     :config
     (progn
-      (setq cfs-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
-      (setq cfs-profiles
+      (setq cnfonts-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
+      (setq cnfonts-profiles
             '("program" "org-mode" "read-book"))
             ;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
       ;; Reference: https://github.com/tumashu/chinese-fonts-setup
