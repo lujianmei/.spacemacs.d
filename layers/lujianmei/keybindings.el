@@ -27,8 +27,8 @@
 ;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
 ;;                                         ;;Reference: https://github.com/tumashu/chinese-fonts-setup
 (global-unset-key (kbd "C-x C-=")) ;; remove original font-resize
-(global-set-key (kbd "C-x C-=") 'cfs-increase-fontsize)
-(global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
+(global-set-key (kbd "C-x C-=") 'cnfonts-increase-fontsize)
+(global-set-key (kbd "C-x M-=") 'cnfonts-decrease-fontsize)
 
 ;; split window
 (global-set-key (kbd "C-x 3") 'split-window-right-and-move-there-dammit)
@@ -327,8 +327,8 @@
 
 ;; Reference: https://github.com/tumashu/chinese-fonts-setup
 (global-unset-key (kbd "C-x C-=")) ;; remove original font-resize
-(global-set-key (kbd "C-x C-=") 'cfs-increase-fontsize)
-(global-set-key (kbd "C-x M-=") 'cfs-decrease-fontsize)
+(global-set-key (kbd "C-x C-=") 'cnfonts-increase-fontsize)
+(global-set-key (kbd "C-x M-=") 'cnfonts-decrease-fontsize)
 (define-key global-map (kbd "C-c y") 'youdao-dictionary-search-at-point+)
 ;; -----------------------------------------
 ;; start tabbar-mode
