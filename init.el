@@ -73,7 +73,9 @@ values."
               ibuffer-group-buffers-by 'projects)
      emacs-lisp
      html
-     (javascript :variables tern-command '("node" "/usr/local/bin/tern"))
+     (javascript :variables
+                 javascript-disable-tern-port-files nil
+                 tern-command '("node" "/usr/local/bin/tern"))
      lua
      dash
      tmux
