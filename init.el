@@ -13,7 +13,7 @@ values."
    ;;dotspacemacs-distribution 'spacemacs
    dotspacemacs-distribution 'spacemacs
    ;; Lazy installation of layers (i.e. layers are installed only when a file
-   ;; with a supported type is opened). Possible values are `all', `unused'
+   ;; with a supportenoded type is opened). Possible values are `all', `unused'
    ;; and `nil'. `unused' will lazy install only unused layers (i.e. layers
    ;; not listed in variable `dotspacemacs-configuration-layers'), `all' will
    ;; lazy install anasy Thelayer that support lazy instSymbol’s function definition is void: evil-define-keyallation even the layers
@@ -75,7 +75,7 @@ values."
      html
      (javascript :variables
                  javascript-disable-tern-port-files nil
-                 tern-command '("node" "/usr/local/bin/tern"))
+                 )
      lua
      dash
      tmux
@@ -406,6 +406,11 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (setq mu4e-mu-binary "/usr/local/bin/mu")
+  
+  ;; fix Tern binary not found issue, even if tern is installed by running npm install tern -g
+  (setenv "PATH" (concat (getenv "PATH") ":/user/local/bin"))
+  (setq exec-path (append exec-path '("/user/local/bin")))
   )
 
 (defun dotspacemacs/user-config ()
