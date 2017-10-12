@@ -17,51 +17,63 @@
     (interactive)
     (kill-region (save-excursion (beginning-of-line) (point))
                  (point)))
+(defun new-line-dwim ()
+  (interactive)
+  (let ((break-open-pair (or (and (looking-back "{" 1) (looking-at "}"))
+                             (and (looking-back ">" 1) (looking-at "<"))
+                             (and (looking-back "(" 1) (looking-at ")"))
+                             (and (looking-back "\\[" 1) (looking-at "\\]")))))
+    (newline)
+    (when break-open-pair
+      (save-excursion
+        (newline)
+        (indent-for-tab-command)))
+    (indent-for-tab-command)))
 
-  (defun duplicate-current-line-or-region (arg)
-    "Duplicates the current line or region ARG times.
+(defun duplicate-current-line-or-region (arg)
+  "Duplicates the current line or region ARG times.
   If there's no region, the current line will be duplicated."
-    (interactive "p")
-    (if (region-active-p)
-        (let ((beg (region-beginning))
-              (end (region-end)))
-          (renameduplicate-region arg beg end)
-          (one-shot-keybinding "d" (λ (duplicate-region 1 beg end))))
-      (duplicate-current-line arg)
-      (one-shot-keybinding "d" 'duplicate-current-line)))
+  (interactive "p")
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (renameduplicate-region arg beg end)
+        (one-shot-keybinding "d" (λ (duplicate-region 1 beg end))))
+    (duplicate-current-line arg)
+    (one-shot-keybinding "d" 'duplicate-current-line)))
 
-  (defun duplicate-region (&optional num start end)
-    "Duplicates the region bounded by START and END NUM times.
+(defun duplicate-region (&optional num start end)
+  "Duplicates the region bounded by START and END NUM times.
   If no START and END is provided, the current region-beginning and
   region-end is used."
-    (interactive "p")
-    (save-excursion
-     (let* ((start (or start (region-beginning)))
-            (end (or end (region-end)))
-            (region (buffer-substring start end)))
-       (goto-char end)
-       (dotimes (i num)
-         (insert region)))))
+  (interactive "p")
+  (save-excursion
+    (let* ((start (or start (region-beginning)))
+           (end (or end (region-end)))
+           (region (buffer-substring start end)))
+      (goto-char end)
+      (dotimes (i num)
+        (insert region)))))
 
-  (defun duplicate-current-line (&optional num)
-    "Duplicate the current line NUM times."
-    (interactive "p")
-    (save-excursion
-     (when (eq (point-at-eol) (point-max))
-       (goto-char (point-max))
-       (newline)
-       (forward-char -1))
-     (duplicate-region num (point-at-bol) (1+ (point-at-eol)))))
+(defun duplicate-current-line (&optional num)
+  "Duplicate the current line NUM times."
+  (interactive "p")
+  (save-excursion
+    (when (eq (point-at-eol) (point-max))
+      (goto-char (point-max))
+      (newline)
+      (forward-char -1))
+    (duplicate-region num (point-at-bol) (1+ (point-at-eol)))))
 
-  (defun my-find-file-as-root ()
-    "Like `find-file, but automatically edit the file with
+(defun my-find-file-as-root ()
+  "Like `find-file, but automatically edit the file with
   root-privileges (using tramp/sudo), if the file is not writable by
   user."
-    (interactive)
-    (let ((file (read-file-name "Edit as root: ")))
-      (unless (file-writable-p file)
-        (setq file (concat "/sudo:root@localhost:" file)))
-      (find-file file)))
+  (interactive)
+  (let ((file (read-file-name "Edit as root: ")))
+    (unless (file-writable-p file)
+      (setq file (concat "/sudo:root@localhost:" file)))
+    (find-file file)))
 
 
 

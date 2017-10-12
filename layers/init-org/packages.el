@@ -32,16 +32,16 @@
   (progn
     (add-hook 'org-pomodoro-finished-hook '(lambda () (init-org/growl-notification "Pomodoro Finished" "☕️ Have a break!" t)))
     (add-hook 'org-pomodoro-short-break-finished-hook '(lambda () (init-org/growl-notification "Short Break" "🐝 Ready to Go?" t)))
-    (add-hook 'org-pomodoro-long-break-finished-hook '(lambda () (init-org/growl-notification "Long Break" " 💪 Ready to Go?" t)))
-    ))
+    (add-hook 'org-pomodoro-long-break-finished-hook '(lambda () (init-org/growl-notification "Long Break" " 💪 Ready to Go?" t)))))
+    
 
 
 ;;In order to export pdf to support Chinese, I should install Latex at heSymbol’s function definition is void: eSymbol’s function definition is void: evil-define-keyvil-define-keyr(require 'org-id) e: https://www.tug.org/mactex/
 ;; http://freizl.github.io/posts/2012-04-06-export-orgmode-file-in-Chinese.html
 ;;http://stackoverflow.com/questions/21005885/export-org-Symbol’s function definition is void: evil-define-keymode-code-block-and-result-with-different-styles
 (defun init-org/post-init-org ()
- (add-hook 'org-mode-hook (lambda () (spacemacs/toggle-line-numbers-off)) 'append)
- (with-eval-after-load 'org
+  (add-hook 'org-mode-hook (lambda () (spacemacs/toggle-line-numbers-off)) 'append)
+  (with-eval-after-load 'org
     (progn
       
       (spacemacs|disable-company org-mode)
@@ -96,13 +96,13 @@
 
       (require 'org-id)
       
-       ;;================================================================
-  ;; Config for TODO Configuration
-  ;;================================================================
-  ;; (setq org-todo-keywords
-  ;;       (quote (;;(sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "STARTED(s)" "APPT(a)" "|" "DONE(d)")
-  ;;               (sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "DONE(d)")
-  ;;               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+      ;;================================================================
+      ;; Config for TODO Configuration
+      ;;================================================================
+      ;; (setq org-todo-keywords
+      ;;       (quote (;;(sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "STARTED(s)" "APPT(a)" "|" "DONE(d)")
+      ;;               (sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "DONE(d)")
+      ;;               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 
       (setq org-todo-keywords
             (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "MAYBE(m)" "|" "DONE(d!/!)")
@@ -119,8 +119,8 @@
                     ("WAITING" :foreground "orange" :weight bold)
                     ("MAYBE" :foreground "grey" :weight bold)
                     ("HOLD" :foreground "magenta" :weight bold)
-                    ("CANCELLED" :foreground "forest green" :weight bold)
-                    )))
+                    ("CANCELLED" :foreground "forest green" :weight bold))))
+                    
 
 
       (setq org-use-fast-todo-selection t)
@@ -246,8 +246,8 @@
                      :recursive t
                      :author nil)
                     ("worknotes"
-                     :components ("work-notes" "work-notes-extra"))
-                    )))
+                     :components ("work-notes" "work-notes-extra")))))
+                    
       
 
       ;;================================================================
@@ -345,8 +345,8 @@
          ;;(dot . t)
          (latex . t)
          (java . t)
-         (js . t)
-         ))
+         (js . t)))
+         
       (setq org-confirm-babel-evaluate nil)
 
 
@@ -364,8 +364,8 @@
       (with-eval-after-load 'org-agenda
         (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
         (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-          "." 'spacemacs/org-agenda-transient-state/body)
-        )
+          "." 'spacemacs/org-agenda-transient-state/body))
+        
 
       ;; the %i would copy the selected text into the template
       ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
@@ -429,19 +429,21 @@
               ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"projects\"")
               ("W" "Weekly Review"
                ((stuck "") ;; review stuck projects as designated by org-stuck-projects
-                (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
-                ))))
+                (tags-todo "PROJECT"))))) ;; review all projects (assuming you use todo keywords to designate projects)
+                
 
 
       (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
       (define-key org-mode-map (kbd "s-p") 'org-priority)
+      ;; changed the keybinding for M-return
+      (define-key org-mode-map (kbd "<M-return>") 'org-meta-return)
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
         "tl" 'org-toggle-link-display)
       (define-key evil-normal-state-map (kbd "C-c C-w") 'org-refile)
 
 
 
-     ;;================================================================
+      ;;================================================================
       ;; Config for Global column view and properties
       ;;================================================================
       ;; Set default column view headings: Task Effort Clock_Summary
@@ -450,8 +452,8 @@
       
       (setq org-columns-default-format
             ;;" %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
-            " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
-            )
+            " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM")
+            
 
       ;; global Effort estimate values
       ;; global STYLE property values for completion
@@ -488,11 +490,11 @@
       (setq org-fast-tag-selection-single-key (quote expert))
 
       ;; For tag searches ignore tasks with scheduled and deadline dates
-      (setq org-agenda-tags-todo-honor-ignore-options t)
+      (setq org-agenda-tags-todo-honor-ignore-options t))))
 
 
 
-)))
+      
 
 
 
