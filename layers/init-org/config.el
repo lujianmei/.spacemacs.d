@@ -16,12 +16,12 @@
 
 (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
 ;; config for org-projectile
-(setq org-projectile-file "~/workspace/github/my-blog/work-notes/project-documents/projects-file.org")
+(setq org-projectile-file "~/workspace/github/my-blog/work-notes/notes/projects-file.org")
 ;; define the refile targets
 (setq
  org-directory "~/workspace/github/my-blog/work-notes/captures"
- org-agenda-dir "~/workspace/github/my-blog/work-notes/agenda-notes"
- deft-dir "~/workspace/github/my-blog/work-notes/agenda-notes"
+ org-agenda-dir "~/workspace/github/my-blog/work-notes/agendas"
+ deft-dir "~/workspace/github/my-blog/work-notes/agendas"
  blog-admin-dir "~/workspace/github/my-blog"
  
  
