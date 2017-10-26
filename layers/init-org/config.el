@@ -20,8 +20,8 @@
 ;; define the refile targets
 (setq
  org-directory "~/workspace/github/my-blog/work-notes/captures"
- org-agenda-dir "~/workspace/github/my-blog/work-notes/agendas"
- deft-dir "~/workspace/github/my-blog/work-notes/agendas"
+ org-agenda-dir-current-year "~/workspace/github/my-blog/work-notes/agendas/2017/"
+ deft-dir "~/workspace/github/my-blog/work-notes/agendas/2017/"
  blog-admin-dir "~/workspace/github/my-blog"
  
  
@@ -30,16 +30,17 @@
  )
 
 
-(setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
-(setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
-(setq org-agenda-file-englishgtd (expand-file-name "english-gtd.org" org-agenda-dir))
-(setq org-agenda-file-dailygtd (expand-file-name "daily-gtd.org" org-agenda-dir))
-(setq org-agenda-file-datacentergtd (expand-file-name "data-center-gtd.org" org-agenda-dir))
-(setq org-agenda-file-datascientistsgtd (expand-file-name "data-scientist-gtd.org" org-agenda-dir))
-(setq org-agenda-file-cisspgtd (expand-file-name "cissp-gtd.org" org-agenda-dir))
-(setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+(setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir-current-year))
+(setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir-current-year))
+(setq org-agenda-file-englishgtd (expand-file-name "english-gtd.org" org-agenda-dir-current-year))
+(setq org-agenda-file-dailygtd (expand-file-name "daily-gtd.org" org-agenda-dir-current-year))
+(setq org-agenda-file-datacentergtd (expand-file-name "data-center-gtd.org" org-agenda-dir-current-year))
+(setq org-agenda-file-datascientistsgtd (expand-file-name "data-scientist-gtd.org" org-agenda-dir-current-year))
+(setq org-agenda-file-cisspgtd (expand-file-name "cissp-gtd.org" org-agenda-dir-current-year))
+(setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir-current-year))
 
 (setq org-agenda-file-code-snippet (expand-file-name "snippets.org" snippet-dir))
-(setq org-agenda-files (list org-agenda-dir))
+(setq org-agenda-files (quote ("~/workspace/github/my-blog/work-notes/agendas/2017/"
+                               "~/workspace/github/my-blog/work-notes/agendas/2018/")))
 
 (setq mode-line-org-clock t)

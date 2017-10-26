@@ -18,6 +18,7 @@
     ;;deft
     org2jekyll
     org-alert
+    org-agenda
     )
   )
 (defun init-org/post-init-org-alert ()
@@ -28,12 +29,52 @@
     (progn
       (setq alert-default-style 'notifier))))
 
+
+(defun init-org/post-init-org-agenda ()
+  ;; Config Agenda View
+  (use-package org-super-agenda :config (org-super-agenda-mode))
+  (let ((org-super-agenda-groups
+         '(
+           ;; Firstly show Today's work
+           (:log t)  ; Automatically named "Log"
+           (:name "Schedule"
+                  :time-grid t)
+           (:name "Today"
+                  :scheduled today)
+           (:habit t)
+           (:name "Due today"
+                  :deadline today)
+           (:name "Overdue"
+                  :deadline past)
+           (:name "Due soon"
+                  :deadline future)
+           (:name "Unimportant"
+                  :todo ("SOMEDAY" "MAYBE" "CHECK" "TO-READ" "TO-WATCH")
+                  :order 100)
+           (:name "Waiting..."
+                  :todo "WAITING"
+                  :order 98)
+           (:name "Scheduled earlier"
+                  :scheduled past)
+           (:auto-group t)))) ;; Then show by grouped tasks using each GTD file org property which already set on the top of Headling by "agenda-group"
+    (org-agenda-list))
+  ) 
+
+
+
+
+
+
+
+
+
+
 (defun init-org/post-init-org-promodoro ()
   (progn
     (add-hook 'org-pomodoro-finished-hook '(lambda () (init-org/growl-notification "Pomodoro Finished" "☕️ Have a break!" t)))
     (add-hook 'org-pomodoro-short-break-finished-hook '(lambda () (init-org/growl-notification "Short Break" "🐝 Ready to Go?" t)))
     (add-hook 'org-pomodoro-long-break-finished-hook '(lambda () (init-org/growl-notification "Long Break" " 💪 Ready to Go?" t)))))
-    
+
 
 
 ;;In order to export pdf to support Chinese, I should install Latex at heSymbol’s function definition is void: eSymbol’s function definition is void: evil-define-keyvil-define-keyr(require 'org-id) e: https://www.tug.org/mactex/
@@ -364,8 +405,11 @@
       (with-eval-after-load 'org-agenda
         (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
         (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-          "." 'spacemacs/org-agenda-transient-state/body))
-      
+          "." 'spacemacs/org-agenda-transient-state/body)
+        )
+
+
+
 
       ;; the %i would copy the selected text into the template
       ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
@@ -420,8 +464,8 @@
                "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
               ("c" "Chrome" entry (file+headline org-agenda-file-note "Links")
                "* TODO [#C] %?\n %(init-org/retrieve-chrome-current-tab-url)\n %i\n %U"
-               :empty-lines 1)
-              ))
+               :empty-lines 1)))
+
 
       ;;An entry without a cookie is treated just like priority ' B '.
       ;;So when create new task, they are default 重要且紧急
@@ -438,7 +482,7 @@
               ("W" "Weekly Review"
                ((stuck "") ;; review stuck projects as designated by org-stuck-projects
                 (tags-todo "PROJECT"))))) ;; review all projects (assuming you use todo keywords to designate projects)
-      
+
 
 
       (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
@@ -457,11 +501,11 @@
       ;; Set default column view headings: Task Effort Clock_Summary
       ;;(setq org-columns-default-format "%25ITEM %10Effort(Effort){:} %SCHEDULED %DEADLINE %11Status %20TAGS %PRIORITY %TODO")
       ;;(setq org-columns-default-format "%25ITEM  %9Approved(Approved?){X} %SCHEDULED %DEADLINE %11Status %TAGS %PRIORITY %TODO")
-      
+
       (setq org-columns-default-format
             ;;" %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
             " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM")
-      
+
 
       ;; global Effort estimate values
       ;; global STYLE property values for completion
@@ -470,6 +514,11 @@
                                           ("Status_ALL" . "Not-start In-Progress Delay Finished Cancled")
                                           ("ID_ALL" . "")
                                           ("STYLE_ALL" . "habit"))))
+
+
+
+
+
 
       ;;================================================================
       ;; Config for Tags
@@ -502,76 +551,73 @@
 
 
 
-      
-
-
 
 
 
 
 (defun init-org/post-init-org2jekyll ()
-;; 添加org-jekyll包
+  ;; 添加org-jekyll包
   (use-package org2jekyll
     :defer 3
     :ensure t
     :config
     (custom-set-variables '(org2jekyll-blog-author "lujianmei")
-                      '(org2jekyll-source-directory (expand-file-name "~/workspace/github/my-blog/work-notes/notes/"))
-                      '(org2jekyll-jekyll-directory (expand-file-name "~/workspace/github/my-blog/"))
-                      '(org2jekyll-jekyll-drafts-dir "")
-                      '(org2jekyll-jekyll-posts-dir "_posts/")
-                      '(org-publish-project-alist
-                        `(("default"
-                           :base-directory ,(org2jekyll-input-directory)
-                           :base-extension "org"
-                           :publishing-directory ,(org2jekyll-output-directory)
-                           :publishing-function org-html-publish-to-html
-                           :headline-levels 4
-                           :section-numbers t
-                           :with-toc nil
-                           ;; :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
-                           :html-preamble t
-                           :recursive t
-                           :make-index nil
-                           :html-extension "html"
-                           :body-only t)
-                          ("post"
-                           :base-directory ,(org2jekyll-input-directory)
-                           :base-extension "org"
-                           :publishing-directory ,(org2jekyll-output-directory org2jekyll-jekyll-posts-dir)
-                           :publishing-function org-html-publish-to-html
-                           :headline-levels 4
-                           :section-numbers t
-                           :with-toc nil
-                           ;; :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
-                           :html-preamble t
-                           :recursive t
-                           :make-index nil
-                           :html-extension "md"
-                           :body-only t)
-                          ("images"
-                           :base-directory ,(org2jekyll-input-directory "img")
-                           :base-extension "jpg\\|gif\\|png"
-                           :publishing-directory ,(org2jekyll-output-directory "img")
-                           :publishing-function org-publish-attachment
-                           :recursive t)
-                          ("js"
-                           :base-directory ,(org2jekyll-input-directory "js")
-                           :base-extension "js"
-                           :publishing-directory ,(org2jekyll-output-directory "js")
-                           :publishing-function org-publish-attachment
-                           :recursive t)
-                          ("css"
-                           :base-directory ,(org2jekyll-input-directory "css")
-                           :base-extension "css\\|el"
-                           :publishing-directory ,(org2jekyll-output-directory "css")
-                           :publishing-function org-publish-attachment
-                           :recursive t)
-                          ("web" :components ("images" "js" "css"))
-                          ))))
+                          '(org2jekyll-source-directory (expand-file-name "~/workspace/github/my-blog/work-notes/notes/"))
+                          '(org2jekyll-jekyll-directory (expand-file-name "~/workspace/github/my-blog/"))
+                          '(org2jekyll-jekyll-drafts-dir "")
+                          '(org2jekyll-jekyll-posts-dir "_posts/")
+                          '(org-publish-project-alist
+                            `(("default"
+                               :base-directory ,(org2jekyll-input-directory)
+                               :base-extension "org"
+                               :publishing-directory ,(org2jekyll-output-directory)
+                               :publishing-function org-html-publish-to-html
+                               :headline-levels 4
+                               :section-numbers t
+                               :with-toc nil
+                               ;; :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
+                               :html-preamble t
+                               :recursive t
+                               :make-index nil
+                               :html-extension "html"
+                               :body-only t)
+                              ("post"
+                               :base-directory ,(org2jekyll-input-directory)
+                               :base-extension "org"
+                               :publishing-directory ,(org2jekyll-output-directory org2jekyll-jekyll-posts-dir)
+                               :publishing-function org-html-publish-to-html
+                               :headline-levels 4
+                               :section-numbers t
+                               :with-toc nil
+                               ;; :html-head "<link rel=\"stylesheet\" href=\"./css/style.css\" type=\"text/css\"/>"
+                               :html-preamble t
+                               :recursive t
+                               :make-index nil
+                               :html-extension "md"
+                               :body-only t)
+                              ("images"
+                               :base-directory ,(org2jekyll-input-directory "img")
+                               :base-extension "jpg\\|gif\\|png"
+                               :publishing-directory ,(org2jekyll-output-directory "img")
+                               :publishing-function org-publish-attachment
+                               :recursive t)
+                              ("js"
+                               :base-directory ,(org2jekyll-input-directory "js")
+                               :base-extension "js"
+                               :publishing-directory ,(org2jekyll-output-directory "js")
+                               :publishing-function org-publish-attachment
+                               :recursive t)
+                              ("css"
+                               :base-directory ,(org2jekyll-input-directory "css")
+                               :base-extension "css\\|el"
+                               :publishing-directory ,(org2jekyll-output-directory "css")
+                               :publishing-function org-publish-attachment
+                               :recursive t)
+                              ("web" :components ("images" "js" "css"))
+                              ))))
 
 
-)
+  )
 
 
 (defun init-org/init-org-mac-link ()
