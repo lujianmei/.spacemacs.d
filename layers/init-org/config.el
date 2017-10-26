@@ -30,9 +30,10 @@
  )
 
 
-(setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir-current-year))
-(setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir-current-year))
+(setq org-agenda-file-workgtd (expand-file-name "work-tasks-gtd.org" org-agenda-dir-current-year))
+(setq org-default-notes-file (expand-file-name "work-tasks-gtd.org" org-agenda-dir-current-year))
 (setq org-agenda-file-englishgtd (expand-file-name "english-gtd.org" org-agenda-dir-current-year))
+(setq org-agenda-file-personalgtd (expand-file-name "personal-gtd.org" org-agenda-dir-current-year))
 (setq org-agenda-file-dailygtd (expand-file-name "daily-gtd.org" org-agenda-dir-current-year))
 (setq org-agenda-file-datacentergtd (expand-file-name "data-center-gtd.org" org-agenda-dir-current-year))
 (setq org-agenda-file-datascientistsgtd (expand-file-name "data-scientist-gtd.org" org-agenda-dir-current-year))

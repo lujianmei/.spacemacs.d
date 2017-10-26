@@ -143,7 +143,8 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(;;chinese-fonts-setup
+   dotspacemacs-additional-packages '(org-super-agenda
+                                      ;;chinese-fonts-setup
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -193,9 +194,9 @@ values."
    ;; (default 'vim)
    ;;dotspacemacs-editing-style 'emacs
    dotspacemacs-editing-style '(hybrid :variables
-           hybrid-mode-enable-evilified-state t
-           hybrid-mode-enable-hjkl-bindings nil
-           hybrid-mode-default-state 'normal)
+                                       hybrid-mode-enable-evilified-state t
+                                       hybrid-mode-enable-hjkl-bindings nil
+                                       hybrid-mode-default-state 'normal)
    ;;dotspaceemacs-editing-style 'hybird
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
@@ -392,11 +393,14 @@ values."
    exec-path-from-shell-check-startup-files nil
    ))
 
+;;(setq configuration-layer--elpa-archives
+;;      '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
+;;        ("org-cn"   . "http://elpa.zilongshanren.com/org/")
+;;        ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")))
 (setq configuration-layer--elpa-archives
-      '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
-        ("org-cn"   . "http://elpa.zilongshanren.com/org/")
-        ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")))
-
+      '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+        ("org-cn"   . "http://elpa.emacs-china.org/org/")
+        ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
 
@@ -541,7 +545,7 @@ This function is called at the very end of Spacemacs initialization."
  '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
    (quote
-    (common-lisp-snippets inflections deferred queue avy slime org-category-capture request-deferred cnfonts clojure-mode clj-refactor cider zenburn-theme symon string-inflection solarized-theme sayid password-generator parinfer org-brain meghanada impatient-mode groovy-mode groovy-imports pcache flycheck-bashate evil-org evil-lion ensime sbt-mode scala-mode emojify editorconfig counsel-dash counsel swiper ivy company-lua browse-at-remote fcitx chinese-pyim chinese-pyim-greatdict chinese-pyim-wbdict chinese-pyim-basedict gradle-mode nyan-mode kotlin-mode unfill org-plus-contrib org-bullets open-junk-file macrostep lorem-ipsum linum-relative link-hint info+ ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-purpose window-purpose helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds google-translate golden-ratio pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-search-highlight-persist evil-numbers evil-mc evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args anzu goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol f dash s aggressive-indent adaptive-wrap ace-link ace-jump-helm-line helm-swoop popup quelpa winum neotree move-text indent-guide helm-ag expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit evil-anzu auto-compile packed ace-window evil helm helm-core async vimrc-mode dactyl-mode youdao-dictionary names chinese-word-at-point yaml-mode tabbar plantuml-mode peep-dired org-mac-link insert-shebang imenu-list ibuffer-projectile highlight-global helm-dash graphviz-dot-mode fish-mode emoji-cheat-sheet-plus ein websocket dockerfile-mode docker tablist docker-tramp dash-at-point company-shell company-emoji company-auctex chinese-fonts-setup auctex ace-isearch monokai-theme yapfify xterm-color web-mode web-beautify tagedit sql-indent smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder rbenv rake pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro org-download mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode livid-mode skewer-mode simple-httpd live-py-mode less-css-mode launchctl json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner package-build spacemacs-theme))))
+    (org-super-agenda common-lisp-snippets inflections deferred queue avy slime org-category-capture request-deferred cnfonts clojure-mode clj-refactor cider zenburn-theme symon string-inflection solarized-theme sayid password-generator parinfer org-brain meghanada impatient-mode groovy-mode groovy-imports pcache flycheck-bashate evil-org evil-lion ensime sbt-mode scala-mode emojify editorconfig counsel-dash counsel swiper ivy company-lua browse-at-remote fcitx chinese-pyim chinese-pyim-greatdict chinese-pyim-wbdict chinese-pyim-basedict gradle-mode nyan-mode kotlin-mode unfill org-plus-contrib org-bullets open-junk-file macrostep lorem-ipsum linum-relative link-hint info+ ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-purpose window-purpose helm-projectile helm-mode-manager helm-make projectile helm-flx helm-descbinds google-translate golden-ratio pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-search-highlight-persist evil-numbers evil-mc evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args anzu goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump diminish column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol f dash s aggressive-indent adaptive-wrap ace-link ace-jump-helm-line helm-swoop popup quelpa winum neotree move-text indent-guide helm-ag expand-region exec-path-from-shell evil-surround evil-nerd-commenter evil-matchit evil-anzu auto-compile packed ace-window evil helm helm-core async vimrc-mode dactyl-mode youdao-dictionary names chinese-word-at-point yaml-mode tabbar plantuml-mode peep-dired org-mac-link insert-shebang imenu-list ibuffer-projectile highlight-global helm-dash graphviz-dot-mode fish-mode emoji-cheat-sheet-plus ein websocket dockerfile-mode docker tablist docker-tramp dash-at-point company-shell company-emoji company-auctex chinese-fonts-setup auctex ace-isearch monokai-theme yapfify xterm-color web-mode web-beautify tagedit sql-indent smeargle slim-mode shell-pop scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe reveal-in-osx-finder rbenv rake pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements pbcopy osx-trash osx-dictionary orgit org-projectile org-present org org-pomodoro org-download mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp mmm-mode minitest markdown-toc markdown-mode magit-gitflow lua-mode livid-mode skewer-mode simple-httpd live-py-mode less-css-mode launchctl json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero hy-mode htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss helm-company helm-c-yasnippet haskell-snippets haml-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck-haskell flycheck evil-magit magit magit-popup git-commit with-editor eshell-z eshell-prompt-extras esh-help emmet-mode diff-hl cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-emacs-eclim eclim company-cabal company-anaconda company coffee-mode cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet auto-dictionary anaconda-mode pythonic ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner package-build spacemacs-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -32,33 +32,72 @@
 
 (defun init-org/post-init-org-agenda ()
   ;; Config Agenda View
-  (use-package org-super-agenda :config (org-super-agenda-mode))
-  (let ((org-super-agenda-groups
-         '(
-           ;; Firstly show Today's work
-           (:log t)  ; Automatically named "Log"
-           (:name "Schedule"
-                  :time-grid t)
-           (:name "Today"
-                  :scheduled today)
-           (:habit t)
-           (:name "Due today"
-                  :deadline today)
-           (:name "Overdue"
-                  :deadline past)
-           (:name "Due soon"
-                  :deadline future)
-           (:name "Unimportant"
-                  :todo ("SOMEDAY" "MAYBE" "CHECK" "TO-READ" "TO-WATCH")
-                  :order 100)
-           (:name "Waiting..."
-                  :todo "WAITING"
-                  :order 98)
-           (:name "Scheduled earlier"
-                  :scheduled past)
-           (:auto-group t)))) ;; Then show by grouped tasks using each GTD file org property which already set on the top of Headling by "agenda-group"
-    (org-agenda-list))
-  ) 
+
+  ;; Custom commands for the agenda -- start with a clean slate.
+  (setq org-agenda-custom-commands nil)
+  (setq org-agenda-inhibit-startup t) ;; ~50x speedup
+  (setq org-agenda-span 'day)
+  (setq org-agenda-use-tag-inheritance nil) ;; 3-4x speedup
+  (setq org-agenda-window-setup 'current-window)
+  (setq org-log-done t)
+
+  ;; Do not dim blocked tasks
+  (setq org-agenda-dim-blocked-tasks nil)
+
+  (use-package org-super-agenda
+    :defer t
+    :ensure t)
+  (with-eval-after-load 'org
+    (org-super-agenda-mode)
+    (let ((org-agenda-custom-commands
+           '(("u" "Super view"
+              (
+               (agenda "" ((org-agenda-overriding-header "Groups Tasks")
+                           (org-super-agenda-groups
+                            '((:auto-group t
+                                           :discard (:tag ("statistics")
+                                                          :todo ("HOLD" "MAYBE")))))))
+               ;; (todo "" ((org-agenda-overriding-header "Today's Tasks")
+               ;;           (org-super-agenda-groups
+               ;;            '(
+               ;;              (:name "Important"
+               ;;                     :todo "TODO"
+               ;;                     :priority "A"
+               ;;                     :time-grid t
+               ;;                     :scheduled today)
+               ;;              (:name "Other Tasks"
+               ;;                     :todo "TODO"
+               ;;                     :time-grid t
+               ;;                     :priority< "A"
+               ;;                     :scheduled today)
+               ;;              (:name "Delay Tasks"
+               ;;                     :todo "TODO"
+               ;;                     :time-grid t
+               ;;                     :deadline past)
+               ;;              )
+               ;;            )
+               ;;           ))
+               (todo "" ((org-agenda-overriding-header "Future Tasks")
+                         (org-super-agenda-groups
+                          '(
+                            ;; Firstly show Today's work
+                            ;;(:log t)  ; Automatically named "Log"
+                            ;;(:name "Schedule"
+                            ;;       :time-grid t)
+                            (:name "Due soon"
+                                   :deadline future)
+                            ;;(:name "Unimportant"
+                            ;;       :todo ("SOMEDAY" "MAYBE" "CHECK" "TO-READ" "TO-WATCH")
+                            ;;       :order 100)
+                            (:name "Waiting..."
+                                   :todo ("WAITING" "MAYBE" "HOLD")
+                                   :order 98)
+                            ;;(:name "Scheduled earlier"
+                            ;;       :scheduled past)
+                            )))))))))
+      (org-agenda nil "u"))
+    ))
+
 
 
 
@@ -104,11 +143,6 @@
       (setq org-stuck-projects
             '("TODO={.+}/-DONE" nil nil "SCHEDULED:\\|DEADLINE:"))
 
-      (setq org-agenda-inhibit-startup t) ;; ~50x speedup
-      (setq org-agenda-span 'day)
-      (setq org-agenda-use-tag-inheritance nil) ;; 3-4x speedup
-      (setq org-agenda-window-setup 'current-window)
-      (setq org-log-done t)
 
       ;; 加密文章
       ;; "http://coldnew.github.io/blog/2013/07/13_5b094.html"
@@ -202,6 +236,43 @@
 
       ;; set export table's format
       (setq org-table-export-default-format "orgtbl-to-csv")
+      
+      (with-eval-after-load 'org-agenda
+        
+        ;;================================================================
+        ;; Config for Org Agenda
+        ;;================================================================
+        ;; config for org-mode
+        ;;(setq org-default-notes-file (concat org-directory "/notes.org"))
+        ;;(define-key global-map (kbd "M-<f6>") 'org-capture)
+
+
+        
+        (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
+        (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+          "." 'spacemacs/org-agenda-transient-state/body)
+
+
+
+
+        ;;An entry without a cookie is treated just like priority ' B '.
+        ;;So when create new task, they are default 重要且紧急
+        ;; (setq org-agenda-custom-commands
+        ;;       '(
+        ;;         ("w" . "任务安排")
+        ;;         ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
+        ;;         ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+        ;;         ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
+        ;;         ("b" "Blog" tags-todo "BLOG")
+        ;;         ("p" . "项目安排")
+        ;;         ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"Data-Center\"")
+        ;;         ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"projects\"")
+        ;;         ("W" "Weekly Review"
+        ;;          ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+        ;;           (tags-todo "PROJECT"))))) ;; review all projects (assuming you use todo keywords to designate projects)
+
+
+        )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       ;; Org clock
@@ -394,22 +465,7 @@
 
       (require 'ox-md nil t)
 
-      ;;================================================================
-      ;; Config for Org Agenda
-      ;;================================================================
-      ;; config for org-mode
-      ;;(setq org-default-notes-file (concat org-directory "/notes.org"))
-      ;;(define-key global-map (kbd "M-<f6>") 'org-capture)
-
-
-      (with-eval-after-load 'org-agenda
-        (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
-        (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-          "." 'spacemacs/org-agenda-transient-state/body)
-        )
-
-
-
+      
 
       ;; the %i would copy the selected text into the template
       ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
@@ -465,23 +521,6 @@
               ("c" "Chrome" entry (file+headline org-agenda-file-note "Links")
                "* TODO [#C] %?\n %(init-org/retrieve-chrome-current-tab-url)\n %i\n %U"
                :empty-lines 1)))
-
-
-      ;;An entry without a cookie is treated just like priority ' B '.
-      ;;So when create new task, they are default 重要且紧急
-      (setq org-agenda-custom-commands
-            '(
-              ("w" . "任务安排")
-              ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
-              ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
-              ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
-              ("b" "Blog" tags-todo "BLOG")
-              ("p" . "项目安排")
-              ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"Data-Center\"")
-              ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"projects\"")
-              ("W" "Weekly Review"
-               ((stuck "") ;; review stuck projects as designated by org-stuck-projects
-                (tags-todo "PROJECT"))))) ;; review all projects (assuming you use todo keywords to designate projects)
 
 
 
