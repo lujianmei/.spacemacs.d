@@ -30,12 +30,16 @@
  )
 
 
-(setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
 (setq org-agenda-file-gtd (expand-file-name "gtd.org" org-agenda-dir))
-(setq org-agenda-file-aigtd (expand-file-name "ai-gtd.org" org-agenda-dir))
-(setq org-agenda-file-journal (expand-file-name "journals.org" org-agenda-dir))
-(setq org-agenda-file-code-snippet (expand-file-name "snippets.org" snippet-dir))
 (setq org-default-notes-file (expand-file-name "gtd.org" org-agenda-dir))
+(setq org-agenda-file-englishgtd (expand-file-name "english-gtd.org" org-agenda-dir))
+(setq org-agenda-file-dailygtd (expand-file-name "daily-gtd.org" org-agenda-dir))
+(setq org-agenda-file-datacentergtd (expand-file-name "data-center-gtd.org" org-agenda-dir))
+(setq org-agenda-file-datascientistsgtd (expand-file-name "data-scientist-gtd.org" org-agenda-dir))
+(setq org-agenda-file-cisspgtd (expand-file-name "cissp-gtd.org" org-agenda-dir))
+(setq org-agenda-file-note (expand-file-name "notes.org" org-agenda-dir))
+
+(setq org-agenda-file-code-snippet (expand-file-name "snippets.org" snippet-dir))
 (setq org-agenda-files (list org-agenda-dir))
 
 (setq mode-line-org-clock t)

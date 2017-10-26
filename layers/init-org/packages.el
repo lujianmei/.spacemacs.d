@@ -120,7 +120,7 @@
                     ("MAYBE" :foreground "grey" :weight bold)
                     ("HOLD" :foreground "magenta" :weight bold)
                     ("CANCELLED" :foreground "forest green" :weight bold))))
-                    
+      
 
 
       (setq org-use-fast-todo-selection t)
@@ -247,7 +247,7 @@
                      :author nil)
                     ("worknotes"
                      :components ("work-notes" "work-notes-extra")))))
-                    
+      
       
 
       ;;================================================================
@@ -346,7 +346,7 @@
          (latex . t)
          (java . t)
          (js . t)))
-         
+      
       (setq org-confirm-babel-evaluate nil)
 
 
@@ -365,18 +365,29 @@
         (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
         (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
           "." 'spacemacs/org-agenda-transient-state/body))
-        
+      
 
       ;; the %i would copy the selected text into the template
       ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
       ;;add multi-file journal
       (setq org-capture-templates
-            '(("t" "卡萨帝积分中心 TODO " entry (file+headline org-agenda-file-gtd "卡萨帝积分中心")
-               "* TODO [#B] %?\n  %i\n"
-               :empty-lines 1)
-              ("d" "数据中心 TODO" entry (file+headline org-agenda-file-gtd "数据中心")
+            '(
+              ("d" "数据中心 TODO" entry (file+headline org-agenda-file-datacentergtd "数据中心")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
+              ("e" "英语学习TODO" entry (file+headline org-agenda-file-englishgtd "考试准备计划")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("c" "CISSP-TODO" entry (file+headline org-agenda-file-cisspgtd "CISSP考试")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("i" "数据科学-TODO" entry (file+headline org-agenda-file-datascientistgtd "数据科学")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("y" "日常任务-TODO" entry (file+headline org-agenda-file-dailygtd "日常工作监控")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+
               ("a" "AI项目" entry (file+headline org-agenda-file-gtd "AI智能桌面")
                "* TODO [#A] %?\n  %i\n %U"
                :empty-lines 1)
@@ -410,10 +421,7 @@
               ("c" "Chrome" entry (file+headline org-agenda-file-note "Links")
                "* TODO [#C] %?\n %(init-org/retrieve-chrome-current-tab-url)\n %i\n %U"
                :empty-lines 1)
-              ("j" "Journal Entry"
-               entry (file+datetree org-agenda-file-journal)
-               "* %?"
-               :empty-lines 1)))
+              ))
 
       ;;An entry without a cookie is treated just like priority ' B '.
       ;;So when create new task, they are default 重要且紧急
@@ -430,7 +438,7 @@
               ("W" "Weekly Review"
                ((stuck "") ;; review stuck projects as designated by org-stuck-projects
                 (tags-todo "PROJECT"))))) ;; review all projects (assuming you use todo keywords to designate projects)
-                
+      
 
 
       (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
@@ -453,7 +461,7 @@
       (setq org-columns-default-format
             ;;" %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
             " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM")
-            
+      
 
       ;; global Effort estimate values
       ;; global STYLE property values for completion
