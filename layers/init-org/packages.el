@@ -17,10 +17,9 @@
     org-promodoro
     ;;deft
     org2jekyll
-    org-alert
     org-agenda
-    )
-  )
+    org-alert))
+  
 (defun init-org/post-init-org-alert ()
   (use-package org-alert
     :defer t
@@ -49,6 +48,7 @@
     :ensure t)
   (with-eval-after-load 'org
     (org-super-agenda-mode)
+
     (let ((org-agenda-custom-commands
            '(("u" "Super view"
               (
