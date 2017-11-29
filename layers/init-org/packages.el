@@ -434,32 +434,34 @@
       ;; (add-hook 'org-after-todo-state-change-hook 'org-subtask-reset)
 
       ;; Use fundamental mode when editing plantuml blocks with C-c '
-      (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
+      ;; (add-to-list 'org-src-lang-modes (quote ("plantuml" . fundamental)))
+      (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
 
 
       ;; 各种Babel语言支持
       (org-babel-do-load-languages
        'org-babel-load-languages
-       '(;;(R . t)
-         (emacs-lisp . t)
+       '((emacs-lisp . t)
          ;;(matlab . t)
-         (C . t)
-         (perl . t)
+         ;;(R . t)
+         ;; (C . t)
+         ;; (perl . t)
          ;;(objc . t)
-         (shell . t)
-         (ditaa . t)
+         ;; (shell . t)
+         ;; (ditaa . t)
          (plantuml . t)
-         (org . t)
-         (python . t)
-         (sh . t)
-         (dot . t)
+         ;; (org . t)
+         ;; (python . t)
+         ;; (sh . t)
+         ;; (dot . t)
          ;;(haskell . t)
          ;;(dot . t)
-         (latex . t)
-         (java . t)
-         (js . t)))
+         ;; (latex . t)
+         ;; (java . t)
+         ;; (js . t)
+         ))
       
-      (setq org-confirm-babel-evaluate nil)
+      ;; (setq org-confirm-babel-evaluate nil)
 
 
 

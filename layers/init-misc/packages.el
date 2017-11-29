@@ -16,8 +16,8 @@
         peep-dired
         (highlight-global :location (recipe :fetcher github :repo "glen-dai/highlight-global"))
         multiple-cursors
-        ;:ace-isearch
-        tabbar
+                                        ;:ace-isearch
+        ;; tabbar
         ;;chinese-pyim
         ))
 ;; ;; add chinese input method, but it is not working properly
@@ -47,7 +47,7 @@
 ;;     ;; 我使用五笔
 ;;     (setq pyim-default-scheme 'wubi)
 
-    
+
 ;;     ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
 ;;     ;; 我自己使用的中英文动态切换规则是：
 ;;     ;; 1. 光标只有在注释里面时，才可以输入中文。
@@ -83,136 +83,136 @@
 ;;   )
 
 
-(defun init-misc/init-tabbar()
-  (use-package tabbar
-    :defer t
-    :ensure t
-    :config
-    (progn
+;; (defun init-misc/init-tabbar()
+;;   (use-package tabbar
+;;     :defer t
+;;     :ensure t
+;;     :config
+;;     (progn
 
-      ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Interactive Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      (defun tabbar-select-end-tab ()
-        "Select end tab of current tabset."
-        (interactive)
-        (tabbar-select-beg-tab t))
+;;       ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Interactive Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;       (defun tabbar-select-end-tab ()
+;;         "Select end tab of current tabset."
+;;         (interactive)
+;;         (tabbar-select-beg-tab t))
 
-      (defun tabbar-select-beg-tab (&optional backward type)
-        "Select beginning tab of current tabs.
-If BACKWARD is non-nil, move backward, otherwise move forward.
-TYPE is default option."
-        (interactive)
-        (let* ((tabset (tabbar-current-tabset t))
-               (ttabset (tabbar-get-tabsets-tabset))
-               (cycle (if (and (eq tabbar-cycle-scope 'groups)
-                               (not (cdr (tabbar-tabs ttabset))))
-                          'tabs
-                        tabbar-cycle-scope))
-               selected tab)
-          (when tabset
-            (setq selected (tabbar-selected-tab tabset))
-            (setq tabset (tabbar-tabs tabset)
-                  tab (car (if backward (last tabset) tabset)))
-            (tabbar-click-on-tab tab type))))
+;;       (defun tabbar-select-beg-tab (&optional backward type)
+;;         "Select beginning tab of current tabs.
+;; If BACKWARD is non-nil, move backward, otherwise move forward.
+;; TYPE is default option."
+;;         (interactive)
+;;         (let* ((tabset (tabbar-current-tabset t))
+;;                (ttabset (tabbar-get-tabsets-tabset))
+;;                (cycle (if (and (eq tabbar-cycle-scope 'groups)
+;;                                (not (cdr (tabbar-tabs ttabset))))
+;;                           'tabs
+;;                         tabbar-cycle-scope))
+;;                selected tab)
+;;           (when tabset
+;;             (setq selected (tabbar-selected-tab tabset))
+;;             (setq tabset (tabbar-tabs tabset)
+;;                   tab (car (if backward (last tabset) tabset)))
+;;             (tabbar-click-on-tab tab type))))
 
-      (defun tabbar-backward-tab-other-window (&optional reversed)
-        "Move to left tab in other window.
-Optional argument REVERSED default is move backward, if reversed is non-nil move forward."
-        (interactive)
-        (other-window 1)
-        (if reversed
-            (tabbar-forward-tab)
-          (tabbar-backward-tab))
-        (other-window -1))
+;;       (defun tabbar-backward-tab-other-window (&optional reversed)
+;;         "Move to left tab in other window.
+;; Optional argument REVERSED default is move backward, if reversed is non-nil move forward."
+;;         (interactive)
+;;         (other-window 1)
+;;         (if reversed
+;;             (tabbar-forward-tab)
+;;           (tabbar-backward-tab))
+;;         (other-window -1))
 
-      (defun tabbar-forward-tab-other-window ()
-        "Move to right tab in other window."
-        (interactive)
-        (tabbar-backward-tab-other-window t))
-
-
-
-;;; Code:
-
-      (defcustom tabbar-hide-header-button t
-        "Hide header button at left-up corner.
-Default is t."
-        :type 'boolean
-        :set (lambda (symbol value)
-               (set symbol value)
-               (if value
-                   (setq
-                    tabbar-scroll-left-help-function nil ;don't show help information
-                    tabbar-scroll-right-help-function nil
-                    tabbar-help-on-tab-function nil
-                    tabbar-home-help-function nil
-                    tabbar-buffer-home-button (quote (("") "")) ;don't show tabbar button
-                    tabbar-scroll-left-button (quote (("") ""))
-                    tabbar-scroll-right-button (quote (("") "")))))
-        :group 'tabbar)
-
-      (defun tabbar-filter (condp lst)
-        (delq nil
-              (mapcar (lambda (x) (and (funcall condp x) x)) lst)))
-
-      (defun tabbar-filter-buffer-list ()
-        (tabbar-filter
-         (lambda (x)
-           (let ((name (format "%s" x)))
-             (and
-              (not (string-prefix-p "*epc" name))
-              (not (string-prefix-p "*helm" name))
-              (not (string-prefix-p "*Messages*" name))
-              )))
-         (delq nil
-               (mapcar #'(lambda (b)
-                           (cond
-                            ;; Always include the current buffer.
-                            ((eq (current-buffer) b) b)
-                            ((buffer-file-name b) b)
-                            ((char-equal ?\  (aref (buffer-name b) 0)) nil)
-                            ((buffer-live-p b) b)))
-                       (buffer-list)))))
-
-      (setq tabbar-buffer-list-function 'tabbar-filter-buffer-list)
+;;       (defun tabbar-forward-tab-other-window ()
+;;         "Move to right tab in other window."
+;;         (interactive)
+;;         (tabbar-backward-tab-other-window t))
 
 
 
-      (defvar tabbar-ruler-projectile-tabbar-buffer-group-calc nil
-        "Buffer group for projectile.  Should be buffer local and speed up calculation of buffer groups.")
-      (defun tabbar-ruler-projectile-tabbar-buffer-groups ()
-        "Return the list of group names BUFFER belongs to.
-    Return only one group for each buffer."
-        
-        (if tabbar-ruler-projectile-tabbar-buffer-group-calc
-            (symbol-value 'tabbar-ruler-projectile-tabbar-buffer-group-calc)
-          (set (make-local-variable 'tabbar-ruler-projectile-tabbar-buffer-group-calc)
-               
-               (cond
-                ((or (get-buffer-process (current-buffer)) (memq major-mode '(comint-mode compilation-mode))) '("Term"))
-                ((string-equal "*" (substring (buffer-name) 0 1)) '("Misc"))
-                ((condition-case err
-                     (projectile-project-root)
-                   (error nil)) (list (projectile-project-name)))
-                ((memq major-mode '(emacs-lisp-mode python-mode emacs-lisp-mode c-mode c++-mode makefile-mode lua-mode vala-mode)) '("Coding"))
-                ((memq major-mode '(javascript-mode js-mode nxhtml-mode html-mode css-mode)) '("HTML"))
-                ((memq major-mode '(org-mode calendar-mode diary-mode)) '("Org"))
-                ((memq major-mode '(dired-mode)) '("Dir"))
-                (t '("Main"))))
-          (symbol-value 'tabbar-ruler-projectile-tabbar-buffer-group-calc)))
+;; ;;; Code:
 
-      (defun tabbar-ruler-group-by-projectile-project()
-        "Group by projectile project."
-        (interactive)
-        (setq tabbar-buffer-groups-function 'tabbar-ruler-projectile-tabbar-buffer-groups))
+;;       (defcustom tabbar-hide-header-button t
+;;         "Hide header button at left-up corner.
+;; Default is t."
+;;         :type 'boolean
+;;         :set (lambda (symbol value)
+;;                (set symbol value)
+;;                (if value
+;;                    (setq
+;;                     tabbar-scroll-left-help-function nil ;don't show help information
+;;                     tabbar-scroll-right-help-function nil
+;;                     tabbar-help-on-tab-function nil
+;;                     tabbar-home-help-function nil
+;;                     tabbar-buffer-home-button (quote (("") "")) ;don't show tabbar button
+;;                     tabbar-scroll-left-button (quote (("") ""))
+;;                     tabbar-scroll-right-button (quote (("") "")))))
+;;         :group 'tabbar)
 
-      ;; group by projectile
-      (tabbar-ruler-group-by-projectile-project)
-      (tabbar-mode)
+;;       (defun tabbar-filter (condp lst)
+;;         (delq nil
+;;               (mapcar (lambda (x) (and (funcall condp x) x)) lst)))
+
+;;       (defun tabbar-filter-buffer-list ()
+;;         (tabbar-filter
+;;          (lambda (x)
+;;            (let ((name (format "%s" x)))
+;;              (and
+;;               (not (string-prefix-p "*epc" name))
+;;               (not (string-prefix-p "*helm" name))
+;;               (not (string-prefix-p "*Messages*" name))
+;;               )))
+;;          (delq nil
+;;                (mapcar #'(lambda (b)
+;;                            (cond
+;;                             ;; Always include the current buffer.
+;;                             ((eq (current-buffer) b) b)
+;;                             ((buffer-file-name b) b)
+;;                             ((char-equal ?\  (aref (buffer-name b) 0)) nil)
+;;                             ((buffer-live-p b) b)))
+;;                        (buffer-list)))))
+
+;;       (setq tabbar-buffer-list-function 'tabbar-filter-buffer-list)
 
 
-      )
-    )
-  )
+
+;;       (defvar tabbar-ruler-projectile-tabbar-buffer-group-calc nil
+;;         "Buffer group for projectile.  Should be buffer local and speed up calculation of buffer groups.")
+;;       (defun tabbar-ruler-projectile-tabbar-buffer-groups ()
+;;         "Return the list of group names BUFFER belongs to.
+;;     Return only one group for each buffer."
+
+;;         (if tabbar-ruler-projectile-tabbar-buffer-group-calc
+;;             (symbol-value 'tabbar-ruler-projectile-tabbar-buffer-group-calc)
+;;           (set (make-local-variable 'tabbar-ruler-projectile-tabbar-buffer-group-calc)
+
+;;                (cond
+;;                 ((or (get-buffer-process (current-buffer)) (memq major-mode '(comint-mode compilation-mode))) '("Term"))
+;;                 ((string-equal "*" (substring (buffer-name) 0 1)) '("Misc"))
+;;                 ((condition-case err
+;;                      (projectile-project-root)
+;;                    (error nil)) (list (projectile-project-name)))
+;;                 ((memq major-mode '(emacs-lisp-mode python-mode emacs-lisp-mode c-mode c++-mode makefile-mode lua-mode vala-mode)) '("Coding"))
+;;                 ((memq major-mode '(javascript-mode js-mode nxhtml-mode html-mode css-mode)) '("HTML"))
+;;                 ((memq major-mode '(org-mode calendar-mode diary-mode)) '("Org"))
+;;                 ((memq major-mode '(dired-mode)) '("Dir"))
+;;                 (t '("Main"))))
+;;           (symbol-value 'tabbar-ruler-projectile-tabbar-buffer-group-calc)))
+
+;;       (defun tabbar-ruler-group-by-projectile-project()
+;;         "Group by projectile project."
+;;         (interactive)
+;;         (setq tabbar-buffer-groups-function 'tabbar-ruler-projectile-tabbar-buffer-groups))
+
+;;       ;; group by projectile
+;;       (tabbar-ruler-group-by-projectile-project)
+;;       (tabbar-mode)
+
+
+;;       )
+;;     )
+;; )
 
 ;;(require 's)
 (defun init-misc/init-highlight-global ()
