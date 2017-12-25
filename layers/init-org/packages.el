@@ -442,28 +442,28 @@
       (org-babel-do-load-languages
        'org-babel-load-languages
        '((emacs-lisp . t)
-         (matlab . t)
+         ;; (matlab . t)
          (R . t)
-         (C . t)
+         ;; (C . t)
          (perl . t)
-         (objc . t)
+         ;; (objc . t)
          (shell . t)
          (ditaa . t)
          (plantuml . t)
-         (org . t)
+         ;; (org . t)
          (python . t)
-         (sh . t)
-         (dot . t)
-         (haskell . t)
-         (dot . t)
+         ;; (sh . t)
+         ;; (dot . t)
+         ;; (haskell . t)
+         ;; (dot . t)
          (latex . t)
          (java . t)
          (js . t)
          ))
       
-      (setq org-confirm-babel-evaluate nil
-            org-src-fontify-natively t
-            org-src-tab-acts-natively t)
+      (setq org-confirm-babel-evaluate nil)
+      ;; org-src-fontify-natively t
+      ;; org-src-tab-acts-natively t)
 
 
 
