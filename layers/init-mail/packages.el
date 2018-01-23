@@ -37,7 +37,7 @@
           mu4e-trash-folder  "/已删除"
           ;;mu4e-sent-messages-behavior 'delete
           mu4e-get-mail-command "offlineimap"
-          mu4e-update-interval 60
+          mu4e-update-interval 2
           user-mail-address "lu.jianmei@trs.com.cn"
           user-full-name  "Lu Jianmei"
           mu4e-maildir-shortcuts
@@ -129,10 +129,12 @@
       ;; Enable Desktop notifications
       ;;  (mu4e-alert-set-default-style 'notifications)) ; For linux
       ;; (mu4e-alert-set-default-style 'libnotify))  ; Alternative for linux
-      ;;(mu4e-alert-set-default-style 'notifier))   ; For Mac OSX (through the
+                                        ;(mu4e-alert-set-default-style 'notifier))   ; For Mac OSX (through the
                                         ; terminal notifier app)
-      (mu4e-alert-set-default-style 'growl))      ; Alternative for Mac OSX
-
+      (mu4e-alert-set-default-style 'growl) ; Alternative for Mac OSX
+      (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
+      (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+      )
 
 
 
