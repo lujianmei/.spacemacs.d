@@ -138,6 +138,7 @@ values."
      (mu4e :variables
            ;; change to built in mode
            mu4e-installation-path "~/.spacemacs.d/third-plugins/mu4e"
+           mu4e-enable-mode-line q
            mu4e-enable-notifications t)
      spell-checking
      syntax-checking
@@ -436,6 +437,14 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  (with-eval-after-load 'mu4e-alert
+    ;; Enable Desktop notifications
+    ;; (mu4e-alert-set-default-style 'notifications)) ; For linux
+    ;; (mu4e-alert-set-default-style 'libnotify))  ; Alternative for linux
+    ;; (mu4e-alert-set-default-style 'notifier))   ; For Mac OSX (through the
+                                        ; terminal notifier app)
+    (mu4e-alert-set-default-style 'growl))      ; Alternative for Mac OSX
+
 
   ;; add keybindings
   (defconst *is-a-mac* (eq system-type 'darwin))
@@ -457,8 +466,8 @@ you should place your code here."
   (when *is-a-mac*
     (setq mac-command-modifier 'meta)
     (setq mac-option-modifier 'control))
-    ;;(setq default-input-method "MacOSX")
-    
+  ;;(setq default-input-method "MacOSX")
+  
   ;; (setq debug-on-error t)
   ;; add system clipboard support  in macos
   (setq x-select-enable-clipboard t x-select-enable-primary t)
@@ -507,8 +516,6 @@ you should place your code here."
   (spacemacs/toggle-truncate-lines-off)
 
   (setq projectile-enable-caching t))
-  
-
 ;; config slime
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
 

@@ -37,7 +37,7 @@
           mu4e-trash-folder  "/已删除"
           ;;mu4e-sent-messages-behavior 'delete
           mu4e-get-mail-command "offlineimap"
-          mu4e-update-interval 2
+          mu4e-update-interval 60
           user-mail-address "lu.jianmei@trs.com.cn"
           user-full-name  "Lu Jianmei"
           mu4e-maildir-shortcuts
