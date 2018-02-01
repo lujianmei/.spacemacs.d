@@ -405,14 +405,6 @@ values."
    exec-path-from-shell-check-startup-files nil
    ))
 
-;;(setq configuration-layer--elpa-archives
-;;      '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
-;;        ("org-cn"   . "http://elpa.zilongshanren.com/org/")
-;;        ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")))
-(setq configuration-layer--elpa-archives
-      '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-        ("org-cn"   . "http://elpa.emacs-china.org/org/")
-        ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
 
@@ -424,6 +416,15 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setq mu4e-mu-binary "/usr/local/bin/mu")
   
+  ;;(setq configuration-layer--elpa-archives
+  ;;      '(("melpa-cn" . "http://elpa.zilongshanren.com/melpa/")
+  ;;        ("org-cn"   . "http://elpa.zilongshanren.com/org/")
+  ;;        ("gnu-cn"   . "http://elpa.zilongshanren.com/gnu/")))
+  (setq configuration-layer--elpa-archives
+        '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+          ("org-cn"   . "http://elpa.emacs-china.org/org/")
+          ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+
   ;; fix Tern binary not found issue, even if tern is installed by running npm install tern -g
   (setenv "PATH" (concat (getenv "PATH") ":/user/local/bin"))
   (setq exec-path (append exec-path '("/user/local/bin"))))
@@ -491,11 +492,17 @@ you should place your code here."
   ;;   ;;; Small
   ;;  ;; ► • ★ ▸
   ;;  ) default=("◉" "○" "✸" "✿")
+  (setq org-bullets-mode t)
   (setq org-bullets-bullet-list '("✤" "✥" "✣" "✢" "⌑" "◦"))
   ;; (setq org-bullets-bullet-list '("♜" "✥" "✣" "✢"))
 
   ;;(setq org-pomodoro-length)
   (require 'cnfonts)
+  ;; start cnfonts with startup
+  (cnfonts-enable)
+  (setq cnfonts-use-face-font-rescale t)
+
+
   ;;(cnfonts-enable)
   (require 'avy) 
   ;; (set-language-environment "UTF-8")

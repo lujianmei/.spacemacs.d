@@ -56,9 +56,10 @@
     :defer nil
     :ensure t
     :config
-    (setq cnfonts-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
+    ;; (setq cnfonts-profiles-directory "/Users/kevin/.spacemacs.d/private/fonts-setup/v3/")
+    (setq cnfonts-profiles-directory "/Users/kevin/.spacemacs.d/layers/fonts-setup/v3/")
     (setq cnfonts-profiles
-          '("org-mode" "program" "read-book"))
+          '("program" "org-mode" "read-book"))
     ;; Reset Increase Font size and Descrease Font size short key binding after using chinese-font-setup plugin
 
     ;;(require 'chinese-fonts-setup)
