@@ -437,23 +437,11 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-
-  (with-eval-after-load 'mu4e-alert
-    ;; Enable Desktop notifications
-    ;; (mu4e-alert-set-default-style 'notifications)) ; For linux
-    ;; (mu4e-alert-set-default-style 'libnotify))  ; Alternative for linux
-    ;; (mu4e-alert-set-default-style 'notifier))   ; For Mac OSX (through the
-                                        ; terminal notifier app)
-    (mu4e-alert-set-default-style 'growl))      ; Alternative for Mac OSX
-
-  (which-key-setup-side-window-bottom)
-  (setq which-key-frame-max-width 40)
+  ;; add my own configurations
+  (push "/Users/kevin/.spacemacs.d/" load-path)
 
   ;; add keybindings
   (defconst *is-a-mac* (eq system-type 'darwin))
-
-  ;; add my own configurations
-  (push "/Users/kevin/.spacemacs.d/" load-path)
 
   ;; add default functions
   ;;(when *is-a-mac*
@@ -471,30 +459,36 @@ you should place your code here."
     (setq mac-option-modifier 'control))
   ;;(setq default-input-method "MacOSX")
   
+  (with-eval-after-load 'mu4e-alert
+    ;; Enable Desktop notifications
+    ;; (mu4e-alert-set-default-style 'notifications)) ; For linux
+    ;; (mu4e-alert-set-default-style 'libnotify))  ; Alternative for linux
+    ;; (mu4e-alert-set-default-style 'notifier))   ; For Mac OSX (through the
+                                        ; terminal notifier app)
+    (mu4e-alert-set-default-style 'growl))      ; Alternative for Mac OSX
+
+  (which-key-setup-side-window-bottom)
+  (setq which-key-frame-max-width 40)
+
+  
   ;; (setq debug-on-error t)
   ;; add system clipboard support  in macos
   (setq x-select-enable-clipboard t x-select-enable-primary t)
+
+
+
+  ;; ********************************
+  ;; (with-eval-after-load 'org)
+  ;; here goes your Org config :)
+  ;; ....
+  ;; ********************************
+
+
+
   ;; switch between insert state and normal state by quickly pressing the fd keys
   (setq-default evil-escape-key-sequence "jj")
   ;; (setq plantuml-jar-path "~/dotfiles-mac/.spacemacs.d/third-plugins/plantuml.1.2017.19.jar")
   (setq org-plantuml-jar-path (expand-file-name "~/dotfiles-mac/.spacemacs.d/third-plugins/plantuml.1.2017.19.jar"))
-  ;; change org-pomodoro default 25 min to 30 min
-  (with-eval-after-load 'org-pomodoro
-    (setq org-pomodoro-length 30))
-
-  ;; http://nadeausoftware.com/articles/2007/11/latency_friendly_customized_bullets_using_unicode_characters
-  ;; (;;; Large
-  ;;  "◉"
-  ;;  "○"
-  ;;  "✸"
-  ;;  "✿"
-  ;;  ;; ♥ ● ◇ ✚ ✜ ☯ ◆ ♠ ♣ ♦ ☢ ❀ ◆ ◖ ▶
-  ;;   ;;; Small
-  ;;  ;; ► • ★ ▸
-  ;;  ) default=("◉" "○" "✸" "✿")
-  (setq org-bullets-mode t)
-  (setq org-bullets-bullet-list '("✤" "✥" "✣" "✢" "⌑" "◦"))
-  ;; (setq org-bullets-bullet-list '("♜" "✥" "✣" "✢"))
 
   ;;(setq org-pomodoro-length)
   (require 'cnfonts)
