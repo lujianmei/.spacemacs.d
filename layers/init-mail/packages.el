@@ -124,7 +124,7 @@
                 "Add a Bcc: header."
                 (save-excursion (message-add-header "Bcc: lu.jianmei@trs.com.cn\n"))))
 
-    (setq mu4e-enable-mode-line t)
+    ;; (setq mu4e-enable-mode-line t)
     (with-eval-after-load 'mu4e-alert
       ;; Enable Desktop notifications
       ;;  (mu4e-alert-set-default-style 'notifications)) ; For linux

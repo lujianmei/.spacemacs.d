@@ -11,9 +11,9 @@
 
 (defconst init-org-packages
   '(
-    ;;(org :location built-in)
-    org
-    org-mac-link
+    (org :location built-in)
+    ;; org
+    ; (org-mac-link :location built-in)
     org-promodoro
     ;;deft
     org2jekyll
@@ -663,18 +663,18 @@
   )
 
 
-(defun init-org/init-org-mac-link ()
-  (use-package org-mac-link
-    :commands org-mac-grab-link
-    :init
-    (progn
-      (add-hook 'org-mode-hook
-                (lambda ()
-                  (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link))))
-    :defer t
-    :ensure t))
-
-
+; (defun init-org/init-org-mac-link ()
+  ; (use-package org-mac-link
+    ; :commands org-mac-grab-link
+    ; :init
+    ; (progn
+      ; (add-hook 'org-mode-hook
+                ; (lambda ()
+                  ; (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link))))
+    ; :defer t
+    ; :ensure t))
+;
+;
 
 
 (defun init-org/init-org-tree-slide ()
