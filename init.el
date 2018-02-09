@@ -209,7 +209,7 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'random
+   dotspacemacs-startup-banner nil
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
@@ -629,6 +629,154 @@ you should place your code here."
                     ("worknotes"
                      :components ("work-notes" "work-notes-extra")))))
 
+      ;; the %i would copy the selected text into the template
+      ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
+      ;;add multi-file journal
+      (setq org-capture-templates
+            '(
+              ("d" "数据中心 TODO" entry (file+headline org-agenda-file-datacentergtd "数据中心")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("e" "英语学习TODO" entry (file+headline org-agenda-file-englishgtd "考试准备计划")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("c" "CISSP-TODO" entry (file+headline org-agenda-file-cisspgtd "CISSP考试")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("i" "数据科学-TODO" entry (file+headline org-agenda-file-datascientistgtd "数据科学")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("y" "日常任务-TODO" entry (file+headline org-agenda-file-dailygtd "日常工作监控")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+
+              ("a" "AI项目" entry (file+headline org-agenda-file-gtd "AI智能桌面")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("r" "Book Reading TODO" entry (file+headline org-agenda-file-gtd "Reading")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("w" "Writing TODO" entry (file+headline org-agenda-file-gtd "Writing")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("h" "会议安排" entry (file+headline org-agenda-file-gtd "会议安排")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("o" "其它" entry (file+headline org-agenda-file-gtd "Others")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("m" "午睡" entry (file+headline org-agenda-file-gtd "午睡")
+               "* TODO [#A] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
+               "* %?\n  %i\n %U"
+               :empty-lines 1)
+              ("q" "问题记录" entry (file+headline org-agenda-file-note "问题记录")
+               "* %?\n  %i\n %U"
+               :empty-lines 1)
+              ("b" "Blog Ideas" entry (file+headline org-agenda-file-note "Blog Ideas")
+               "* TODO [#B] %?\n  %i\n %U"
+               :empty-lines 1)
+              ("s" "Code Snippet" entry
+               (file org-agenda-file-code-snippet)
+               "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+              ("c" "Chrome" entry (file+headline org-agenda-file-note "Links")
+               "* TODO [#C] %?\n %(init-org/retrieve-chrome-current-tab-url)\n %i\n %U"
+               :empty-lines 1)))
+
+
+
+      (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+      (define-key org-mode-map (kbd "s-p") 'org-priority)
+      ;; changed the keybinding for M-return
+      (define-key org-mode-map (kbd "<M-return>") 'org-meta-return)
+      (spacemacs/set-leader-keys-for-major-mode 'org-mode
+        "tl" 'org-toggle-link-display)
+      (define-key evil-normal-state-map (kbd "C-c C-w") 'org-refile)
+
+
+
+      ;;================================================================
+      ;; Config for Global column view and properties
+      ;;================================================================
+      ;; Set default column view headings: Task Effort Clock_Summary
+      ;;(setq org-columns-default-format "%25ITEM %10Effort(Effort){:} %SCHEDULED %DEADLINE %11Status %20TAGS %PRIORITY %TODO")
+      ;;(setq org-columns-default-format "%25ITEM  %9Approved(Approved?){X} %SCHEDULED %DEADLINE %11Status %TAGS %PRIORITY %TODO")
+
+      (setq org-columns-default-format
+            ;;" %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
+            " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM")
+
+
+      ;; global Effort estimate values
+      ;; global STYLE property values for completion
+      (setq org-global-properties (quote (
+                                          ;;("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+                                          ("Status_ALL" . "Not-start In-Progress Delay Finished Cancled")
+                                          ("ID_ALL" . "")
+                                          ("STYLE_ALL" . "habit"))))
+
+
+
+
+
+
+      ;;================================================================
+      ;; Config for Tags
+      ;;================================================================
+      ;; Config TODO tags
+                                        ; Tags with fast selection keys
+      (setq org-tag-alist (quote ((:startgroup)
+                                  ("@errand" . ?e)
+                                  ("@office" . ?o)
+                                  ("@home" . ?H)
+                                  ("@farm" . ?f)
+                                  (:endgroup)
+                                  ("WAITING" . ?w)
+                                  ("HOLD" . ?h)
+                                  ("PERSONAL" . ?P)
+                                  ("WORK" . ?W)
+                                  ("FARM" . ?F)
+                                  ("ORG" . ?O)
+                                  ("NORANG" . ?N)
+                                  ("crypt" . ?E)
+                                  ("NOTE" . ?n)
+                                  ("CANCELLED" . ?c)
+                                  ("FLAGGED" . ??))))
+
+      ;; Allow setting single tags without the menu
+      (setq org-fast-tag-selection-single-key (quote expert))
+      ;; For tag searches ignore tasks with scheduled and deadline dates
+      (setq org-agenda-tags-todo-honor-ignore-options t)
+
+      ;; 各种Babel语言支持
+      (org-babel-do-load-languages
+       'org-babel-load-languages
+       '((emacs-lisp . t)
+         ;; (matlab . t)
+         (R . t)
+         ;; (C . t)
+         (perl . t)
+         ;; (objc . t)
+         (shell . t)
+         (ditaa . t)
+         (plantuml . t)
+         ;; (org . t)
+         (python . t)
+         ;; (ipython . t)
+         ;; (sh . t)
+         ;; (dot . t)
+         ;; (haskell . t)
+         ;; (dot . t)
+         (latex . t)
+         (java . t)
+         (js . t)))
+      
+
+      (setq org-confirm-babel-evaluate nil)
+      ;; org-src-fontify-natively t
+      ;; org-src-tab-acts-natively t)
+
 
 
     )
@@ -642,7 +790,9 @@ you should place your code here."
   (use-package org-super-agenda
     :defer t
     :ensure t)
-  (with-eval-after-load 'org
+  
+  (with-eval-after-load 'org-agenda
+    
     (org-super-agenda-mode)
 
     (let ((org-agenda-custom-commands
@@ -691,13 +841,8 @@ you should place your code here."
       ;;(:name "Scheduled earlier"
       ;;       :scheduled past)
       
-      (org-agenda nil "u")))
+      (org-agenda nil "u"))
 
-
-
-  
-  (with-eval-after-load 'org-agenda
-    
     (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
     (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
       "." 'spacemacs/org-agenda-transient-state/body)
@@ -785,34 +930,6 @@ you should place your code here."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
- '(package-selected-packages
-   (quote
-    (zenburn-theme yasnippet-snippets solarized-theme pippel overseer nameless monokai-theme importmagic epc ctable concurrent impatient-mode helm-mu org-alert cnfonts org-super-agenda youdao-dictionary names chinese-word-at-point yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit spaceline powerline smeargle slime-company slime slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el pbcopy paradox ox-twbs ox-gfm osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro org-plus-contrib org-mime org-download org-bullets open-junk-file neotree mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl js2-refactor js-doc jinja2-mode insert-shebang indent-guide imenu-list ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fish-mode fill-column-indicator fcitx fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav ein skewer-mode request-deferred websocket request deferred js2-mode simple-httpd dumb-jump dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-shell company-emacs-eclim eclim company-auctex company-ansible company-anaconda company common-lisp-snippets column-enforce-mode coffee-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed auctex ansible-doc ansible anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
 )
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
- '(package-selected-packages
-   (quote
-    (org-alert cnfonts org-super-agenda youdao-dictionary names chinese-word-at-point yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit spaceline powerline smeargle slime-company slime slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el pbcopy paradox ox-twbs ox-gfm osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro org-plus-contrib org-mime org-download org-bullets open-junk-file neotree mwim multi-term mu4e-maildirs-extension mu4e-alert ht alert log4e gntp move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lua-mode lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl js2-refactor js-doc jinja2-mode insert-shebang indent-guide imenu-list ibuffer-projectile hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make projectile helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fish-mode fill-column-indicator fcitx fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav ein skewer-mode request-deferred websocket request deferred js2-mode simple-httpd dumb-jump dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-shell company-emacs-eclim eclim company-auctex company-ansible company-anaconda company common-lisp-snippets column-enforce-mode coffee-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-compile packed auctex ansible-doc ansible anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
