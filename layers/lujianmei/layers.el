@@ -10,11 +10,11 @@
 ;;; License: GPLv3
 
 (configuration-layer/declare-layers '(
-                                      init-misc
+                                      ;; init-misc
                                       ;; init-org
                                       init-mail
-                                      init-programming
+                                      ;; init-programming
                                       ;;init-better-defaults
-                                      init-ui
+                                      ;; init-ui
                                       ;;zilongshanren-ui
                                       ))

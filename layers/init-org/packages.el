@@ -11,58 +11,159 @@
 
 (defconst init-org-packages
   '(
-    (org :location built-in)
-    ;; org
-                                        ; (org-mac-link :location built-in)
+    ;; (org :location built-in)
+    my-org
+    ;; (org-mac-link :location built-in)
     org-promodoro
     ;;deft
+    org-agenda
     org2jekyll
     org-alert))
+
+(defun init-org/post-init-org-agenda ()
+  ;;================================================================
+  ;; Config for Org Agenda
+  ;;================================================================
+  ;; config for org-mode
+  ;;(setq org-default-notes-file (concat org-directory "/notes.org"))
+  ;;(define-key global-map (kbd "M-<f6>") 'org-capture)
+
+
   
+  
+
+  ;;An entry without a cookie is treated just like priority ' B '.
+  ;;So when create new task, they are default 重要且紧急
+  ;; (setq org-agenda-custom-commands
+  ;;       '(
+  ;;         ("w" . "任务安排")
+  ;;         ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
+  ;;         ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+  ;;         ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
+  ;;         ("b" "Blog" tags-todo "BLOG")
+  ;;         ("p" . "项目安排")
+  ;;         ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"Data-Center\"")
+  ;;         ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"projects\"")
+  ;;         ("W" "Weekly Review"
+  ;;          ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+  ;;           (tags-todo "PROJECT"))))) ;; review all projects (assuming you use todo keywords to designate projects)
+
+
+ 
+ (with-eval-after-load 'org-agenda
+        
+        (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
+        (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+          "." 'spacemacs/org-agenda-transient-state/body)
+
+
+        ;; Config Agenda View
+
+        ;; Custom commands for the agenda -- start with a clean slate.
+        (setq org-agenda-custom-commands nil)
+        (setq org-agenda-inhibit-startup t) ;; ~50x speedup
+        (setq org-agenda-span 'day)
+        (setq org-agenda-use-tag-inheritance nil) ;; 3-4x speedup
+        (setq org-agenda-window-setup 'current-window)
+        (setq org-log-done t)
+
+        ;; Do not dim blocked tasks
+        (setq org-agenda-dim-blocked-tasks nil)
+
+        (use-package org-super-agenda
+          :defer t
+          :ensure t)
+        ) 
+
+
+ (org-super-agenda-mode)
+
+          (let ((org-agenda-custom-commands
+                 '(("u" "Super view"
+                    (
+                     (agenda "" ((org-agenda-overriding-header "Groups Tasks")
+                                 (org-super-agenda-groups
+                                  '((:auto-group t
+                                                 :discard (:tag ("statistics")
+                                                                :todo ("HOLD" "MAYBE")))))))
+                     ;; (todo "" ((org-agenda-overriding-header "Today's Tasks")
+                     ;;           (org-super-agenda-groups
+                     ;;            '(
+                     ;;              (:name "Important"
+                     ;;                     :todo "TODO"
+                     ;;                     :priority "A"
+                     ;;                     :time-grid t
+                     ;;                     :scheduled today)
+                     ;;              (:name "Other Tasks"
+                     ;;                     :todo "TODO"
+                     ;;                     :time-grid t
+                     ;;                     :priority< "A"
+                     ;;                     :scheduled today)
+                     ;;              (:name "Delay Tasks"
+                     ;;                     :todo "TODO"
+                     ;;                     :time-grid t
+                     ;;                     :deadline past)
+                     ;;              )
+                     ;;            )
+                     ;;           ))
+                     (todo "" ((org-agenda-overriding-header "Future Tasks")
+                               (org-super-agenda-groups
+                                '(
+                                  ;; Firstly show Today's work
+                                  ;;(:log t)  ; Automatically named "Log"
+                                  ;;(:name "Schedule"
+                                  ;;       :time-grid t)
+                                  (:name "Due soon"
+                                         :deadline future)
+                                  ;;(:name "Unimportant"
+                                  ;;       :todo ("SOMEDAY" "MAYBE" "CHECK" "TO-READ" "TO-WATCH")
+                                  ;;       :order 100)
+                                  (:name "Waiting..."
+                                         :todo ("WAITING" "MAYBE" "HOLD")
+                                         :order 98))))))))))
+                                  ;;(:name "Scheduled earlier"
+                                  ;;       :scheduled past)
+                                  
+            (org-agenda nil "u"))
+  )
+
+
 (defun init-org/post-init-org-alert ()
   (use-package org-alert
     :defer t
     :ensure t
     :init
     (progn
-      (setq alert-default-style 'notifier))))
-
-
-
-
-
-
-
-
-
-
+      (setq alert-default-style 'notifier)))
+  )
 
 
 (defun init-org/post-init-org-promodoro ()
-  (progn
+   (progn
     (add-hook 'org-pomodoro-finished-hook '(lambda () (init-org/growl-notification "Pomodoro Finished" "☕️ Have a break!" t)))
     (add-hook 'org-pomodoro-short-break-finished-hook '(lambda () (init-org/growl-notification "Short Break" "🐝 Ready to Go?" t)))
     (add-hook 'org-pomodoro-long-break-finished-hook '(lambda () (init-org/growl-notification "Long Break" " 💪 Ready to Go?" t)))
     ;; change org-pomodoro default 25 min to 30 min
     (setq org-pomodoro-length 30)
-    ))
+    )
+  )
 
 
 
 ;;In order to export pdf to support Chinese, I should install Latex at heSymbol’s function definition is void: eSymbol’s function definition is void: evil-define-keyvil-define-keyr(require 'org-id) e: https://www.tug.org/mactex/
 ;; http://freizl.github.io/posts/2012-04-06-export-orgmode-file-in-Chinese.html
 ;;http://stackoverflow.com/questions/21005885/export-org-Symbol’s function definition is void: evil-define-keymode-code-block-and-result-with-different-styles
-(defun init-org/post-init-org ()
-  (add-hook 'org-mode-hook (lambda () (spacemacs/toggle-line-numbers-off)) 'append)
+(defun init-org/post-init-my-org ()
   (with-eval-after-load 'org
     (progn
       
-      (spacemacs|disable-company org-mode)
+      (add-hook 'org-mode-hook (lambda () (spacemacs/toggle-line-numbers-off)) 'append)
+      ;; (spacemacs|disable-company org-mode)
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
         "," 'org-priority)
-      (require 'org-compat)
+      ;; (require 'org-compat)
       
-      (require 'org-habit)
+      ;; (require 'org-habit)
       ;; (add-to-list 'org-modules "org-habit")
       (add-to-list 'org-modules 'org-habit)
 
@@ -79,7 +180,7 @@
       ;; 加密文章
       ;; "http://coldnew.github.io/blog/2013/07/13_5b094.html"
       ;; org-mode 設定
-      (require 'org-crypt)
+      ;; (require 'org-crypt)
 
       ;; 當被加密的部份要存入硬碟時，自動加密回去
       (org-crypt-use-before-save-magic)
@@ -115,7 +216,7 @@
 
 
 
-      (require 'org-id)
+      ;; (require 'org-id)
 
       ;;================================================================
       ;; Config for TODO Configuration
@@ -183,108 +284,8 @@
       ;; set export table's format
       (setq org-table-export-default-format "orgtbl-to-csv")
 
-      (with-eval-after-load 'org-agenda
         
-        ;;================================================================
-        ;; Config for Org Agenda
-        ;;================================================================
-        ;; config for org-mode
-        ;;(setq org-default-notes-file (concat org-directory "/notes.org"))
-        ;;(define-key global-map (kbd "M-<f6>") 'org-capture)
-
-
-        
-        (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
-        (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-          "." 'spacemacs/org-agenda-transient-state/body)
-
-
-        ;; Config Agenda View
-
-        ;; Custom commands for the agenda -- start with a clean slate.
-        (setq org-agenda-custom-commands nil)
-        (setq org-agenda-inhibit-startup t) ;; ~50x speedup
-        (setq org-agenda-span 'day)
-        (setq org-agenda-use-tag-inheritance nil) ;; 3-4x speedup
-        (setq org-agenda-window-setup 'current-window)
-        (setq org-log-done t)
-
-        ;; Do not dim blocked tasks
-        (setq org-agenda-dim-blocked-tasks nil)
-
-        (use-package org-super-agenda
-          :defer t
-          :ensure t)
-        (with-eval-after-load 'org
-          (org-super-agenda-mode)
-
-          (let ((org-agenda-custom-commands
-                 '(("u" "Super view"
-                    (
-                     (agenda "" ((org-agenda-overriding-header "Groups Tasks")
-                                 (org-super-agenda-groups
-                                  '((:auto-group t
-                                                 :discard (:tag ("statistics")
-                                                                :todo ("HOLD" "MAYBE")))))))
-                     ;; (todo "" ((org-agenda-overriding-header "Today's Tasks")
-                     ;;           (org-super-agenda-groups
-                     ;;            '(
-                     ;;              (:name "Important"
-                     ;;                     :todo "TODO"
-                     ;;                     :priority "A"
-                     ;;                     :time-grid t
-                     ;;                     :scheduled today)
-                     ;;              (:name "Other Tasks"
-                     ;;                     :todo "TODO"
-                     ;;                     :time-grid t
-                     ;;                     :priority< "A"
-                     ;;                     :scheduled today)
-                     ;;              (:name "Delay Tasks"
-                     ;;                     :todo "TODO"
-                     ;;                     :time-grid t
-                     ;;                     :deadline past)
-                     ;;              )
-                     ;;            )
-                     ;;           ))
-                     (todo "" ((org-agenda-overriding-header "Future Tasks")
-                               (org-super-agenda-groups
-                                '(
-                                  ;; Firstly show Today's work
-                                  ;;(:log t)  ; Automatically named "Log"
-                                  ;;(:name "Schedule"
-                                  ;;       :time-grid t)
-                                  (:name "Due soon"
-                                         :deadline future)
-                                  ;;(:name "Unimportant"
-                                  ;;       :todo ("SOMEDAY" "MAYBE" "CHECK" "TO-READ" "TO-WATCH")
-                                  ;;       :order 100)
-                                  (:name "Waiting..."
-                                         :todo ("WAITING" "MAYBE" "HOLD")
-                                         :order 98)
-                                  ;;(:name "Scheduled earlier"
-                                  ;;       :scheduled past)
-                                  )))))))))
-            (org-agenda nil "u"))
-          )
-
-        ;;An entry without a cookie is treated just like priority ' B '.
-        ;;So when create new task, they are default 重要且紧急
-        ;; (setq org-agenda-custom-commands
-        ;;       '(
-        ;;         ("w" . "任务安排")
-        ;;         ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
-        ;;         ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
-        ;;         ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
-        ;;         ("b" "Blog" tags-todo "BLOG")
-        ;;         ("p" . "项目安排")
-        ;;         ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"Data-Center\"")
-        ;;         ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"projects\"")
-        ;;         ("W" "Weekly Review"
-        ;;          ((stuck "") ;; review stuck projects as designated by org-stuck-projects
-        ;;           (tags-todo "PROJECT"))))) ;; review all projects (assuming you use todo keywords to designate projects)
-
-
-        )
+       
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       ;; Org clock
@@ -334,7 +335,7 @@
       ;; Org publish
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-      (require 'ox-publish)
+      ;; (require 'ox-publish)
 
       ;; update dynamic blocks when save file
       ;;(add-hook 'before-save-hook 'org-update-all-dblocks) commend because it is too slow in gtd.org
@@ -464,14 +465,15 @@
          (plantuml . t)
          ;; (org . t)
          (python . t)
+         ;; (ipython . t)
          ;; (sh . t)
          ;; (dot . t)
          ;; (haskell . t)
          ;; (dot . t)
          (latex . t)
          (java . t)
-         (js . t)
-         ))
+         (js . t)))
+         
 
       (setq org-confirm-babel-evaluate nil)
       ;; org-src-fontify-natively t
@@ -479,7 +481,7 @@
 
 
 
-      (require 'ox-md nil t)
+      ;; (require 'ox-md nil t)
 
 
 
@@ -603,9 +605,6 @@
 
       ;; For tag searches ignore tasks with scheduled and deadline dates
       (setq org-agenda-tags-todo-honor-ignore-options t))))
-
-
-
 
 
 

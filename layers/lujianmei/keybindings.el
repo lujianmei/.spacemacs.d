@@ -262,7 +262,7 @@
 
 ;; Using dired-view for allowing select file in Dired-Mode by file's fist name.
 ;;(define-key dired-mode-map (kbd ";") 'dired-view-minor-mode-toggle)
-(define-key dired-mode-map (kbd ";") 'dired-view-minor-mode-dired-toggle)
+;; (define-key dired-mode-map (kbd ";") 'dired-view-minor-mode-dired-toggle)
 
 
 ;; Jump to current buffer's directory it is in.
