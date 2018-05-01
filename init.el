@@ -31,7 +31,8 @@ values."
    ;; dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(sql
+     clojure
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -73,7 +74,7 @@ values."
           ;; org-enable-reveal-js-support t
           )
      ;; emoji
-     ;; graphviz
+     graphviz
      (latex :variables
             latex-build-command "LaTeX"
             latex-enable-auto-fill t
@@ -94,12 +95,12 @@ values."
            mu4e-installation-path "~/.spacemacs.d/third-plugins/mu4e"
            ;; mu4e-enable-mode-line q
            mu4e-enable-notifications t)
-     spell-checking
-     syntax-checking
+     ;; spell-checking
+     ;; syntax-checking
      ;; version-control
-     (chinese :packages youdao-dictionary fcitx
-              :variables chinese-enable-fcitx t 
-              chinese-enable-youdao-dict t)
+     ;; (chinese :packages youdao-dictionary fcitx
+     ;;          :variables chinese-enable-fcitx t 
+     ;;          chinese-enable-youdao-dict t)
 
 
 
@@ -120,28 +121,28 @@ values."
      (javascript :variables
                  javascript-disable-tern-port-files nil
                  )
-     ; lua
+     lua
      ;; dash
      ;; tmux
      ;;haskell
      ;; sql
      ; java
+     (go :variables go-use-gometalinter t)
      ;; parinfer
      (python :variables
              python-test-runner 'pytest
              python-enable-yapf-format-on-save t
              python-auto-set-local-pyenv-version 'on-visit)
-     ; ipython-notebook
+     ;; ipython-notebook
      ; (clojure :variables
               ; clojure-enable-fancify-symbols t)
-     ; common-lisp
+     common-lisp
      (shell :variables
             shell-default-height 30
             shell-default-term-shell "/usr/local/bin/zsh"
             shell-default-position 'bottom)
      ; shell-scripts
-     ; docker
-
+     docker
 
      lujianmei
      )
@@ -456,7 +457,10 @@ you should place your code here."
     ;;   (progn
     ;;     (setq alert-default-style 'notifier)))
 
-
+    ;; add GOPATH env
+    (when (memq window-system '(mac ns))
+      (exec-path-from-shell-initialize)
+      (exec-path-from-shell-copy-env "GOPATH"))
 
   (with-eval-after-load 'org
     ;; here goes your Org config :)
@@ -930,6 +934,20 @@ you should place your code here."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
+ '(package-selected-packages
+   (quote
+    (sqlup-mode sql-indent helm-company counsel-projectile counsel swiper ivy zenburn-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection spaceline-all-the-icons solarized-theme smeargle slime-company slim-mode shell-pop scss-mode sayid sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pippel pipenv pip-requirements persp-mode pcre2el pbcopy password-generator paradox ox-twbs ox-gfm overseer osx-trash osx-dictionary orgit org-super-agenda org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain org-alert open-junk-file neotree nameless mwim multi-term mu4e-maildirs-extension mu4e-alert move-text monokai-theme mmm-mode markdown-toc magit-gitflow lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode launchctl js2-refactor js-doc jinja2-mode indent-guide importmagic impatient-mode ibuffer-projectile hy-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mu helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio godoctor go-tag go-rename go-guru go-eldoc gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dockerfile-mode docker diminish cython-mode company-web company-tern company-statistics company-lua company-go company-auctex company-ansible company-anaconda common-lisp-snippets column-enforce-mode coffee-mode cnfonts clojure-snippets clojure-cheatsheet clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile ansible-doc ansible aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 )
 
