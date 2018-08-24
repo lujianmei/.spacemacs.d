@@ -31,7 +31,9 @@ values."
    ;; dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(nginx
+   '(asciidoc
+     windows-scripts
+     nginx
      sql
      clojure
      ;; ----------------------------------------------------------------
@@ -91,11 +93,11 @@ values."
                ;; plantuml-jar-path "~/.spacemacs.d/third-plugins/plantuml.8031.jar"
                plantuml-jar-path "~/dotfiles-mac/.spacemacs.d/third-plugins/plantuml.1.2017.19.jar"
                )
-     (mu4e :variables
-           ;; change to built in mode
-           mu4e-installation-path "~/.spacemacs.d/third-plugins/mu4e"
-           ;; mu4e-enable-mode-line q
-           mu4e-enable-notifications t)
+     ;; (mu4e :variables
+     ;;       ;; change to built in mode
+     ;;       mu4e-installation-path "~/.spacemacs.d/third-plugins/mu4e"
+     ;;       ;; mu4e-enable-mode-line q
+     ;;       mu4e-enable-notifications t)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
@@ -421,7 +423,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
 ;
 
   ;; (setq debug-on-error t)
-  (setq mu4e-mu-binary "/usr/local/bin/mu")
+  ;; (setq mu4e-mu-binary "/usr/local/bin/mu")
 
 
   )
@@ -460,449 +462,8 @@ you should place your code here."
 
     ;; add GOPATH env
     (when (memq window-system '(mac ns))
-      (exec-path-from-shell-initialize)
+      ;; (exec-path-from-shell-initialize)
       (exec-path-from-shell-copy-env "GOPATH"))
-
-  (with-eval-after-load 'org
-    ;; here goes your Org config :)
-
-      ;; http://nadeausoftware.com/articles/2007/11/latency_friendly_customized_bullets_using_unicode_characters
-    ;; (;;; Large
-    ;;  "◉"
-    ;;  "○"
-    ;;  "✸"
-    ;;  "✿"
-    ;;  ;; ♥ ● ◇ ✚ ✜ ☯ ◆ ♠ ♣ ♦ ☢ ❀ ◆ ◖ ▶
-    ;;   ;;; Small
-    ;;  ;; ► • ★ ▸
-    ;;  ) default=("◉" "○" "✸" "✿")
-    (setq org-bullets-mode t)
-    (setq org-bullets-bullet-list '("✤" "✥" "✣" "✢" "⌑" "◦"))
-    ;; (setq org-bullets-bullet-list '("♜" "✥" "✣" "✢"))
-
-       ;;================================================================
-      ;; Config for TODO Configuration
-      ;;================================================================
-      ;; (setq org-todo-keywords
-      ;;       (quote (;;(sequence "TODO(t)" "NEXT(n)" "MAYBE(m)" "STARTED(s)" "APPT(a)" "|" "DONE(d)")
-      ;;               (sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "|" "DONE(d)")
-      ;;               (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
-
-      (setq org-todo-keywords
-            (quote ((sequence "TODO(t)" "NEXT(n)" "STARTED(s)" "MAYBE(m)" "|" "DONE(d!/!)")
-                    (sequence "PROJECT(p)" "|" "DONE(d!/!)" "CANCELLED(c@/!)")
-                    (sequence "WAITING(w@/!)" "HOLD(h)" "|" "CANCELLED(c@/!)"))))
-
-      (setq org-todo-keyword-faces
-            (quote (;;("NEXT" :inherit warning)
-                    ("PROJECT" :inherit font-lock-string-face)
-                    ("TODO" :foreground "red" :weight bold)
-                    ("NEXT" :foreground "blue" :weight bold)
-                    ("STARTED" :foreground "green" :weight bold)
-                    ("DONE" :foreground "forest green" :weight bold)
-                    ("WAITING" :foreground "orange" :weight bold)
-                    ("MAYBE" :foreground "grey" :weight bold)
-                    ("HOLD" :foreground "magenta" :weight bold)
-                    ("CANCELLED" :foreground "forest green" :weight bold))))
-
-
-
-      (setq org-use-fast-todo-selection t)
-      (setq org-todo-state-tags-triggers
-            (quote (("CANCELLED" ("CANCELLED" . t))
-                    ("WAITING" ("WAITING" . t))
-                    ("MAYBE" ("WAITING" . t))
-                    ("HOLD" ("WAITING") ("HOLD" . t))
-                    (done ("WAITING") ("HOLD"))
-                    ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-                    ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-                    ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
-
-
-
-      (setq org-structure-template-alist
-            '(("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
-              ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
-              ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
-              ("v" "#+BEGIN_VERSE\n?\n#+END_VERSE" "<verse>\n?\n</verse>")
-              ("c" "#+BEGIN_COMMENT\n?\n#+END_COMMENT")
-              ("p" "#+BEGIN_PRACTICE\n?\n#+END_PRACTICE")
-              ("o" "#+begin_src emacs-lisp :tangle yes\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
-              ("l" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
-              ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
-              ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
-              ("H" "#+html: " "<literal style=\"html\">?</literal>")
-              ("a" "#+begin_ascii\n?\n#+end_ascii")
-              ("A" "#+ascii: ")
-              ("i" "#+index: ?" "#+index: ?")
-              ("I" "#+include %file ?" "<include file=%file markup=\"?\">")))
-
-      ;; auto save files
-      (run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
-      (custom-set-variables
-       '(org-export-table-data-tags '("<tr class=\"CUSTOM_ID>" . "</t>")))
-
-      ;; set export table's format
-      (setq org-table-export-default-format "orgtbl-to-csv")
-
-      
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      ;; Org clock
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-      ;; Change task state to STARTED when clocking in
-      ;;(setq org-clock-in-switch-to-state "STARTED")
-      ;; Save clock data and notes in the LOGBOOK drawer
-      (setq org-clock-into-drawer t)
-      ;; Removes clocked tasks with 0:00 duration
-      (setq org-clock-out-remove-zero-time-clocks t) ;; Show the clocked-in task - if any - in the header line
-
-      (setq org-tags-match-list-sublevels nil)
-
-      (add-hook 'org-mode-hook '(lambda ()
-                                  ;; keybinding for editing source code blocks
-                                  ;; keybinding for inserting code blocks
-                                  (local-set-key (kbd "C-c i s")
-                                                 'init-org/org-insert-src-block)))
-
-
-      ;; Resume clocking task when emacs is restarted
-      (org-clock-persistence-insinuate)
-      ;;
-      ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
-      (setq org-clock-history-length 23)
-      ;; Resume clocking task on clock-in if the clock is open
-      (setq org-clock-in-resume t)
-      ;; Change tasks to NEXT when clocking in
-      (setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
-      ;; Separate drawers for clocking and logs
-      (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
-      ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-      (setq org-clock-out-when-done t)
-      ;; Save the running clock and all clock history when exiting Emacs, load it on startup
-      (setq org-clock-persist t)
-      ;; Do not prompt to resume an active clock
-      (setq org-clock-persist-query-resume nil)
-      ;; Enable auto clock resolution for finding open clocks
-      (setq org-clock-auto-clock-resolution (quote when-no-clock-is-running))
-      ;; Include current clocking task in clock reports
-      (setq org-clock-report-include-clocking-task t)
-
-      (add-hook 'org-pomodoro-killed-hook 'bh/clock-in-organization-task-as-default)
-
-
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-      ;; Org publish
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-      ;; (require 'ox-publish)
-
-      ;; update dynamic blocks when save file
-      ;;(add-hook 'before-save-hook 'org-update-all-dblocks) commend because it is too slow in gtd.org
-
-      ;;================================================================
-      ;; Config for File Export HTML Format
-      ;;================================================================ 
-
-      ;; Increase default number of headings to export
-      (setq org-export-headline-levels 6)
-      ;; List of projects
-      ;; Work-notes
-
-      (setq org-publish-project-alist
-            ;; (work notes for)
-            (quote (("work-notes"
-                     :base-directory "~/workspace/github/my-blog/work-notes/"
-                     :publishing-directory "~/workspace/github/my-blog/publish-works"
-                     :recursive t
-                     :table-of-contents t
-                     :base-extension "org"
-                     :publishing-function org-html-publish-to-html
-                     :style-include-default t
-                     :section-numbers y
-                     :table-of-contents y
-                     :author-info y
-                     :creator-info y)
-                    ("work-notes-extra"
-                     :base-directory "~/workspace/github/my-blog/work-notes/"
-                     :publishing-directory "~/workspace/github/my-blog/publish-works"
-                     :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-                     :publishing-function org-publish-attachment
-                     :recursive t
-                     :author nil)
-                    ("worknotes"
-                     :components ("work-notes" "work-notes-extra")))))
-
-      ;; the %i would copy the selected text into the template
-      ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
-      ;;add multi-file journal
-      (setq org-capture-templates
-            '(
-              ("d" "数据中心 TODO" entry (file+headline org-agenda-file-datacentergtd "数据中心")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("e" "英语学习TODO" entry (file+headline org-agenda-file-englishgtd "考试准备计划")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("c" "CISSP-TODO" entry (file+headline org-agenda-file-cisspgtd "CISSP考试")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("i" "数据科学-TODO" entry (file+headline org-agenda-file-datascientistgtd "数据科学")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("y" "日常任务-TODO" entry (file+headline org-agenda-file-dailygtd "日常工作监控")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-
-              ("a" "AI项目" entry (file+headline org-agenda-file-gtd "AI智能桌面")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("r" "Book Reading TODO" entry (file+headline org-agenda-file-gtd "Reading")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("w" "Writing TODO" entry (file+headline org-agenda-file-gtd "Writing")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("h" "会议安排" entry (file+headline org-agenda-file-gtd "会议安排")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("o" "其它" entry (file+headline org-agenda-file-gtd "Others")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("m" "午睡" entry (file+headline org-agenda-file-gtd "午睡")
-               "* TODO [#A] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("n" "notes" entry (file+headline org-agenda-file-note "Quick notes")
-               "* %?\n  %i\n %U"
-               :empty-lines 1)
-              ("q" "问题记录" entry (file+headline org-agenda-file-note "问题记录")
-               "* %?\n  %i\n %U"
-               :empty-lines 1)
-              ("b" "Blog Ideas" entry (file+headline org-agenda-file-note "Blog Ideas")
-               "* TODO [#B] %?\n  %i\n %U"
-               :empty-lines 1)
-              ("s" "Code Snippet" entry
-               (file org-agenda-file-code-snippet)
-               "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-              ("c" "Chrome" entry (file+headline org-agenda-file-note "Links")
-               "* TODO [#C] %?\n %(init-org/retrieve-chrome-current-tab-url)\n %i\n %U"
-               :empty-lines 1)))
-
-
-
-      (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-      (define-key org-mode-map (kbd "s-p") 'org-priority)
-      ;; changed the keybinding for M-return
-      (define-key org-mode-map (kbd "<M-return>") 'org-meta-return)
-      (spacemacs/set-leader-keys-for-major-mode 'org-mode
-        "tl" 'org-toggle-link-display)
-      (define-key evil-normal-state-map (kbd "C-c C-w") 'org-refile)
-
-
-
-      ;;================================================================
-      ;; Config for Global column view and properties
-      ;;================================================================
-      ;; Set default column view headings: Task Effort Clock_Summary
-      ;;(setq org-columns-default-format "%25ITEM %10Effort(Effort){:} %SCHEDULED %DEADLINE %11Status %20TAGS %PRIORITY %TODO")
-      ;;(setq org-columns-default-format "%25ITEM  %9Approved(Approved?){X} %SCHEDULED %DEADLINE %11Status %TAGS %PRIORITY %TODO")
-
-      (setq org-columns-default-format
-            ;;" %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM"
-            " %TODO %30ITEM %15DEADLINE %15SCHEDULED %3PRIORITY %10TAGS %5Effort(Effort){:} %6CLOCKSUM")
-
-
-      ;; global Effort estimate values
-      ;; global STYLE property values for completion
-      (setq org-global-properties (quote (
-                                          ;;("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                                          ("Status_ALL" . "Not-start In-Progress Delay Finished Cancled")
-                                          ("ID_ALL" . "")
-                                          ("STYLE_ALL" . "habit"))))
-
-
-
-
-
-
-      ;;================================================================
-      ;; Config for Tags
-      ;;================================================================
-      ;; Config TODO tags
-                                        ; Tags with fast selection keys
-      (setq org-tag-alist (quote ((:startgroup)
-                                  ("@errand" . ?e)
-                                  ("@office" . ?o)
-                                  ("@home" . ?H)
-                                  ("@farm" . ?f)
-                                  (:endgroup)
-                                  ("WAITING" . ?w)
-                                  ("HOLD" . ?h)
-                                  ("PERSONAL" . ?P)
-                                  ("WORK" . ?W)
-                                  ("FARM" . ?F)
-                                  ("ORG" . ?O)
-                                  ("NORANG" . ?N)
-                                  ("crypt" . ?E)
-                                  ("NOTE" . ?n)
-                                  ("CANCELLED" . ?c)
-                                  ("FLAGGED" . ??))))
-
-      ;; Allow setting single tags without the menu
-      (setq org-fast-tag-selection-single-key (quote expert))
-      ;; For tag searches ignore tasks with scheduled and deadline dates
-      (setq org-agenda-tags-todo-honor-ignore-options t)
-
-      ;; 各种Babel语言支持
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((emacs-lisp . t)
-         ;; (matlab . t)
-         (R . t)
-         ;; (C . t)
-         (perl . t)
-         ;; (objc . t)
-         (shell . t)
-         (ditaa . t)
-         (plantuml . t)
-         ;; (org . t)
-         (python . t)
-         ;; (ipython . t)
-         ;; (sh . t)
-         ;; (dot . t)
-         ;; (haskell . t)
-         ;; (dot . t)
-         (latex . t)
-         (java . t)
-         (js . t)))
-      
-
-      (setq org-confirm-babel-evaluate nil)
-      ;; org-src-fontify-natively t
-      ;; org-src-tab-acts-natively t)
-
-
-
-    )
-
-  ;;================================================================
-  ;; Config for Org Agenda
-  ;;================================================================
-  ;; config for org-mode
-  ;;(setq org-default-notes-file (concat org-directory "/notes.org"))
-  ;;(define-key global-map (kbd "M-<f6>") 'org-capture)
-  (use-package org-super-agenda
-    :defer t
-    :ensure t)
-  
-  (with-eval-after-load 'org-agenda
-    
-    (org-super-agenda-mode)
-
-    (let ((org-agenda-custom-commands
-           '(("u" "Super view"
-              (
-               (agenda "" ((org-agenda-overriding-header "Groups Tasks")
-                           (org-super-agenda-groups
-                            '((:auto-group t
-                                           :discard (:tag ("statistics")
-                                                          :todo ("HOLD" "MAYBE")))))))
-               ;; (todo "" ((org-agenda-overriding-header "Today's Tasks")
-               ;;           (org-super-agenda-groups
-               ;;            '(
-               ;;              (:name "Important"
-               ;;                     :todo "TODO"
-               ;;                     :priority "A"
-               ;;                     :time-grid t
-               ;;                     :scheduled today)
-               ;;              (:name "Other Tasks"
-               ;;                     :todo "TODO"
-               ;;                     :time-grid t
-               ;;                     :priority< "A"
-               ;;                     :scheduled today)
-               ;;              (:name "Delay Tasks"
-               ;;                     :todo "TODO"
-               ;;                     :time-grid t
-               ;;                     :deadline past)
-               ;;              )
-               ;;            )
-               ;;           ))
-               (todo "" ((org-agenda-overriding-header "Future Tasks")
-                         (org-super-agenda-groups
-                          '(
-                            ;; Firstly show Today's work
-                            ;;(:log t)  ; Automatically named "Log"
-                            ;;(:name "Schedule"
-                            ;;       :time-grid t)
-                            (:name "Due soon"
-                                   :deadline future)
-                            ;;(:name "Unimportant"
-                            ;;       :todo ("SOMEDAY" "MAYBE" "CHECK" "TO-READ" "TO-WATCH")
-                            ;;       :order 100)
-                            (:name "Waiting..."
-                                   :todo ("WAITING" "MAYBE" "HOLD")
-                                   :order 98))))))))))
-      ;;(:name "Scheduled earlier"
-      ;;       :scheduled past)
-      
-      (org-agenda nil "u"))
-
-    (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
-    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-      "." 'spacemacs/org-agenda-transient-state/body)
-
-
-    ;; Config Agenda View
-
-    ;; Custom commands for the agenda -- start with a clean slate.
-    (setq org-agenda-custom-commands nil)
-    (setq org-agenda-inhibit-startup t) ;; ~50x speedup
-    (setq org-agenda-span 'day)
-    (setq org-agenda-use-tag-inheritance nil) ;; 3-4x speedup
-    (setq org-agenda-window-setup 'current-window)
-    (setq org-log-done t)
-
-    ;; Do not dim blocked tasks
-    (setq org-agenda-dim-blocked-tasks nil)
-
-
-    ;;An entry without a cookie is treated just like priority ' B '.
-    ;;So when create new task, they are default 重要且紧急
-    ;; (setq org-agenda-custom-commands
-    ;;       '(
-    ;;         ("w" . "任务安排")
-    ;;         ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
-    ;;         ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
-    ;;         ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
-    ;;         ("b" "Blog" tags-todo "BLOG")
-    ;;         ("p" . "项目安排")
-    ;;         ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"Data-Center\"")
-    ;;         ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"projects\"")
-    ;;         ("W" "Weekly Review"
-    ;;          ((stuck "") ;; review stuck projects as designated by org-stuck-projects
-    ;;           (tags-todo "PROJECT"))))) ;; review all projects (assuming you use todo keywords to designate projects)
-
-    )
-
-
-  (with-eval-after-load 'org-download
-    (setq org-download-screenshot-method "screencapture"))
-  (setq spaceline-org-clock-p t)
-
-  (with-eval-after-load 'org-pomodoro
-    (progn
-      (add-hook 'org-pomodoro-finished-hook '(lambda () (init-org/growl-notification "Pomodoro Finished" "☕️ Have a break!" t)))
-      (add-hook 'org-pomodoro-short-break-finished-hook '(lambda () (init-org/growl-notification "Short Break" "🐝 Ready to Go?" t)))
-      (add-hook 'org-pomodoro-long-break-finished-hook '(lambda () (init-org/growl-notification "Long Break" " 💪 Ready to Go?" t)))
-      ;; change org-pomodoro default 25 min to 30 min
-      (setq org-pomodoro-length 30)
-      )
-    
-    )
-
-  ;; ;; (end org)
-  ;; ;; ******************************** end
 
 
   ;; ******************************** start
@@ -925,7 +486,8 @@ you should place your code here."
   (setq which-key-frame-max-width 40)
   ;; ******************************** end
 
-
+  ;; enable cache
+  (setq projectile-enable-caching t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -942,7 +504,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (pyvenv pipenv counsel-projectile counsel ivy json-mode smartparens helm magit cider sesman slime zenburn-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon swiper string-inflection sql-indent spaceline-all-the-icons solarized-theme smeargle slime-company slim-mode shell-pop scss-mode sayid sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters queue pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pippel pip-requirements persp-mode pcre2el password-generator paradox ox-twbs ox-gfm overseer osx-trash osx-dictionary orgit org-super-agenda org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain org-alert open-junk-file nginx-mode neotree nameless mwim multi-term mu4e-maildirs-extension mu4e-alert move-text monokai-theme mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode link-hint less-css-mode launchctl json-snatcher json-reformat json-navigator js2-refactor js-doc jinja2-mode indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mu helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-commit ghub gh-md fuzzy font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode dockerfile-mode docker diminish cython-mode company-web company-tern company-statistics company-lua company-go company-auctex company-ansible company-anaconda common-lisp-snippets column-enforce-mode cnfonts clojure-snippets clojure-cheatsheet clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile ansible-doc ansible aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (prettier-js zenburn-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons solarized-theme smeargle slime-company slim-mode shell-pop scss-mode sayid sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode powershell popwin plantuml-mode pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox ox-twbs ox-gfm overseer osx-trash osx-dictionary orgit org-super-agenda org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain org-alert open-junk-file nginx-mode neotree nameless mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-svn magit-gitflow lorem-ipsum livid-mode live-py-mode link-hint less-css-mode launchctl json-navigator js2-refactor js-doc jinja2-mode indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode dockerfile-mode docker diminish cython-mode counsel-projectile company-web company-tern company-statistics company-lua company-go company-auctex company-ansible company-anaconda common-lisp-snippets column-enforce-mode cnfonts clojure-snippets clojure-cheatsheet clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile ansible-doc ansible aggressive-indent adoc-mode ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

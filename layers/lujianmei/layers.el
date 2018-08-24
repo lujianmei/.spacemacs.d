@@ -11,8 +11,8 @@
 
 (configuration-layer/declare-layers '(
                                       ;; init-misc
-                                      ;; init-org
-                                      init-mail
+                                      init-org
+                                      ;; init-mail
                                       ;; init-programming
                                       ;;init-better-defaults
                                       ;; init-ui

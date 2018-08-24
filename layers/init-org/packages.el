@@ -545,7 +545,7 @@
       (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
       (define-key org-mode-map (kbd "s-p") 'org-priority)
       ;; changed the keybinding for M-return
-      (define-key org-mode-map (kbd "<M-return>") 'org-meta-return)
+      ;; (define-key org-mode-map (kbd "<M-return>") 'org-meta-return)
       (spacemacs/set-leader-keys-for-major-mode 'org-mode
         "tl" 'org-toggle-link-display)
       (define-key evil-normal-state-map (kbd "C-c C-w") 'org-refile)
