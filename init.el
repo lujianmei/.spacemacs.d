@@ -32,7 +32,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(asciidoc
-     windows-scripts
+      pandoc
+     ;; windows-scripts
      nginx
      sql
      clojure
@@ -124,12 +125,12 @@ values."
      (javascript :variables
                  javascript-disable-tern-port-files nil
                  )
-     lua
-     ;; dash
+     ;; lua
+     dash
      ;; tmux
      ;;haskell
      ;; sql
-     ; java
+     ;; java
      (go :variables go-use-gometalinter t)
      ;; parinfer
      (python :variables
@@ -137,8 +138,8 @@ values."
              python-enable-yapf-format-on-save t
              python-auto-set-local-pyenv-version 'on-visit)
      ;; ipython-notebook
-     ; (clojure :variables
-              ; clojure-enable-fancify-symbols t)
+     (clojure :variables
+              clojure-enable-fancify-symbols t)
      common-lisp
      (shell :variables
             shell-default-height 30
@@ -436,6 +437,7 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  (setq projectile-enable-caching t)
   ;; add keybindings
   (defconst *is-a-mac* (eq system-type 'darwin))
   (when *is-a-mac*
@@ -463,9 +465,10 @@ you should place your code here."
     ;; add GOPATH env
     (when (memq window-system '(mac ns))
       ;; (exec-path-from-shell-initialize)
-      (exec-path-from-shell-copy-env "GOPATH"))
-
-
+      (exec-path-from-shell-copy-env "PATH"))
+;; example of setting env var named “path”, by appending a new path to existing path
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/"))
+(setq exec-path (append exec-path '("/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/")))
   ;; ******************************** start
   ;; (other configuration goes here)
   ;; ....
@@ -474,7 +477,7 @@ you should place your code here."
   (setq-default evil-escape-key-sequence "jj")
   ;; (setq plantuml-jar-path "~/dotfiles-mac/.spacemacs.d/third-plugins/plantuml.1.2017.19.jar")
   ;; (spacemacs/toggle-truncate-lines-off)
-  (setq projectile-enable-caching t)
+  ;; (setq projectile-enable-caching t)
 
   ;; config slime
   (setq inferior-lisp-program "/usr/local/bin/sbcl")
@@ -487,7 +490,6 @@ you should place your code here."
   ;; ******************************** end
 
   ;; enable cache
-  (setq projectile-enable-caching t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -504,7 +506,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (prettier-js zenburn-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons solarized-theme smeargle slime-company slim-mode shell-pop scss-mode sayid sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode powershell popwin plantuml-mode pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox ox-twbs ox-gfm overseer osx-trash osx-dictionary orgit org-super-agenda org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain org-alert open-junk-file nginx-mode neotree nameless mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-svn magit-gitflow lorem-ipsum livid-mode live-py-mode link-hint less-css-mode launchctl json-navigator js2-refactor js-doc jinja2-mode indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode dockerfile-mode docker diminish cython-mode counsel-projectile company-web company-tern company-statistics company-lua company-go company-auctex company-ansible company-anaconda common-lisp-snippets column-enforce-mode cnfonts clojure-snippets clojure-cheatsheet clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile ansible-doc ansible aggressive-indent adoc-mode ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (helm-dash dash-at-point zenburn-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons solarized-theme smeargle slime-company slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin plantuml-mode pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pandoc-mode ox-twbs ox-pandoc ox-gfm overseer osx-trash osx-dictionary orgit org-super-agenda org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain org-alert open-junk-file ob-ipython nginx-mode neotree nameless mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-svn magit-gitflow lorem-ipsum livid-mode live-py-mode link-hint less-css-mode launchctl json-navigator js2-refactor js-doc jinja2-mode indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav ein editorconfig dumb-jump dotenv-mode doom-modeline dockerfile-mode docker diminish cython-mode counsel-projectile company-web company-tern company-statistics company-go company-auctex company-ansible company-anaconda common-lisp-snippets column-enforce-mode cnfonts clojure-snippets clojure-cheatsheet clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile ansible-doc ansible aggressive-indent adoc-mode ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
