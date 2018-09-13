@@ -469,6 +469,18 @@ you should place your code here."
 ;; example of setting env var named “path”, by appending a new path to existing path
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/"))
 (setq exec-path (append exec-path '("/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/")))
+
+;; default options for all output formats
+(setq org-pandoc-options '((standalone . t)))
+;; cancel above settings only for 'docx' format
+(setq org-pandoc-options-for-docx '((standalone . nil)))
+;; special settings for beamer-pdf and latex-pdf exporters
+(setq org-pandoc-options-for-beamer-pdf '((pdf-engine . "xelatex")))
+(setq org-pandoc-options-for-latex-pdf '((pdf-engine . "pdflatex")))
+;; special extensions for markdown_github output
+(setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
+
+
   ;; ******************************** start
   ;; (other configuration goes here)
   ;; ....

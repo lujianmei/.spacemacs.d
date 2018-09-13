@@ -14,11 +14,12 @@
     ;; (org :location built-in)
     my-org
     ;; (org-mac-link :location built-in)
-    org-promodoro
+    ;; org-promodoro
     ;;deft
     org-agenda
     org2jekyll
-    org-alert))
+    ;; org-alert
+    ))
 
 (defun init-org/post-init-org-agenda ()
   ;;================================================================
@@ -128,25 +129,25 @@
   )
 
 
-(defun init-org/post-init-org-alert ()
-  (use-package org-alert
-    :defer t
-    :ensure t
-    :init
-    (progn
-      (setq alert-default-style 'notifier)))
-  )
+;; (defun init-org/post-init-org-alert ()
+;;   (use-package org-alert
+;;     :defer t
+;;     :ensure t
+;;     :init
+;;     (progn
+;;       (setq alert-default-style 'notifier)))
+;;   )
 
 
-(defun init-org/post-init-org-promodoro ()
-   (progn
-    (add-hook 'org-pomodoro-finished-hook '(lambda () (init-org/growl-notification "Pomodoro Finished" "☕️ Have a break!" t)))
-    (add-hook 'org-pomodoro-short-break-finished-hook '(lambda () (init-org/growl-notification "Short Break" "🐝 Ready to Go?" t)))
-    (add-hook 'org-pomodoro-long-break-finished-hook '(lambda () (init-org/growl-notification "Long Break" " 💪 Ready to Go?" t)))
-    ;; change org-pomodoro default 25 min to 30 min
-    (setq org-pomodoro-length 30)
-    )
-  )
+;; (defun init-org/post-init-org-promodoro ()
+;;    (progn
+;;     (add-hook 'org-pomodoro-finished-hook '(lambda () (init-org/growl-notification "Pomodoro Finished" "☕️ Have a break!" t)))
+;;     (add-hook 'org-pomodoro-short-break-finished-hook '(lambda () (init-org/growl-notification "Short Break" "🐝 Ready to Go?" t)))
+;;     (add-hook 'org-pomodoro-long-break-finished-hook '(lambda () (init-org/growl-notification "Long Break" " 💪 Ready to Go?" t)))
+;;     ;; change org-pomodoro default 25 min to 30 min
+;;     (setq org-pomodoro-length 30)
+;;     )
+;;   )
 
 
 
@@ -344,85 +345,55 @@
       ;; Config for File Export HTML Format
       ;;================================================================ 
 
-      ;; Increase default number of headings to export
-      (setq org-export-headline-levels 6)
-      ;; List of projects
-      ;; Work-notes
 
-      (setq org-publish-project-alist
-            ;; (work notes for)
-            (quote (("work-notes"
-                     :base-directory "~/workspace/github/my-blog/work-notes/"
-                     :publishing-directory "~/workspace/github/my-blog/publish-works"
-                     :recursive t
-                     :table-of-contents t
-                     :base-extension "org"
-                     :publishing-function org-html-publish-to-html
-                     :style-include-default t
-                     :section-numbers y
-                     :table-of-contents y
-                     :author-info y
-                     :creator-info y)
-                    ("work-notes-extra"
-                     :base-directory "~/workspace/github/my-blog/work-notes/"
-                     :publishing-directory "~/workspace/github/my-blog/publish-works"
-                     :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
-                     :publishing-function org-publish-attachment
-                     :recursive t
-                     :author nil)
-                    ("worknotes"
-                     :components ("work-notes" "work-notes-extra")))))
-
-
-
-      ;;================================================================
-      ;; Config for File Export PDF format
-      ;;================================================================ 
-      (add-to-list 'org-latex-classes '("ctexart" "\\documentclass[11pt]{ctexart}
-                                        [NO-DEFAULT-PACKAGES]
-                                        \\usepackage[utf8]{inputenc}
-                                        \\usepackage[T1]{fontenc}
-                                        \\usepackage{fixltx2e}
-                                        \\usepackage{graphicx}
-                                        \\usepackage{longtable}
-                                        \\usepackage{float}
-                                        \\usepackage{wrapfig}
-                                        \\usepackage{rotating}
-                                        \\usepackage[normalem]{ulem}
-                                        \\usepackage{amsmath}
-                                        \\usepackage{textcomp}
-                                        \\usepackage{marvosym}
-                                        \\usepackage{wasysym}
-                                        \\usepackage{amssymb}
-                                        \\usepackage{booktabs}
-                                        \\usepackage[colorlinks,linkcolor=black,anchorcolor=black,citecolor=black]{hyperref}
-                                        \\tolerance=1000
-                                        \\usepackage{listings}
-                                        \\usepackage{xcolor}
-                                        \\lstset{
-                                        %行号
-                                        numbers=left,
-                                        %背景框
-                                        framexleftmargin=10mm,
-                                        frame=none,
-                                        %背景色
-                                        %backgroundcolor=\\color[rgb]{1,1,0.76},
-                                        backgroundcolor=\\color[RGB]{245,245,244},
-                                        %样式
-                                        keywordstyle=\\bf\\color{blue},
-                                        identifierstyle=\\bf,
-                                        numberstyle=\\color[RGB]{0,192,192},
-                                        commentstyle=\\it\\color[RGB]{0,96,96},
-                                        stringstyle=\\rmfamily\\slshape\\color[RGB]{128,0,0},
-                                        %显示空格
-                                        showstringspaces=false
-                                        }
-                                        "
-                                        ("\\section{%s}" . "\\section*{%s}")
-                                        ("\\subsection{%s}" . "\\subsection*{%s}")
-                                        ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                                        ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                                        ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+      ;; ;;================================================================
+      ;; ;; Config for File Export PDF format
+      ;; ;;================================================================ 
+      ;; (add-to-list 'org-latex-classes '("ctexart" "\\documentclass[11pt]{ctexart}
+      ;;                                   [NO-DEFAULT-PACKAGES]
+      ;;                                   \\usepackage[utf8]{inputenc}
+      ;;                                   \\usepackage[T1]{fontenc}
+      ;;                                   \\usepackage{fixltx2e}
+      ;;                                   \\usepackage{graphicx}
+      ;;                                   \\usepackage{longtable}
+      ;;                                   \\usepackage{float}
+      ;;                                   \\usepackage{wrapfig}
+      ;;                                   \\usepackage{rotating}
+      ;;                                   \\usepackage[normalem]{ulem}
+      ;;                                   \\usepackage{amsmath}
+      ;;                                   \\usepackage{textcomp}
+      ;;                                   \\usepackage{marvosym}
+      ;;                                   \\usepackage{wasysym}
+      ;;                                   \\usepackage{amssymb}
+      ;;                                   \\usepackage{booktabs}
+      ;;                                   \\usepackage[colorlinks,linkcolor=black,anchorcolor=black,citecolor=black]{hyperref}
+      ;;                                   \\tolerance=1000
+      ;;                                   \\usepackage{listings}
+      ;;                                   \\usepackage{xcolor}
+      ;;                                   \\lstset{
+      ;;                                   %行号
+      ;;                                   numbers=left,
+      ;;                                   %背景框
+      ;;                                   framexleftmargin=10mm,
+      ;;                                   frame=none,
+      ;;                                   %背景色
+      ;;                                   %backgroundcolor=\\color[rgb]{1,1,0.76},
+      ;;                                   backgroundcolor=\\color[RGB]{245,245,244},
+      ;;                                   %样式
+      ;;                                   keywordstyle=\\bf\\color{blue},
+      ;;                                   identifierstyle=\\bf,
+      ;;                                   numberstyle=\\color[RGB]{0,192,192},
+      ;;                                   commentstyle=\\it\\color[RGB]{0,96,96},
+      ;;                                   stringstyle=\\rmfamily\\slshape\\color[RGB]{128,0,0},
+      ;;                                   %显示空格
+      ;;                                   showstringspaces=false
+      ;;                                   }
+      ;;                                   "
+      ;;                                   ("\\section{%s}" . "\\section*{%s}")
+      ;;                                   ("\\subsection{%s}" . "\\subsection*{%s}")
+      ;;                                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+      ;;                                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+      ;;                                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 
       ;; {{ export org-mode in Chinese into PDF
@@ -431,7 +402,7 @@
       ;; To install texlive-xetex:
       ;;    `sudo USE="cjk" emerge texlive-xetex` on Gentoo Linux
       ;; }}
-      (setq org-latex-default-class "ctexart")
+      ;; (setq org-latex-default-class "ctexart")
       (setq org-latex-pdf-process
             '(
               "xelatex -interaction nonstopmode -output-directory %o %f"
@@ -465,7 +436,7 @@
          (plantuml . t)
          ;; (org . t)
          (python . t)
-         ;; (ipython . t)
+         (ipython . t)
          ;; (sh . t)
          ;; (dot . t)
          ;; (haskell . t)
@@ -688,24 +659,24 @@
 ;
 
 
-(defun init-org/init-org-tree-slide ()
-  (use-package org-tree-slide
-    :ensure t
-    :init
-    (spacemacs/set-leader-keys "oto" 'org-tree-slide-mode)))
+;; (defun init-org/init-org-tree-slide ()
+;;   (use-package org-tree-slide
+;;     :ensure t
+;;     :init
+;;     (spacemacs/set-leader-keys "oto" 'org-tree-slide-mode)))
 
 
-(defun init-org/init-org-download ()
-  (use-package org-download
-    :defer t
-    :init
-    (org-download-enable)))
+;; (defun init-org/init-org-download ()
+;;   (use-package org-download
+;;     :defer t
+;;     :init
+;;     (org-download-enable)))
 
 
-(defun init-org/init-worf ()
-  (use-package worf
-    :defer t
-    :init
-    (add-hook 'org-mode-hook 'worf-mode)))
+;; (defun init-org/init-worf ()
+;;   (use-package worf
+;;     :defer t
+;;     :init
+;;     (add-hook 'org-mode-hook 'worf-mode)))
 
 ;;; packages.el ends here

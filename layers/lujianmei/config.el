@@ -111,3 +111,36 @@
                                "~/workspace/github/my-blog/work-notes/agendas/2018/")))
 
 (setq mode-line-org-clock t)
+;; Increase default number of headings to export
+(setq org-export-headline-levels 6)
+;; List of projects
+;; Work-notes
+
+
+(setq mode-line-org-clock t)
+
+      (setq org-publish-project-alist
+            ;; (work notes for)
+            (quote (("work-notes"
+                     :base-directory "~/workspace/github/my-blog/work-notes/"
+                     :publishing-directory "~/workspace/github/my-blog/publish-works"
+                     :recursive t
+                     :table-of-contents t
+                     :base-extension "org"
+                     :publishing-function org-html-publish-to-html
+                     :style-include-default t
+                     :section-numbers y
+                     :table-of-contents y
+                     :author-info y
+                     :creator-info y)
+                    ("work-notes-extra"
+                     :base-directory "~/workspace/github/my-blog/work-notes/"
+                     :publishing-directory "~/workspace/github/my-blog/publish-works"
+                     :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                     :publishing-function org-publish-attachment
+                     :recursive t
+                     :author nil)
+                    ("worknotes"
+                     :components ("work-notes" "work-notes-extra")))))
+
+
