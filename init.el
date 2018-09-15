@@ -201,6 +201,7 @@ values."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
+
    dotspacemacs-editing-style '(hybrid :variables
                                        hybrid-mode-enable-evilified-state t
                                        hybrid-mode-enable-hjkl-bindings nil
