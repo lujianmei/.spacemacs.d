@@ -446,6 +446,50 @@ you should place your code here."
     (setq mac-option-modifier 'control))
   ;;(setq default-input-method "MacOSX")
 
+;; Mac OS Edition for swich input method automatically
+;; This code helps us to work with Spacemacs (Emacs + Evil mode) in multilanguage mode
+;; You need to install https://github.com/vovkasm/input-source-switcher 
+;; It's a console utilite to switch input language.
+;; Pavel Pavlov (c) 2015
+;; In other OS you'll have to change name of langages layers and name of Switcher like issw 
+;; In thу Terminal # issw   show you namу of the current layout
+(setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
+(add-hook 'evil-insert-state-entry-hook                         ;what we do when enter insert mode
+          (lambda ()
+            (message (concat "insert-state-entry" lang_source))
+            (shell-command (concat "issw " lang_source))))      ;
+;
+(add-hook 'evil-normal-state-entry-hook                         ;what we do when enter insert mode
+          (lambda ()
+            (setq lang_source (shell-command-to-string "issw"))
+            (message (concat "normal-state-entry" lang_source))
+            (shell-command "issw com.apple.keylayout.US")))      ;
+;
+(add-hook 'evil-insert-state-exit-hook                         ;what we do when enter insert mode
+          (lambda ()
+            (message (concat "normal-state-exit " lang_source))
+            (shell-command "issw com.sogou.inputmethod.sogouWB.wubi")))      ;
+
+;; (add-hook 'evil-normal-state-exit-hook                          ;what we do when enter normal mode
+
+;;           (lambda ()
+;;             (message (concat "normal-state-exit" lang_source))
+;;             ;; (setq lang_source (shell-command-to-string "issw"))
+;;             (shell-command (concat "issw " lang_source))))
+
+(setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
+(add-hook 'evil-replace-state-entry-hook                         ;what we do when enter insert mode
+          (lambda ()
+            (message (concat "replace-state-entry" lang_source))
+            (shell-command (concat "issw " lang_source))))      ;
+;
+(add-hook 'evil-replace-state-exit-hook                          ;what we do when enter normal mode
+          (lambda ()
+            (message (concat "replace-state-exit" lang_source))
+            (setq lang_source (shell-command-to-string "issw"))
+            (shell-command "issw com.apple.keylayout.US")))
+
+
   ;; add my own configurations
   (push "/Users/kevin/.spacemacs.d/" load-path)
 
@@ -464,9 +508,9 @@ you should place your code here."
     ;;     (setq alert-default-style 'notifier)))
 
     ;; add GOPATH env
-    (when (memq window-system '(mac ns))
+    ;; (when (memq window-system '(mac ns))
       ;; (exec-path-from-shell-initialize)
-      (exec-path-from-shell-copy-env "PATH"))
+      ;; (exec-path-from-shell-copy-env "PATH"))
 ;; example of setting env var named “path”, by appending a new path to existing path
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/"))
 (setq exec-path (append exec-path '("/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/")))
@@ -503,6 +547,8 @@ you should place your code here."
   ;; ******************************** end
 
   ;; enable cache
+
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
