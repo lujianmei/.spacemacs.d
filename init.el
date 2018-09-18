@@ -456,18 +456,18 @@ you should place your code here."
 (setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
 (add-hook 'evil-insert-state-entry-hook                         ;what we do when enter insert mode
           (lambda ()
-            (message (concat "insert-state-entry" lang_source))
+            ;; (message (concat "insert-state-entry" lang_source))
             (shell-command (concat "issw " lang_source))))      ;
 ;
 (add-hook 'evil-normal-state-entry-hook                         ;what we do when enter insert mode
           (lambda ()
             (setq lang_source (shell-command-to-string "issw"))
-            (message (concat "normal-state-entry" lang_source))
+            ;; (message (concat "normal-state-entry" lang_source))
             (shell-command "issw com.apple.keylayout.US")))      ;
 ;
 (add-hook 'evil-insert-state-exit-hook                         ;what we do when enter insert mode
           (lambda ()
-            (message (concat "normal-state-exit " lang_source))
+            ;; (message (concat "normal-state-exit " lang_source))
             (shell-command "issw com.sogou.inputmethod.sogouWB.wubi")))      ;
 
 ;; (add-hook 'evil-normal-state-exit-hook                          ;what we do when enter normal mode
@@ -480,12 +480,12 @@ you should place your code here."
 (setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
 (add-hook 'evil-replace-state-entry-hook                         ;what we do when enter insert mode
           (lambda ()
-            (message (concat "replace-state-entry" lang_source))
+            ;; (message (concat "replace-state-entry" lang_source))
             (shell-command (concat "issw " lang_source))))      ;
 ;
 (add-hook 'evil-replace-state-exit-hook                          ;what we do when enter normal mode
           (lambda ()
-            (message (concat "replace-state-exit" lang_source))
+            ;; (message (concat "replace-state-exit" lang_source))
             (setq lang_source (shell-command-to-string "issw"))
             (shell-command "issw com.apple.keylayout.US")))
 
