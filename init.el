@@ -138,7 +138,7 @@ values."
              python-test-runner 'pytest
              python-enable-yapf-format-on-save t
              python-auto-set-local-pyenv-version 'on-visit)
-     ipython-notebook
+     ;; ipython-notebook
      (clojure :variables
               clojure-enable-fancify-symbols t)
      common-lisp
