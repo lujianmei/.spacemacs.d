@@ -36,6 +36,11 @@ values."
      ;; windows-scripts
      nginx
      sql
+     command-log
+     deft
+     prodigy
+     (ranger :variables
+              ranger-show-preview t)
      clojure
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -139,12 +144,30 @@ values."
              python-enable-yapf-format-on-save t
              python-auto-set-local-pyenv-version 'on-visit)
      ;; ipython-notebook
+
+     evil-cleverparens
+     (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
+     vim-powerline
+     ;; ...
+     (wakatime :variables
+               wakatime-api-key  "0c4d964f-f6d6-4ca3-82d4-9dc09f5f6b36"
+               ;; use the actual wakatime path
+               wakatime-cli-path "/usr/local/bin/wakatime")
+
+     (elfeed :variables
+             elfeed-feeds '(("http://nullprogram.com/feed/" blog emacs)
+                            "http://www.50ply.com/atom.xml"  ; no autotagging
+                            ("http://nedroid.com/feed/" webcomic)))
+
      (clojure :variables
               clojure-enable-fancify-symbols t)
      common-lisp
      (shell :variables
             shell-default-height 30
             shell-default-term-shell "/usr/local/bin/zsh"
+            shell-default-shell 'multi-term
+            shell-default-full-span nil
+            shell-enable-smart-eshell t
             shell-default-position 'bottom)
      ; shell-scripts
      docker
@@ -447,6 +470,16 @@ you should place your code here."
     (setq mac-option-modifier 'control))
   ;;(setq default-input-method "MacOSX")
 
+  ;; config for ranger
+  (setq ranger-cleanup-on-disable t)
+  (setq ranger-cleanup-eagerly t)
+
+  ;; config for evil-cleverparens
+  (spacemacs/toggle-evil-cleverparens-on)
+  (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
+  (add-hook 'elisp-mode #'evil-cleverparens-mode)
+  (add-hook 'lisp-mode #'evil-cleverparens-mode)
+
   ;; https://github.com/syl20bnr/spacemacs/issues/3225
 ;; Mac OS Edition for swich input method automatically
 ;; This code helps us to work with Spacemacs (Emacs + Evil mode) in multilanguage mode
@@ -523,7 +556,9 @@ you should place your code here."
 
   ;; add my own configurations
   (push "/Users/kevin/.spacemacs.d/" load-path)
-
+  ;; add def extension support configuration
+  (setq deft-extensions '("org" "md"))
+  (setq deft-directory "~/workspace/github/my-blog/work-notes")
   (with-eval-after-load 'org
     (setq org-confirm-babel-evaluate nil))
   ;; ******************************** start
@@ -596,6 +631,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(magit-dispatch-arguments nil)
  '(package-selected-packages
    (quote
     (ob-ipython ein request-deferred websocket zenburn-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons solarized-theme smeargle slime-company slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin plantuml-mode pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pandoc-mode ox-twbs ox-pandoc ox-gfm overseer osx-trash osx-dictionary orgit org-super-agenda org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain org-alert open-junk-file nginx-mode neotree nameless mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-svn magit-gitflow lorem-ipsum livid-mode live-py-mode link-hint less-css-mode launchctl json-navigator js2-refactor js-doc jinja2-mode indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-git-grep helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags fuzzy font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline dockerfile-mode docker diminish dash-at-point cython-mode counsel-projectile company-web company-tern company-statistics company-go company-auctex company-ansible company-anaconda common-lisp-snippets column-enforce-mode cnfonts clojure-snippets clojure-cheatsheet clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile ansible-doc ansible aggressive-indent adoc-mode ace-window ace-link ace-jump-helm-line ac-ispell))))
