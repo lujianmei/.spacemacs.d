@@ -157,7 +157,9 @@ values."
      (elfeed :variables
              elfeed-feeds '(("http://nullprogram.com/feed/" blog emacs)
                             "http://www.50ply.com/atom.xml"  ; no autotagging
-                            ("http://nedroid.com/feed/" webcomic)))
+                            ("http://nedroid.com/feed/" webcomic))
+             elfeed-enable-web-interface t
+             url-queue-timeout 30)
 
      (clojure :variables
               clojure-enable-fancify-symbols t)
