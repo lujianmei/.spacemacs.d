@@ -81,12 +81,12 @@ values."
      (org :variables
           org-enable-github-support t
           org-enable-bootstrap-support t
-          ;; org-enable-reveal-js-support t
+          org-enable-reveal-js-support t
           )
      ;; emoji
      graphviz
      (latex :variables
-            latex-build-command "LaTeX"
+            latex-build-command "xelatex"
             latex-enable-auto-fill t
             latex-enable-folding t)
      (osx :variables
@@ -110,6 +110,7 @@ values."
      ;; version-control
      ;; (chinese :packages youdao-dictionary fcitx
      ;;          :variables chinese-enable-fcitx t 
+     ;;          chinese-default-input-method 'wubi
      ;;          chinese-enable-youdao-dict t)
 
 
@@ -125,7 +126,11 @@ values."
                  imenu-list-size 0.25)
     ;; vimscript
      yaml
-     ;; (ruby :variables ruby-enable-enh-ruby-mode t)
+     (ruby :variables
+           ruby-enable-enh-ruby-mode t
+           ruby-version-manager 'rvm
+           ruby-test-runner 'rspec)
+     ruby-on-rails
      emacs-lisp
      html
      (javascript :variables
@@ -134,7 +139,7 @@ values."
      ;; lua
      dash
      ;; tmux
-     ;;haskell
+     haskell
      ;; sql
      ;; java
      (go :variables go-use-gometalinter t)
@@ -145,9 +150,7 @@ values."
              python-auto-set-local-pyenv-version 'on-visit)
      ;; ipython-notebook
 
-     evil-cleverparens
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
-     vim-powerline
      ;; ...
      (wakatime :variables
                wakatime-api-key  "0c4d964f-f6d6-4ca3-82d4-9dc09f5f6b36"
@@ -159,6 +162,7 @@ values."
                             "http://www.50ply.com/atom.xml"  ; no autotagging
                             ("http://nedroid.com/feed/" webcomic))
              elfeed-enable-web-interface t
+             httpd-port 3333
              url-queue-timeout 30)
 
      (clojure :variables
@@ -174,6 +178,8 @@ values."
      ; shell-scripts
      docker
 
+     ;; evil-cleverparens
+     ;; vim-powerline
      lujianmei
      )
    ;; List of additional packages that will be installed without being
@@ -315,7 +321,7 @@ values."
    dotspacemacs-display-default-layout nil
    ;; If non nil then the last auto saved layouts are resume automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts nil
+   dotspacemacs-auto-resume-layouts t
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -324,7 +330,7 @@ values."
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; (default 'cache)
-   dotspacemacs-auto-save-file-location 'cache
+   dotspacemacs-auto-save-file-location 'original
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 500
    ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
@@ -357,7 +363,7 @@ values."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup nil
+   dotspacemacs-fullscreen-at-startup t
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
@@ -368,11 +374,11 @@ values."
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 90
+   dotspacemacs-active-transparency 70
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 90
+   dotspacemacs-inactive-transparency 40
    ;; If non nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
    ;; If non nil show the color guide hint for transient state keys. (default t)
@@ -387,16 +393,16 @@ values."
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
    ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
    ;; This variable can also be set to a property list for finer control:
-   ;; '(:relative nil
-   ;;   :disabled-for-modes dired-mode
-   ;;                       doc-view-mode
-   ;;                       markdown-mode
-   ;;                       org-mode
-   ;;                       pdf-view-mode
-   ;;                       text-mode
-   ;;   :size-limit-kb 1000)
+   '(:relative nil
+     :disabled-for-modes dired-mode
+                         doc-view-mode
+                         markdown-mode
+                         org-mode
+                         pdf-view-mode
+                         text-mode
+     :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers relative
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -427,7 +433,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup changed
    ))
 
 (defun dotspacemacs/user-init ()
@@ -464,6 +470,9 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; set LaTeX engine
+  (setq TeX-engine (quote xetex))
+
   (setq projectile-enable-caching t)
   ;; add keybindings
   (defconst *is-a-mac* (eq system-type 'darwin))
@@ -477,7 +486,6 @@ you should place your code here."
   (setq ranger-cleanup-eagerly t)
 
   ;; config for evil-cleverparens
-  (spacemacs/toggle-evil-cleverparens-on)
   (add-hook 'clojure-mode-hook #'evil-cleverparens-mode)
   (add-hook 'elisp-mode #'evil-cleverparens-mode)
   (add-hook 'lisp-mode #'evil-cleverparens-mode)
@@ -491,78 +499,222 @@ you should place your code here."
 ;; In other OS you'll have to change name of langages layers and name of Switcher like issw 
 ;; In thу Terminal # issw   show you namу of the current layout
   ;; when is a mac, using issw for the input-method command change method
-  (if *is-a-mac*
-      (progn
-        (setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
-        (add-hook 'evil-insert-state-entry-hook                         ;what we do when enter insert mode
-                  (lambda ()
-                    ;; (message (concat "insert-state-entry" lang_source))
-                    (shell-command (concat "issw " lang_source))))      ;
+  (setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
+  (add-hook 'evil-insert-state-entry-hook                         ;what we do when enter insert mode
+            (lambda ()
+              ;; (message (concat "insert-state-entry" lang_source))
+              (shell-command (concat "issw " lang_source))))      ;
                                         ;
-        (add-hook 'evil-normal-state-entry-hook                         ;what we do when enter insert mode
-                  (lambda ()
-                    (setq lang_source (shell-command-to-string "issw"))
-                    ;; (message (concat "normal-state-entry" lang_source))
-                    (shell-command "issw com.apple.keylayout.US")))      ;
+  (add-hook 'evil-normal-state-entry-hook                         ;what we do when enter insert mode
+            (lambda ()
+              (setq lang_source (shell-command-to-string "issw"))
+              ;; (message (concat "normal-state-entry" lang_source))
+              (shell-command "issw com.apple.keylayout.US")))      ;
                                         ;
-        (add-hook 'evil-insert-state-exit-hook                         ;what we do when enter insert mode
-                  (lambda ()
-                    ;; (message (concat "normal-state-exit " lang_source))
-                    (shell-command "issw com.sogou.inputmethod.sogouWB.wubi")))      ;
+  (add-hook 'evil-insert-state-exit-hook                         ;what we do when enter insert mode
+            (lambda ()
+              ;; (message (concat "normal-state-exit " lang_source))
+              (shell-command "issw com.sogou.inputmethod.sogouWB.wubi")))      ;
 
-        ;; (add-hook 'evil-normal-state-exit-hook                          ;what we do when enter normal mode
+  ;; (add-hook 'evil-normal-state-exit-hook                          ;what we do when enter normal mode
 
-        ;;           (lambda ()
-        ;;             (message (concat "normal-state-exit" lang_source))
-        ;;             ;; (setq lang_source (shell-command-to-string "issw"))
-        ;;             (shell-command (concat "issw " lang_source))))
+  ;;           (lambda ()
+  ;;             (message (concat "normal-state-exit" lang_source))
+  ;;             ;; (setq lang_source (shell-command-to-string "issw"))
+  ;;             (shell-command (concat "issw " lang_source))))
 
-        (setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
-        (add-hook 'evil-replace-state-entry-hook                         ;what we do when enter insert mode
-                  (lambda ()
-                    ;; (message (concat "replace-state-entry" lang_source))
-                    (shell-command (concat "issw " lang_source))))      ;
+  (setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
+  (add-hook 'evil-replace-state-entry-hook                         ;what we do when enter insert mode
+            (lambda ()
+              ;; (message (concat "replace-state-entry" lang_source))
+              (shell-command (concat "issw " lang_source))))      ;
                                         ;
-        (add-hook 'evil-replace-state-exit-hook                          ;what we do when enter normal mode
-                  (lambda ()
-                    ;; (message (concat "replace-state-exit" lang_source))
-                    (setq lang_source (shell-command-to-string "issw"))
-                    (shell-command "issw com.apple.keylayout.US")))
-        )
+  (add-hook 'evil-replace-state-exit-hook                          ;what we do when enter normal mode
+            (lambda ()
+              ;; (message (concat "replace-state-exit" lang_source))
+              (setq lang_source (shell-command-to-string "issw"))
+              (shell-command "issw com.apple.keylayout.US")))
 
-    (
-     ;;  when is linux, using gsettings
-     (setq prev_lang (substring (shell-command-to-string
-                                 "gsettings get org.gnome.desktop.input-sources current")
-                                7 -1))
-     (add-hook 'evil-insert-state-entry-hook
-               (lambda ()
-                 (shell-command (concat
-                                 "/usr/bin/gsettings set org.gnome.desktop.input-sources current " prev_lang)
-                                )
-                 )
-               )
 
-     (add-hook 'evil-insert-state-exit-hook
-               (lambda ()
-                 (setq prev_lang (substring (shell-command-to-string
-                                             "gsettings get org.gnome.desktop.input-sources current")
-                                            7 -1))
-                 (shell-command
-                  (concat "/usr/bin/gsettings set org.gnome.desktop.input-sources current 0")
-                  )
-                 )
-               )
-     )
-    )
-
-  ;; add my own configurations
+        ;; add my own configurations
   (push "/Users/kevin/.spacemacs.d/" load-path)
   ;; add def extension support configuration
   (setq deft-extensions '("org" "md"))
   (setq deft-directory "~/workspace/github/my-blog/work-notes")
   (with-eval-after-load 'org
     (setq org-confirm-babel-evaluate nil))
+
+  ;; # # following is for export org-html, using https://github.com/fniessen/org-html-themes
+  (with-eval-after-load 'org
+
+    ;; add following in org file
+    ;; #+OPTIONS:   H:4 num:t   toc:3 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t p:t pri:t
+    ;; #+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+    ;; #+OPTIONS:   author:t creator:t timestamp:t email:t
+    ;; #+DESCRIPTION: A notes that include all works and study things in 2017
+    ;; #+KEYWORDS:  work note 2017
+    ;; #+INFOJS_OPT: view:nil toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+    ;; #+SETUPFILE: ~/.spacemacs.d/third-plugins/org-html-themes/setup/theme-readtheorg.setup
+    ;; #+PROPERTY:  header-args :eval yes :eGxports both :results replace
+    ;; # #+MACRO: longtext this is a very very long text to include
+    ;; #+LATEX_CLASS: book-noparts
+    ;; #+LATEX_CLASS_OPTIONS: [adegree=doctor,pifootnote]
+    ;; #+LATEX_HEADER: \usepackage{tongjiutils}
+    ;; #+LATEX_HEADER: \usepackage[inline]{enumitem}
+    ;; #+ATTR_LATEX: :environment itemize*
+    ;; #+ATTR_LATEX: :options [label={}, itemjoin={,}, itemjoin*={, and}]
+    ;; #+EXPORT_SELECT_TAGS: export
+    ;; #+EXPORT_EXCLUDE_TAGS: noexport
+    ;; #+STARTUP: logredeadline, logreschedule
+    ;; #+ATTR_HTML: :border 2 :rules all :frame all
+
+
+
+    (setq org-structure-template-alist
+          '(("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
+            ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
+            ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
+            ("v" "#+BEGIN_VERSE\n?\n#+END_VERSE" "<verse>\n?\n</verse>")
+            ("c" "#+BEGIN_COMMENT\n?\n#+END_COMMENT")
+            ("p" "#+BEGIN_PRACTICE\n?\n#+END_PRACTICE")
+            ("o" "#+begin_src emacs-lisp :tangle yes\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
+            ("l" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
+            ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
+            ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
+            ("H" "#+html: " "<literal style=\"html\">?</literal>")
+            ("a" "#+begin_ascii\n?\n#+end_ascii")
+            ("A" "#+ascii: ")
+            ("i" "#+index: ?" "#+index: ?")
+            ("I" "#+include %file ?" "<include file=%file markup=\"?\">")))
+
+    ;; auto save files
+    (run-at-time "00:59" 3600 'org-save-all-org-buffers)
+
+    (custom-set-variables
+     '(org-export-table-data-tags '("<tr class=\"CUSTOM_ID>" . "</t>")))
+
+    ;; set export table's format
+    (setq org-table-export-default-format "orgtbl-to-csv")
+
+
+    )
+
+    ;;;; configuration for export pdf, support chinese, using tongjithesis latex thesis template
+  (with-eval-after-load 'org
+
+    ;; following is a comman header for org file
+    ;; #+LANGUAGE: zh
+    ;; #+AUTHOR: Lu Jianmei
+    ;; #+EMAIL: lu.jianmei@trs.com.cn
+    ;; #+OPTIONS:   H:4 num:t   toc:3 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t p:t pri:t
+    ;; #+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+    ;; #+OPTIONS:   author:t creator:t timestamp:t email:t
+    ;; #+DESCRIPTION: A notes that include all works and study things in 2017
+    ;; #+KEYWORDS:  work note 2017
+    ;; #+INFOJS_OPT: view:nil toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+    ;; #+SETUPFILE: ~/.spacemacs.d/third-plugins/org-html-themes/setup/theme-readtheorg.setup
+    ;; #+PROPERTY:  header-args :eval yes :eGxports both :results replace
+    ;; # #+MACRO: longtext this is a very very long text to include
+    ;; #+LATEX_CLASS: book-noparts
+    ;; #+LATEX_CLASS_OPTIONS: [adegree=doctor,pifootnote]
+    ;; #+LATEX_HEADER: \usepackage{tongjiutils}
+    ;; #+LATEX_HEADER: \usepackage[inline]{enumitem}
+    ;; #+ATTR_LATEX: :environment itemize*
+    ;; #+ATTR_LATEX: :options [label={}, itemjoin={,}, itemjoin*={, and}]
+    ;; #+EXPORT_SELECT_TAGS: export
+    ;; #+EXPORT_EXCLUDE_TAGS: noexport
+    ;; #+STARTUP: logredeadline, logreschedule
+    ;; #+ATTR_HTML: :border 2 :rules all :frame all
+
+
+    (add-to-list 'org-latex-classes
+
+                 '("tongjithesis"
+                   "\\documentclass{tongjithesis}"
+                   ("\\chapter{%s}" . "\\chapter*{%s}")
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+    (add-to-list 'org-latex-classes
+                 '("metropolis"
+                   "\\documentclass{beamer}"
+                   ;; "\\usetheme{metropolis}"
+                   ;; "\\usepackage{ctex}"
+                   ))
+
+    )
+
+  ;; configuration for export beamer, support beamer pdf export using Metropolis theme (https://github.com/matze/mtheme), support Reveal.js https://github.com/hakimel/reveal.js
+  (with-eval-after-load 'org
+
+    ;; # # following is setting for reveal, https://github.com/yjwen/org-reveal/
+    ;; #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+    ;; #+REVEAL_THEME: solarized
+    ;; # # you can choose from serif, moon, black, beige, blood, league, night, simple, sky, solarized, white
+    ;; #+REVEAL_TRANS: default
+    ;; # # You can choose from none, fade, slide, convex, concave and zoom
+    ;; #+REVEAL_HLEVEL: 1
+    ;; #+OPTIONS: reveal_slide_number:h/v reveal_global_header:t reveal_global_footer:t
+    ;; #+OPTIONS: reveal_control reveal_progress reveal_rolling_links  org-reveal-plugins reveal_single_file:nil
+    ;; #+REVEAL_PLUGINS: (highlight) 
+    ;; #+ATTR_REVEAL: :frag frag-style
+    ;; # #+ATTR_REVEAL: :frag t # # will use Reveal.js default fragment style
+    ;; # following supports multiplexing, which allows allows your audience to view the slides of the presentation you are controlling on their own phone, tablet or laptop
+    ;; # #+REVEAL_MULTIPLEX_ID: [Obtained from the socket.io server. ]
+    ;; # #+REVEAL_MULTIPLEX_SECRET: [Obtained from socket.io server. Gives the master control of the presentation.]
+    ;; # #+REVEAL_MULTIPLEX_URL: http://revealjs.jit.su:80 [Location of socket.io server]
+    ;; # #+REVEAL_MULTIPLEX_SOCKETIO_URL: http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js
+    ;; # #+REVEAL_PLUGINS: ([any other plugins you are using] multiplex)
+
+    ;; # # following is setting for beamer, https://github.com/fangohr/template-beamer-metropolis-from-orgmode
+    ;; #+OPTIONS:   H:2 num:t toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc <:t
+    ;; #+OPTIONS:   d:nil todo:t pri:nil
+    ;; #+STARTUP: beamer
+    ;; #+LATEX_HEADER: \usetheme{metropolis}
+    ;; #+LATEX_HEADER: \metroset{block=fill}
+    ;; #+LATEX_HEADER: \usepackage{ctex}
+    ;; #+BEAMER_FRAME_LEVEL: 2
+    ;; #+LATEX_HEADER: \setbeamertemplate{frame footer}{\color{lightgray}Lujianmei - Orgmode + Beamer}
+    ;; #+STARTUP: beamer
+    ;; #+ATTR_BEAMER: :overlay +-
+    ;; #+LATEX_COMPILER: xelatex
+    ;; #+COLUMNS: %40ITEM %10BEAMER_env(Env) %9BEAMER_envargs(Env Args) %4BEAMER_col(Col) %10BEAMER_extra(Extra)
+
+    ;; Make the code blocks look nicer
+    (add-to-list 'org-latex-packages-alist '("" "minted"))
+    (setq org-latex-listings 'minted)
+
+    ;; style decision for source code blocks
+    (setq org-latex-minted-options
+          '(("bgcolor" "white") ("frame" "lines")))
+
+
+    ;; the next section allows to add :ignoreheading: to section headers,
+    ;; and the heading will be removed in the latex output, but the section
+    ;; itself be included.
+    ;;
+    ;; This is useful to 'label' paragraphs or sections to draft a document
+    ;; while not wanting to reveal that label/title in the final version to the
+    ;; reader.
+    (defun sa-ignore-headline (contents backend info)
+      "Ignore headlines with tag `ignoreheading'."
+      ;;(message "*** debug: working on ignoreheading")
+      (when (and (org-export-derived-backend-p backend 'latex 'html 'ascii)
+                 (string-match "\\(\\`.*\\)ignoreheading\\(.*\n\\)"
+                               (downcase contents)))
+                                        ;(replace-match "\\1\\2" nil nil contents)  ;; remove only the tag ":ignoreheading:" but keep the rest of the headline
+        (replace-match "" nil nil contents)        ;; remove entire headline
+        (message "*** replacing header")
+        ))
+    (add-to-list 'org-export-filter-headline-functions 'sa-ignore-headline)
+    ;; Note: This ^doesn't seem to work at the moment; needs fixing. Dec 2016
+
+    ;; Use utf8x for LaTeX export to access more unicode characters
+    (setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
+    )
+
   ;; ******************************** start
   ;; (with-eval-after-load 'org)
   ;; here goes your Org config :)
@@ -591,7 +743,8 @@ you should place your code here."
 (setq org-pandoc-options-for-docx '((standalone . nil)))
 ;; special settings for beamer-pdf and latex-pdf exporters
 (setq org-pandoc-options-for-beamer-pdf '((pdf-engine . "xelatex")))
-(setq org-pandoc-options-for-latex-pdf '((pdf-engine . "pdflatex")))
+(setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex")))
+;; (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "pdflatex")))
 ;; special extensions for markdown_github output
 (setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
 
@@ -633,10 +786,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(magit-dispatch-arguments nil)
  '(package-selected-packages
    (quote
-    (ob-ipython ein request-deferred websocket zenburn-theme yasnippet-snippets yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection sql-indent spaceline-all-the-icons solarized-theme smeargle slime-company slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode prettier-js popwin plantuml-mode pippel pipenv pip-requirements persp-mode pcre2el password-generator paradox pandoc-mode ox-twbs ox-pandoc ox-gfm overseer osx-trash osx-dictionary orgit org-super-agenda org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain org-alert open-junk-file nginx-mode neotree nameless mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-svn magit-gitflow lorem-ipsum livid-mode live-py-mode link-hint less-css-mode launchctl json-navigator js2-refactor js-doc jinja2-mode indent-guide importmagic impatient-mode ibuffer-projectile hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-gtags helm-gitignore helm-git-grep helm-flx helm-descbinds helm-dash helm-css-scss helm-company helm-c-yasnippet helm-ag graphviz-dot-mode google-translate golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags fuzzy font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline dockerfile-mode docker diminish dash-at-point cython-mode counsel-projectile company-web company-tern company-statistics company-go company-auctex company-ansible company-anaconda common-lisp-snippets column-enforce-mode cnfonts clojure-snippets clojure-cheatsheet clj-refactor clean-aindent-mode cider-eval-sexp-fu centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile ansible-doc ansible aggressive-indent adoc-mode ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (ox-reveal org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

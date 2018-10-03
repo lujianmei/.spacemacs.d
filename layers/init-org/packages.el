@@ -259,32 +259,6 @@
 
 
 
-      (setq org-structure-template-alist
-            '(("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
-              ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
-              ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
-              ("v" "#+BEGIN_VERSE\n?\n#+END_VERSE" "<verse>\n?\n</verse>")
-              ("c" "#+BEGIN_COMMENT\n?\n#+END_COMMENT")
-              ("p" "#+BEGIN_PRACTICE\n?\n#+END_PRACTICE")
-              ("o" "#+begin_src emacs-lisp :tangle yes\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
-              ("l" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
-              ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
-              ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
-              ("H" "#+html: " "<literal style=\"html\">?</literal>")
-              ("a" "#+begin_ascii\n?\n#+end_ascii")
-              ("A" "#+ascii: ")
-              ("i" "#+index: ?" "#+index: ?")
-              ("I" "#+include %file ?" "<include file=%file markup=\"?\">")))
-
-      ;; auto save files
-      (run-at-time "00:59" 3600 'org-save-all-org-buffers)
-
-      (custom-set-variables
-       '(org-export-table-data-tags '("<tr class=\"CUSTOM_ID>" . "</t>")))
-
-      ;; set export table's format
-      (setq org-table-export-default-format "orgtbl-to-csv")
-
         
        
 
@@ -346,55 +320,6 @@
       ;;================================================================ 
 
 
-      ;; ;;================================================================
-      ;; ;; Config for File Export PDF format
-      ;; ;;================================================================ 
-      ;; (add-to-list 'org-latex-classes '("ctexart" "\\documentclass[11pt]{ctexart}
-      ;;                                   [NO-DEFAULT-PACKAGES]
-      ;;                                   \\usepackage[utf8]{inputenc}
-      ;;                                   \\usepackage[T1]{fontenc}
-      ;;                                   \\usepackage{fixltx2e}
-      ;;                                   \\usepackage{graphicx}
-      ;;                                   \\usepackage{longtable}
-      ;;                                   \\usepackage{float}
-      ;;                                   \\usepackage{wrapfig}
-      ;;                                   \\usepackage{rotating}
-      ;;                                   \\usepackage[normalem]{ulem}
-      ;;                                   \\usepackage{amsmath}
-      ;;                                   \\usepackage{textcomp}
-      ;;                                   \\usepackage{marvosym}
-      ;;                                   \\usepackage{wasysym}
-      ;;                                   \\usepackage{amssymb}
-      ;;                                   \\usepackage{booktabs}
-      ;;                                   \\usepackage[colorlinks,linkcolor=black,anchorcolor=black,citecolor=black]{hyperref}
-      ;;                                   \\tolerance=1000
-      ;;                                   \\usepackage{listings}
-      ;;                                   \\usepackage{xcolor}
-      ;;                                   \\lstset{
-      ;;                                   %行号
-      ;;                                   numbers=left,
-      ;;                                   %背景框
-      ;;                                   framexleftmargin=10mm,
-      ;;                                   frame=none,
-      ;;                                   %背景色
-      ;;                                   %backgroundcolor=\\color[rgb]{1,1,0.76},
-      ;;                                   backgroundcolor=\\color[RGB]{245,245,244},
-      ;;                                   %样式
-      ;;                                   keywordstyle=\\bf\\color{blue},
-      ;;                                   identifierstyle=\\bf,
-      ;;                                   numberstyle=\\color[RGB]{0,192,192},
-      ;;                                   commentstyle=\\it\\color[RGB]{0,96,96},
-      ;;                                   stringstyle=\\rmfamily\\slshape\\color[RGB]{128,0,0},
-      ;;                                   %显示空格
-      ;;                                   showstringspaces=false
-      ;;                                   }
-      ;;                                   "
-      ;;                                   ("\\section{%s}" . "\\section*{%s}")
-      ;;                                   ("\\subsection{%s}" . "\\subsection*{%s}")
-      ;;                                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-      ;;                                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-      ;;                                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
 
       ;; {{ export org-mode in Chinese into PDF
       ;; @see http://freizl.github.io/posts/tech/2012-04-06-export-orgmode-file-in-Chinese.html
@@ -403,14 +328,14 @@
       ;;    `sudo USE="cjk" emerge texlive-xetex` on Gentoo Linux
       ;; }}
       ;; (setq org-latex-default-class "ctexart")
-      (setq org-latex-pdf-process
-            '(
-              "xelatex -interaction nonstopmode -output-directory %o %f"
-              "xelatex -interaction nonstopmode -output-directory %o %f"
-              "xelatex -interaction nonstopmode -output-directory %o %f"
-              "rm -fr %b.out %b.log %b.tex auto"))
+      ;; (setq org-latex-pdf-process
+      ;;       '(
+      ;;         "xelatex -interaction nonstopmode -output-directory %o %f"
+      ;;         "xelatex -interaction nonstopmode -output-directory %o %f"
+      ;;         "xelatex -interaction nonstopmode -output-directory %o %f"
+      ;;         "rm -fr %b.out %b.log %b.tex auto"))
 
-      (setq org-latex-listings t)
+      ;; (setq org-latex-listings t)
 
       ;;reset subtask
       (setq org-default-properties (cons "RESET_SUBTASKS" org-default-properties))
