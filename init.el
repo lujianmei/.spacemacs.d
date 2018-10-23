@@ -470,6 +470,11 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; set default for some setting for spacemacs
+  (spacemacs/set-leader-keys-for-major-mode 'lisp-mode "," 'lisp-state-toggle-lisp-state)
+  (setq-default dotspacemacs-persistent-server t)
+  (setq-default dotspacemacs-smartparens-strict-mode t)
+
   ;; set LaTeX engine
   (setq TeX-engine (quote xetex))
 
@@ -509,7 +514,8 @@ you should place your code here."
             (lambda ()
               (setq lang_source (shell-command-to-string "issw"))
               ;; (message (concat "normal-state-entry" lang_source))
-              (shell-command "issw com.apple.keylayout.US")))      ;
+              (shell-command "issw com.apple.keylayout.US")
+              (save-current-buffer)))      ;
                                         ;
   (add-hook 'evil-insert-state-exit-hook                         ;what we do when enter insert mode
             (lambda ()
@@ -544,6 +550,8 @@ you should place your code here."
   (with-eval-after-load 'org
     (setq org-confirm-babel-evaluate nil))
 
+  (setq-default TeX-engine 'xelatex)
+  (setq-default org-latex-compiler 'xelatex)
   ;; # # following is for export org-html, using https://github.com/fniessen/org-html-themes
   (with-eval-after-load 'org
 
@@ -557,7 +565,7 @@ you should place your code here."
     ;; #+SETUPFILE: ~/.spacemacs.d/third-plugins/org-html-themes/setup/theme-readtheorg.setup
     ;; #+PROPERTY:  header-args :eval yes :eGxports both :results replace
     ;; # #+MACRO: longtext this is a very very long text to include
-    ;; #+LATEX_CLASS: book-noparts
+    ;; #+LATEX_CLASS: tongjithesis
     ;; #+LATEX_CLASS_OPTIONS: [adegree=doctor,pifootnote]
     ;; #+LATEX_HEADER: \usepackage{tongjiutils}
     ;; #+LATEX_HEADER: \usepackage[inline]{enumitem}
@@ -615,7 +623,7 @@ you should place your code here."
     ;; #+SETUPFILE: ~/.spacemacs.d/third-plugins/org-html-themes/setup/theme-readtheorg.setup
     ;; #+PROPERTY:  header-args :eval yes :eGxports both :results replace
     ;; # #+MACRO: longtext this is a very very long text to include
-    ;; #+LATEX_CLASS: book-noparts
+    ;; #+LATEX_CLASS: tongjithesis
     ;; #+LATEX_CLASS_OPTIONS: [adegree=doctor,pifootnote]
     ;; #+LATEX_HEADER: \usepackage{tongjiutils}
     ;; #+LATEX_HEADER: \usepackage[inline]{enumitem}
@@ -715,6 +723,41 @@ you should place your code here."
     (setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
     )
 
+  ;;  it is possible to merge the svg xml with html file
+  (with-eval-after-load 'org
+    (defun org-babel-result-to-file (result &optional description)
+      "If result file is svg type, convert RESULT into html file and
+plugin the html text in the exported file."
+      (when (stringp result)
+        (if (string= "svg" (file-name-extension result))
+            (progn
+              (with-temp-buffer
+                (if (file-exists-p (concat result ".html"))
+                    (delete-file (concat result ".html")))
+                (rename-file result (concat result ".html"))
+                (insert-file-contents (concat result ".html"))
+                (message (concat result ".html"))
+                (format "#+BEGIN_HTML
+<div style=\"text-align: center;\">
+%s
+</div>
+#+END_HTML"
+                        (buffer-string)
+                        )))
+          (progn
+            (format "[[file:%s]%s]"
+                    (if (and default-directory
+                             buffer-file-name
+                             (not (string= (expand-file-name default-directory)
+                                           (expand-file-name
+                                            (file-name-directory buffer-file-name)))))
+                        (expand-file-name result default-directory)
+                      result)
+                    (if description (concat "[" description "]") ""))))))
+
+
+    )
+
   ;; ******************************** start
   ;; (with-eval-after-load 'org)
   ;; here goes your Org config :)
@@ -747,6 +790,18 @@ you should place your code here."
 ;; (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "pdflatex")))
 ;; special extensions for markdown_github output
 (setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
+
+
+;; For paredit
+
+(autoload 'paredit-mode "paredit"
+  "Minor mode for pseudo-structurally editing Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
+(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
+(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
+(add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
+(add-hook 'clojure-mode-hook          (lambda () (paredit-mode +1)))
+(add-hook 'slime-mode-hook            (lambda () (smartparens-mode +1)))
 
 
   ;; ******************************** start
@@ -786,9 +841,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(TeX-engine (quote xetex))
+ '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
+ '(org-latex-compiler "xelatex")
  '(package-selected-packages
    (quote
-    (ox-reveal org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (projectile-rails intero impatient-mode helm-org-rifle doom-modeline counsel swiper highlight smartparens helm avy projectile org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
