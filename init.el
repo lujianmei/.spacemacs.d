@@ -157,13 +157,13 @@ values."
                ;; use the actual wakatime path
                wakatime-cli-path "/usr/local/bin/wakatime")
 
-     (elfeed :variables
-             elfeed-feeds '(("http://nullprogram.com/feed/" blog emacs)
-                            "http://www.50ply.com/atom.xml"  ; no autotagging
-                            ("http://nedroid.com/feed/" webcomic))
-             elfeed-enable-web-interface t
-             httpd-port 3333
-             url-queue-timeout 30)
+     ;; (elfeed :variables
+     ;;         elfeed-feeds '(("http://nullprogram.com/feed/" blog emacs)
+     ;;                        "http://www.50ply.com/atom.xml"  ; no autotagging
+     ;;                        ("http://nedroid.com/feed/" webcomic))
+     ;;         elfeed-enable-web-interface t
+     ;;         httpd-port 3333
+     ;;         url-queue-timeout 30)
 
      (clojure :variables
               clojure-enable-fancify-symbols t)
@@ -758,6 +758,8 @@ plugin the html text in the exported file."
 
 
     )
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "ib" 'init-org/org-insert-src-block)
 
   ;; ******************************** start
   ;; (with-eval-after-load 'org)
