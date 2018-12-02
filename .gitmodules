@@ -1,9 +1,6 @@
 [submodule "third-plugins/chinese-fonts-setup"]
 	path = third-plugins/chinese-fonts-setup
 	url = https://github.com/lujianmei/chinese-fonts-setup.git
-[submodule "third-plugins/org-html-themes"]
-	path = third-plugins/org-html-themes
-	url = https://github.com/lujianmei/org-html-themes.git
 [submodule "private/erd-mode"]
 	path = private/erd-mode
 	url = https://github.com/lujianmei/erd-mode.git
