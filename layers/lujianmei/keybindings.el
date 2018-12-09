@@ -303,7 +303,7 @@
 
 
 ;; config for export-mutilpul files
-(global-set-key (kbd "C-<f12>") 'bh/save-then-publish)
+(global-set-key (kbd "<f8>") 'bh/save-then-publish)
 
 ;; config for clocking
 (global-set-key (kbd "<f9> I") 'bh/punch-in)
