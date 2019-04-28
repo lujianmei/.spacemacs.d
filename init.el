@@ -31,7 +31,9 @@ values."
    ;; dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(asciidoc
+   '(rust
+     react
+     asciidoc
       pandoc
      ;; windows-scripts
      nginx
@@ -108,10 +110,10 @@ values."
      ;; spell-checking
      syntax-checking
      ;; version-control
-     ;; (chinese :packages youdao-dictionary fcitx
-     ;;          :variables chinese-enable-fcitx t 
-     ;;          chinese-default-input-method 'wubi
-     ;;          chinese-enable-youdao-dict t)
+     (chinese :variables chinese-enable-fcitx nil
+              chinese-default-input-method 'wubi
+              chinese-enable-avy-pinyin t
+              chinese-enable-youdao-dict t)
 
 
 
@@ -135,6 +137,7 @@ values."
      html
      (javascript :variables
                  javascript-disable-tern-port-files nil
+                 tern-command '("node" " /usr/local/lib/node_modules/tern")
                  )
      lua
      dash
@@ -154,10 +157,10 @@ values."
 
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      ;; ...
-     ; (wakatime :variables
-               ; wakatime-api-key  "0c4d964f-f6d6-4ca3-82d4-9dc09f5f6b36"
-               ; use the actual wakatime path
-               ; wakatime-cli-path "/usr/local/bin/wakatime")
+     ;; (wakatime :variables
+     ;;           wakatime-api-key  "0c4d964f-f6d6-4ca3-82d4-9dc09f5f6b36"
+     ;;           use the actual wakatime path
+     ;;           wakatime-cli-path "/usr/local/bin/wakatime")
 ;
      ;; (elfeed :variables
      ;;         elfeed-feeds '(("http://nullprogram.com/feed/" blog emacs)
@@ -182,7 +185,6 @@ values."
 
      ;; evil-cleverparens
      ;; vim-powerline
-     ;; lujianmei
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -257,7 +259,7 @@ values."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '(;;(agenda . 3)
+   dotspacemacs-startup-lists '((agenda . 3)
                                 (recents . 5)
                                 (projects . 7))
    ;; True if the home buffer should respond to resize events.
@@ -366,7 +368,7 @@ values."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
@@ -550,7 +552,7 @@ you should place your code here."
   ;; (push "/Users/kevin/.spacemacs.d/" load-path)
   ;; add def extension support configuration
   (setq deft-extensions '("org" "md"))
-  ;; (setq deft-directory "~/workspace/github/my-blog/work-notes")
+  ;; (setq deft-directory "~/workspace/github/work-notes")
   (with-eval-after-load 'org
     (setq org-confirm-babel-evaluate nil))
 
@@ -660,7 +662,7 @@ you should place your code here."
 
   (with-eval-after-load 'org
     (defvar org-agenda-dir "" "gtd org files location")
-    (setq-default org-agenda-dir "~/workspace/github/my-blog/work-notes/")
+    (setq-default org-agenda-dir "~/workspace/github/work-notes/")
     (setq org-agenda-file-gtd (expand-file-name "work-notes.org" org-agenda-dir))
     (setq org-agenda-file-note (expand-file-name "work-notes.org" org-agenda-dir))
     (setq org-agenda-file-journal (expand-file-name "work-notes.org" org-agenda-dir))
@@ -672,21 +674,40 @@ you should place your code here."
   ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
   ;;add multi-file journal
   (setq org-capture-templates
-        '(("t" "2019工作计划" entry (file+olp org-agenda-file-gtd "2019" "工作计划")
-           "*** TODO %?\n  %i\n %^t "
+        '(("1" "运营平台" entry (file+olp org-agenda-file-gtd "2019" "工作计划" "运营平台项目工作")
+           "**** TODO [#A] %?\n"
            :empty-lines 1)
-          ("s" "2019学习计划" entry (file+olp org-agenda-file-note "2019" "学习计划")
-           "*** TODO %?\n  %i\n %^t "
+          ("2" "运维平台" entry (file+olp org-agenda-file-note "2019" "工作计划" "运维平台项目工作")
+           "**** TODO [#A] %?\n"
            :empty-lines 1)
-          ("n" "2019日常任务" entry (file+olp org-agenda-file-note "2019" "日常任务")
-           "*** %?\n  %i\n %U"
+          ("3" "大数据ACP" entry (file+olp org-agenda-file-note "2019" "工作计划" "大数据ACP认证")
+           "**** TODO [#A] %?\n"
            :empty-lines 1)
-          ("b" "2019Captures" entry (file+olp org-agenda-file-note "2019" "Captures")
-           "*** TODO [#B] %?\n  %i\n %U"
+          ("4" "招聘工作" entry (file+olp org-agenda-file-note "2019" "工作计划" "招聘工作")
+           "**** TODO [#B] %?\n"
            :empty-lines 1)
+          ("5" "高中数学复习" entry (file+olp org-agenda-file-note "2019" "学习计划" "高中数学复习")
+           "**** TODO [#B] %?\n"
+           :empty-lines 1)
+          ("6" "数学建模" entry (file+olp org-agenda-file-note "2019" "学习计划" "数学建模")
+           "**** TODO [#B] %?\n"
+           :empty-lines 1)
+          ("7" "算法与数据结构" entry (file+olp org-agenda-file-note "2019" "学习计划" "算法与数据结构学习")
+           "**** TODO [#B] %?\n"
+           :empty-lines 1)
+          ("8" "厦门大学金融课" entry (file+olp org-agenda-file-note "2019" "学习计划" "厦门大学金融课")
+           "**** TODO [#B] %?\n"
+           :empty-lines 1)
+          ("9" "日常任务" entry (file+olp org-agenda-file-note "2019" "日常任务")
+           "**** TODO [#C] %?\n"
+           :empty-lines 1)
+          ("a" "其它学习任务" entry (file+olp org-agenda-file-note "2019" "学习计划" "其它学习任务")
+           "**** TODO [#B] %?\n"
+           :empty-lines 1)
+
           ("i" "Code Snippet" entry
            (file org-agenda-file-code-snippet)
-           "* %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+           "** %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
           ("c" "Chrome" entry (file+olp org-agenda-file-note "2019" "Captures")
            "*** TODO [#C] %?\n %(zilongshanren/retrieve-chrome-current-tab-url)\n %i\n %U"
            :empty-lines 1)
@@ -707,10 +728,10 @@ you should place your code here."
           ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
           ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
           ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
-          ("b" "Blog" tags-todo "BLOG")
+          ;; ("b" "Blog" tags-todo "BLOG")
           ("p" . "项目安排")
-          ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"cocos2d-x\"")
-          ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"zilongshanren\"")
+          ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"operation-work-task\"")
+          ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"manage-work-task\"")
           ("W" "Weekly Review"
            ((stuck "") ;; review stuck projects as designated by org-stuck-projects
             (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
@@ -898,7 +919,9 @@ plugin the html text in the exported file."
 
   ;; enable cache
 
+  (setq org-pomodoro-length 45)
 
+  (global-set-key (kbd "S-<SPC>") 'toggle-input-method)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -913,8 +936,13 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   (quote
+    ("~/workspace/github/work-notes/notes/work-related-documents/shufeng/service-market-project.org" "/Users/kevin/workspace/github/work-notes/index.org" "/Users/kevin/workspace/github/work-notes/mobileorg.org" "/Users/kevin/workspace/github/work-notes/snippet.org" "/Users/kevin/workspace/github/work-notes/work-note-in-2015.org" "/Users/kevin/workspace/github/work-notes/work-note-in-2016.org" "/Users/kevin/workspace/github/work-notes/work-note-in-2017.org" "/Users/kevin/workspace/github/work-notes/work-note-in-2018.org" "/Users/kevin/workspace/github/work-notes/work-notes.org")))
+ '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
-   '(flycheck-pos-tip pos-tip flycheck-haskell flycheck-gometalinter flycheck org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+   (quote
+    (toml-mode racer flycheck-rust counsel-gtags cargo rust-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv ranger projectile-rails rake prodigy ox-reveal minitest lua-mode intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-pos-tip pos-tip flycheck-haskell flycheck feature-mode evil-snipe enh-ruby-mode ein polymode deferred websocket deft company-ghci company-ghc ghc haskell-mode company-cabal command-log-mode cmm-mode chruby bundler inf-ruby org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -930,7 +958,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv ranger projectile-rails rake prodigy ox-reveal minitest lua-mode intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-pos-tip pos-tip flycheck-haskell flycheck feature-mode evil-snipe enh-ruby-mode ein polymode deferred websocket deft company-ghci company-ghc ghc haskell-mode company-cabal command-log-mode cmm-mode chruby bundler inf-ruby org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
