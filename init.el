@@ -31,8 +31,10 @@ values."
    ;; dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(asciidoc
-      pandoc
+   '(rust
+     react
+     asciidoc
+     pandoc
      ;; windows-scripts
      nginx
      sql
@@ -40,7 +42,7 @@ values."
      deft
      prodigy
      (ranger :variables
-              ranger-show-preview t)
+             ranger-show-preview t)
      clojure
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -106,12 +108,12 @@ values."
      ;;       ;; mu4e-enable-mode-line q
      ;;       mu4e-enable-notifications t)
      ;; spell-checking
-     ;; syntax-checking
+     syntax-checking
      ;; version-control
-     ;; (chinese :packages youdao-dictionary fcitx
-     ;;          :variables chinese-enable-fcitx t 
-     ;;          chinese-default-input-method 'wubi
-     ;;          chinese-enable-youdao-dict t)
+     (chinese :variables chinese-enable-fcitx nil
+              chinese-default-input-method 'wubi
+              chinese-enable-avy-pinyin t
+              chinese-enable-youdao-dict t)
 
 
 
@@ -124,7 +126,7 @@ values."
      (imenu-list :variables
                  imenu-list-auto-resize nil
                  imenu-list-size 0.25)
-    ;; vimscript
+     ;; vimscript
      yaml
      (ruby :variables
            ruby-enable-enh-ruby-mode t
@@ -135,28 +137,31 @@ values."
      html
      (javascript :variables
                  javascript-disable-tern-port-files nil
+                 tern-command '("node" " /usr/local/lib/node_modules/tern")
                  )
-     ;; lua
+     lua
      dash
      ;; tmux
      haskell
      ;; sql
      ;; java
-     (go :variables go-use-gometalinter t)
+     ;; (go :variables go-use-gometalinter t
+     (go :variables gofmt-command "goimports"
+         go-tab-width 4)
      ;; parinfer
      (python :variables
              python-test-runner 'pytest
              python-enable-yapf-format-on-save t
              python-auto-set-local-pyenv-version 'on-visit)
-     ;; ipython-notebook
+     ipython-notebook
 
      (evil-snipe :variables evil-snipe-enable-alternate-f-and-t-behaviors t)
      ;; ...
-     (wakatime :variables
-               wakatime-api-key  "0c4d964f-f6d6-4ca3-82d4-9dc09f5f6b36"
-               ;; use the actual wakatime path
-               wakatime-cli-path "/usr/local/bin/wakatime")
-
+     ;; (wakatime :variables
+     ;;           wakatime-api-key  "0c4d964f-f6d6-4ca3-82d4-9dc09f5f6b36"
+     ;;           use the actual wakatime path
+     ;;           wakatime-cli-path "/usr/local/bin/wakatime")
+                                        ;
      ;; (elfeed :variables
      ;;         elfeed-feeds '(("http://nullprogram.com/feed/" blog emacs)
      ;;                        "http://www.50ply.com/atom.xml"  ; no autotagging
@@ -170,23 +175,23 @@ values."
      common-lisp
      (shell :variables
             shell-default-height 30
-            shell-default-term-shell "/usr/local/bin/zsh"
+            shell-default-term-shell "/bin/zsh"
             shell-default-shell 'multi-term
             shell-default-full-span nil
             shell-enable-smart-eshell t
             shell-default-position 'bottom)
-     ; shell-scripts
+                                        ; shell-scripts
      docker
 
      ;; evil-cleverparens
      ;; vim-powerline
-     ; lujianmei
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(cnfonts org org-super-agenda org-alert)
+   ;; dotspacemacs-additional-packages '(cnfonts org org-super-agenda org-alert )
+   dotspacemacs-additional-packages '(cnfonts)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -254,7 +259,7 @@ values."
    ;; `recents' `bookmarks' `projects' `agenda' `todos'."
    ;; List sizes may be nil, in which case
    ;; `spacemacs-buffer-startup-lists-length' takes effect.
-   dotspacemacs-startup-lists '(;;(agenda . 3)
+   dotspacemacs-startup-lists '((agenda . 3)
                                 (recents . 5)
                                 (projects . 7))
    ;; True if the home buffer should respond to resize events.
@@ -363,7 +368,7 @@ values."
    dotspacemacs-loading-progress-bar t
    ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
    ;; (Emacs 24.4+ only)
-   dotspacemacs-fullscreen-at-startup t
+   dotspacemacs-fullscreen-at-startup nil
    ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
    ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
@@ -393,16 +398,17 @@ values."
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
    ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
    ;; This variable can also be set to a property list for finer control:
-   '(:relative nil
-     :disabled-for-modes dired-mode
-                         doc-view-mode
-                         markdown-mode
-                         org-mode
-                         pdf-view-mode
-                         text-mode
-     :size-limit-kb 1000)
+   ; '(:relative nil
+     ; :disabled-for-modes dired-mode
+                         ; doc-view-mode
+                         ; markdown-mode
+                         ; org-mode
+                         ; pdf-view-mode
+                         ; text-mode
+     ; :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers relative
+   ; dotspacemacs-line-numbers relative
+   dotspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -433,7 +439,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup changed
+   dotspacemacs-whitespace-cleanup nil
    ))
 
 (defun dotspacemacs/user-init ()
@@ -444,11 +450,11 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ; for master
-  ; (setq configuration-layer--elpa-archives
-        ; '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-          ; ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-          ; ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
-;
+  (setq configuration-layer--elpa-archives
+        '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+          ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+          ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+
   ;; for develop 
    (setq configuration-layer-elpa-archives
          '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
@@ -494,13 +500,13 @@ you should place your code here."
   (add-hook 'lisp-mode #'evil-cleverparens-mode)
 
   ;; https://github.com/syl20bnr/spacemacs/issues/3225
-;; Mac OS Edition for swich input method automatically
-;; This code helps us to work with Spacemacs (Emacs + Evil mode) in multilanguage mode
-;; You need to install https://github.com/vovkasm/input-source-switcher 
-;; It's a console utilite to switch input language.
-;; Pavel Pavlov (c) 2015
-;; In other OS you'll have to change name of langages layers and name of Switcher like issw 
-;; In thу Terminal # issw   show you namу of the current layout
+  ;; Mac OS Edition for swich input method automatically
+  ;; This code helps us to work with Spacemacs (Emacs + Evil mode) in multilanguage mode
+  ;; You need to install https://github.com/vovkasm/input-source-switcher 
+  ;; It's a console utilite to switch input language.
+  ;; Pavel Pavlov (c) 2015
+  ;; In other OS you'll have to change name of langages layers and name of Switcher like issw 
+  ;; In thу Terminal # issw   show you namу of the current layout
   ;; when is a mac, using issw for the input-method command change method
   (setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
   (add-hook 'evil-insert-state-entry-hook                         ;what we do when enter insert mode
@@ -540,7 +546,358 @@ you should place your code here."
               (shell-command "issw com.apple.keylayout.US")))
 
 
+  ;; add my own configurations
+  ;; (push "/Users/kevin/.spacemacs.d/" load-path)
+  ;; add def extension support configuration
+  (setq deft-extensions '("org" "md"))
+  ;; (setq deft-directory "~/workspace/github/work-notes")
+  (with-eval-after-load 'org
+    (setq org-confirm-babel-evaluate nil))
 
+  (setq-default TeX-engine 'xelatex)
+  (setq-default org-latex-compiler 'xelatex)
+  ;; # # following is for export org-html, using https://github.com/fniessen/org-html-themes
+  (with-eval-after-load 'org
+
+    ;; add following in org file
+    ;; #+OPTIONS:   H:4 num:t   toc:3 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t p:t pri:t
+    ;; #+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+    ;; #+OPTIONS:   author:t creator:t timestamp:t email:t
+    ;; #+DESCRIPTION: A notes that include all works and study things in 2017
+    ;; #+KEYWORDS:  work note 2017
+    ;; #+INFOJS_OPT: view:nil toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+    ;; #+SETUPFILE: ~/.spacemacs.d/third-plugins/org-html-themes/setup/theme-readtheorg.setup
+    ;; #+PROPERTY:  header-args :eval yes :eGxports both :results replace
+    ;; # #+MACRO: longtext this is a very very long text to include
+    ;; #+LATEX_CLASS: tongjithesis
+    ;; #+LATEX_CLASS_OPTIONS: [adegree=doctor,pifootnote]
+    ;; #+LATEX_HEADER: \usepackage{tongjiutils}
+    ;; #+LATEX_HEADER: \usepackage[inline]{enumitem}
+    ;; #+ATTR_LATEX: :environment itemize*
+    ;; #+ATTR_LATEX: :options [label={}, itemjoin={,}, itemjoin*={, and}]
+    ;; #+EXPORT_SELECT_TAGS: export
+    ;; #+EXPORT_EXCLUDE_TAGS: noexport
+    ;; #+STARTUP: logredeadline, logreschedule
+    ;; #+ATTR_HTML: :border 2 :rules all :frame all
+
+
+
+    (setq org-structure-template-alist
+          '(("s" "#+begin_src ?\n\n#+end_src" "<src lang=\"?\">\n\n</src>")
+            ("e" "#+begin_example\n?\n#+end_example" "<example>\n?\n</example>")
+            ("q" "#+begin_quote\n?\n#+end_quote" "<quote>\n?\n</quote>")
+            ("v" "#+BEGIN_VERSE\n?\n#+END_VERSE" "<verse>\n?\n</verse>")
+            ("c" "#+BEGIN_COMMENT\n?\n#+END_COMMENT")
+            ("p" "#+BEGIN_PRACTICE\n?\n#+END_PRACTICE")
+            ("o" "#+begin_src emacs-lisp :tangle yes\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
+            ("l" "#+begin_src emacs-lisp\n?\n#+end_src" "<src lang=\"emacs-lisp\">\n?\n</src>")
+            ("L" "#+latex: " "<literal style=\"latex\">?</literal>")
+            ("h" "#+begin_html\n?\n#+end_html" "<literal style=\"html\">\n?\n</literal>")
+            ("H" "#+html: " "<literal style=\"html\">?</literal>")
+            ("a" "#+begin_ascii\n?\n#+end_ascii")
+            ("A" "#+ascii: ")
+            ("i" "#+index: ?" "#+index: ?")
+            ("I" "#+include %file ?" "<include file=%file markup=\"?\">")))
+
+    ;; auto save files
+    (run-at-time "00:59" 3600 'org-save-all-org-buffers)
+
+    (custom-set-variables
+     '(org-export-table-data-tags '("<tr class=\"CUSTOM_ID>" . "</t>")))
+
+    ;; set export table's format
+    (setq org-table-export-default-format "orgtbl-to-csv")
+
+
+    )
+
+    ;;;; configuration for export pdf, support chinese, using tongjithesis latex thesis template
+  (with-eval-after-load 'org
+
+    ;; following is a comman header for org file
+    ;; #+LANGUAGE: zh
+    ;; #+AUTHOR: Lu Jianmei
+    ;; #+EMAIL: lu.jianmei@trs.com.cn
+    ;; #+OPTIONS:   H:4 num:t   toc:3 \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t p:t pri:t
+    ;; #+OPTIONS:   TeX:t LaTeX:nil skip:nil d:nil todo:t pri:nil tags:not-in-toc
+    ;; #+OPTIONS:   author:t creator:t timestamp:t email:t
+    ;; #+DESCRIPTION: A notes that include all works and study things in 2017
+    ;; #+KEYWORDS:  work note 2017
+    ;; #+INFOJS_OPT: view:nil toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+    ;; #+SETUPFILE: ~/.spacemacs.d/third-plugins/org-html-themes/setup/theme-readtheorg.setup
+    ;; #+PROPERTY:  header-args :eval yes :eGxports both :results replace
+    ;; # #+MACRO: longtext this is a very very long text to include
+    ;; #+LATEX_CLASS: tongjithesis
+    ;; #+LATEX_CLASS_OPTIONS: [adegree=doctor,pifootnote]
+    ;; #+LATEX_HEADER: \usepackage{tongjiutils}
+    ;; #+LATEX_HEADER: \usepackage[inline]{enumitem}
+    ;; #+ATTR_LATEX: :environment itemize*
+    ;; #+ATTR_LATEX: :options [label={}, itemjoin={,}, itemjoin*={, and}]
+    ;; #+EXPORT_SELECT_TAGS: export
+    ;; #+EXPORT_EXCLUDE_TAGS: noexport
+    ;; #+STARTUP: logredeadline, logreschedule
+    ;; #+ATTR_HTML: :border 2 :rules all :frame all
+
+
+    (add-to-list 'org-latex-classes
+
+                 '("tongjithesis"
+                   "\\documentclass{tongjithesis}"
+                   ("\\chapter{%s}" . "\\chapter*{%s}")
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+    (add-to-list 'org-latex-classes
+                 '("metropolis"
+                   "\\documentclass{beamer}"
+                   ;; "\\usetheme{metropolis}"
+                   ;; "\\usepackage{ctex}"
+                   ))
+
+    )
+
+  (with-eval-after-load 'org
+    (defvar org-agenda-dir "" "gtd org files location")
+    (setq-default org-agenda-dir "~/workspace/github/work-notes/")
+    (setq org-agenda-file-gtd (expand-file-name "work-notes.org" org-agenda-dir))
+    (setq org-agenda-file-note (expand-file-name "work-notes.org" org-agenda-dir))
+    (setq org-agenda-file-journal (expand-file-name "work-notes.org" org-agenda-dir))
+    (setq org-agenda-file-code-snippet (expand-file-name "snippet.org" org-agenda-dir))
+    (setq org-default-notes-file (expand-file-name "work-notes.org" org-agenda-dir))
+    (setq org-agenda-files (list org-agenda-dir))
+
+    ;; the %i would copy the selected text into the template
+    ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
+    ;;add multi-file journal
+    (setq org-capture-templates
+          '(("1" "运营平台" entry (file+olp org-agenda-file-gtd "2019" "工作计划" "运营平台项目工作")
+             "**** TODO [#A] %?\n"
+             :empty-lines 1)
+            ("2" "运维平台" entry (file+olp org-agenda-file-note "2019" "工作计划" "运维平台项目工作")
+             "**** TODO [#A] %?\n"
+             :empty-lines 1)
+            ("3" "大数据ACP" entry (file+olp org-agenda-file-note "2019" "工作计划" "大数据ACP认证")
+             "**** TODO [#A] %?\n"
+             :empty-lines 1)
+            ("4" "招聘工作" entry (file+olp org-agenda-file-note "2019" "工作计划" "招聘工作")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("5" "高中数学复习" entry (file+olp org-agenda-file-note "2019" "学习计划" "高中数学复习")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("6" "数学建模" entry (file+olp org-agenda-file-note "2019" "学习计划" "数学建模")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("7" "算法与数据结构" entry (file+olp org-agenda-file-note "2019" "学习计划" "算法与数据结构学习")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("8" "厦门大学金融课" entry (file+olp org-agenda-file-note "2019" "学习计划" "厦门大学金融课")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("9" "日常任务" entry (file+olp org-agenda-file-note "2019" "日常任务")
+             "**** TODO [#C] %?\n"
+             :empty-lines 1)
+            ("a" "其它学习任务" entry (file+olp org-agenda-file-note "2019" "学习计划" "其它学习任务")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+
+            ("i" "Code Snippet" entry
+             (file org-agenda-file-code-snippet)
+             "** %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+            ("c" "Chrome" entry (file+olp org-agenda-file-note "2019" "Captures")
+             "*** TODO [#C] %?\n %(zilongshanren/retrieve-chrome-current-tab-url)\n %i\n %U"
+             :empty-lines 1)
+            ("l" "links" entry (file+headline org-agenda-file-note "Captures")
+             "*** TODO [#C] %?\n  %i\n %a \n %U"
+             :empty-lines 1)
+            ("j" "2019年日记"
+             entry (file+datetree org-agenda-file-journal "日记")
+             "* %?"
+             :empty-lines 1)
+            ))
+
+    ;;An entry without a cookie is treated just like priority ' B '.
+    ;;So when create new task, they are default 重要且紧急
+    (setq org-agenda-custom-commands
+          '(
+            ("w" . "任务安排")
+            ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
+            ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+            ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
+            ;; ("b" "Blog" tags-todo "BLOG")
+            ("p" . "项目安排")
+            ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"operation-work-task\"")
+            ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"manage-work-task\"")
+            ("W" "Weekly Review"
+             ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+              (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
+              ))))
+
+    )
+
+  (with-eval-after-load 'org-agenda
+    (define-key org-agenda-mode-map (kbd "P") 'org-pomodoro)
+    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+      "." 'spacemacs/org-agenda-transient-state/body)
+    )
+
+  ;; configuration for export beamer, support beamer pdf export using Metropolis theme (https://github.com/matze/mtheme), support Reveal.js https://github.com/hakimel/reveal.js
+  (with-eval-after-load 'org
+
+    ;; # # following is setting for reveal, https://github.com/yjwen/org-reveal/
+    ;; #+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+    ;; #+REVEAL_THEME: solarized
+    ;; # # you can choose from serif, moon, black, beige, blood, league, night, simple, sky, solarized, white
+    ;; #+REVEAL_TRANS: default
+    ;; # # You can choose from none, fade, slide, convex, concave and zoom
+    ;; #+REVEAL_HLEVEL: 1
+    ;; #+OPTIONS: reveal_slide_number:h/v reveal_global_header:t reveal_global_footer:t
+    ;; #+OPTIONS: reveal_control reveal_progress reveal_rolling_links  org-reveal-plugins reveal_single_file:nil
+    ;; #+REVEAL_PLUGINS: (highlight) 
+    ;; #+ATTR_REVEAL: :frag frag-style
+    ;; # #+ATTR_REVEAL: :frag t # # will use Reveal.js default fragment style
+    ;; # following supports multiplexing, which allows allows your audience to view the slides of the presentation you are controlling on their own phone, tablet or laptop
+    ;; # #+REVEAL_MULTIPLEX_ID: [Obtained from the socket.io server. ]
+    ;; # #+REVEAL_MULTIPLEX_SECRET: [Obtained from socket.io server. Gives the master control of the presentation.]
+    ;; # #+REVEAL_MULTIPLEX_URL: http://revealjs.jit.su:80 [Location of socket.io server]
+    ;; # #+REVEAL_MULTIPLEX_SOCKETIO_URL: http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js
+    ;; # #+REVEAL_PLUGINS: ([any other plugins you are using] multiplex)
+
+    ;; # # following is setting for beamer, https://github.com/fangohr/template-beamer-metropolis-from-orgmode
+    ;; #+OPTIONS:   H:2 num:t toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc <:t
+    ;; #+OPTIONS:   d:nil todo:t pri:nil
+    ;; #+STARTUP: beamer
+    ;; #+LATEX_HEADER: \usetheme{metropolis}
+    ;; #+LATEX_HEADER: \metroset{block=fill}
+    ;; #+LATEX_HEADER: \usepackage{ctex}
+    ;; #+BEAMER_FRAME_LEVEL: 2
+    ;; #+LATEX_HEADER: \setbeamertemplate{frame footer}{\color{lightgray}Lujianmei - Orgmode + Beamer}
+    ;; #+STARTUP: beamer
+    ;; #+ATTR_BEAMER: :overlay +-
+    ;; #+LATEX_COMPILER: xelatex
+    ;; #+COLUMNS: %40ITEM %10BEAMER_env(Env) %9BEAMER_envargs(Env Args) %4BEAMER_col(Col) %10BEAMER_extra(Extra)
+
+    ;; Make the code blocks look nicer
+    (add-to-list 'org-latex-packages-alist '("" "minted"))
+    (setq org-latex-listings 'minted)
+
+    ;; style decision for source code blocks
+    (setq org-latex-minted-options
+          '(("bgcolor" "white") ("frame" "lines")))
+
+
+    ;; the next section allows to add :ignoreheading: to section headers,
+    ;; and the heading will be removed in the latex output, but the section
+    ;; itself be included.
+    ;;
+    ;; This is useful to 'label' paragraphs or sections to draft a document
+    ;; while not wanting to reveal that label/title in the final version to the
+    ;; reader.
+    (defun sa-ignore-headline (contents backend info)
+      "Ignore headlines with tag `ignoreheading'."
+      ;;(message "*** debug: working on ignoreheading")
+      (when (and (org-export-derived-backend-p backend 'latex 'html 'ascii)
+                 (string-match "\\(\\`.*\\)ignoreheading\\(.*\n\\)"
+                               (downcase contents)))
+                                        ;(replace-match "\\1\\2" nil nil contents)  ;; remove only the tag ":ignoreheading:" but keep the rest of the headline
+        (replace-match "" nil nil contents)        ;; remove entire headline
+        (message "*** replacing header")
+        ))
+    (add-to-list 'org-export-filter-headline-functions 'sa-ignore-headline)
+    ;; Note: This ^doesn't seem to work at the moment; needs fixing. Dec 2016
+
+    ;; Use utf8x for LaTeX export to access more unicode characters
+    (setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
+    )
+
+  ;;  it is possible to merge the svg xml with html file
+  (with-eval-after-load 'org
+    (defun org-babel-result-to-file (result &optional description)
+      "If result file is svg type, convert RESULT into html file and
+plugin the html text in the exported file."
+      (when (stringp result)
+        (if (string= "svg" (file-name-extension result))
+            (progn
+              (with-temp-buffer
+                (if (file-exists-p (concat result ".html"))
+                    (delete-file (concat result ".html")))
+                (rename-file result (concat result ".html"))
+                (insert-file-contents (concat result ".html"))
+                (message (concat result ".html"))
+                (format "#+BEGIN_HTML
+<div style=\"text-align: center;\">
+%s
+</div>
+#+END_HTML"
+                        (buffer-string)
+                        )))
+          (progn
+            (format "[[file:%s]%s]"
+                    (if (and default-directory
+                             buffer-file-name
+                             (not (string= (expand-file-name default-directory)
+                                           (expand-file-name
+                                            (file-name-directory buffer-file-name)))))
+                        (expand-file-name result default-directory)
+                      result)
+                    (if description (concat "[" description "]") ""))))))
+
+
+    )
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode
+    "ib" 'init-org/org-insert-src-block)
+
+  ;; ******************************** start
+  ;; (with-eval-after-load 'org)
+  ;; here goes your Org config :)
+  ;;(setq org-pomodoro-length)
+  ;; start cnfonts with startup
+  (cnfonts-enable)
+  (setq cnfonts-use-face-font-rescale t)
+  ;; (use-package org-alert
+  ;;   :defer t
+  ;;   :ensure t
+  ;;   :init
+  ;;   (progn
+  ;;     (setq alert-default-style 'notifier)))
+
+  ;; add GOPATH env
+  ;;     (when (memq window-system '(mac ns))
+  ;;       (exec-path-from-shell-initialize)
+  ;;       (exec-path-from-shell-copy-env "PATH"))
+  ;; ;; example of setting env var named “path”, by appending a new path to existing path
+  ;; (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/"))
+  ;; (setq exec-path (append exec-path '("/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/")))
+
+  ;; default options for all output formats
+  (setq org-pandoc-options '((standalone . t)))
+  ;; cancel above settings only for 'docx' format
+  (setq org-pandoc-options-for-docx '((standalone . nil)))
+  ;; special settings for beamer-pdf and latex-pdf exporters
+  (setq org-pandoc-options-for-beamer-pdf '((pdf-engine . "xelatex")))
+  (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex")))
+  ;; (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "pdflatex")))
+  ;; special extensions for markdown_github output
+  (setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
+
+
+  ;; For paredit
+
+  (autoload 'paredit-mode "paredit"
+    "Minor mode for pseudo-structurally editing Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
+  (add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
+  (add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
+  (add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
+  (add-hook 'clojure-mode-hook          (lambda () (paredit-mode +1)))
+  (add-hook 'slime-mode-hook            (lambda () (smartparens-mode +1)))
+
+
+  ;; ******************************** start
+  ;; (other configuration goes here)
+  ;; ....
   ;; switch between insert state and normal state by quickly pressing the fd keys
   (setq-default evil-escape-key-sequence "jj")
   ;; (setq plantuml-jar-path "~/dotfiles-mac/.spacemacs.d/third-plugins/plantuml.1.2017.19.jar")
@@ -559,7 +916,9 @@ you should place your code here."
 
   ;; enable cache
 
+  (setq org-pomodoro-length 45)
 
+  (global-set-key (kbd "S-<SPC>") 'toggle-input-method)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -574,9 +933,13 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   (quote
+    ("~/workspace/github/work-notes/notes/work-related-documents/shufeng/service-market-project.org" "/Users/kevin/workspace/github/work-notes/index.org" "/Users/kevin/workspace/github/work-notes/mobileorg.org" "/Users/kevin/workspace/github/work-notes/snippet.org" "/Users/kevin/workspace/github/work-notes/work-note-in-2015.org" "/Users/kevin/workspace/github/work-notes/work-note-in-2016.org" "/Users/kevin/workspace/github/work-notes/work-note-in-2017.org" "/Users/kevin/workspace/github/work-notes/work-note-in-2018.org" "/Users/kevin/workspace/github/work-notes/work-notes.org")))
+ '(org-export-table-data-tags (quote ("<tr class=\"CUSTOM_ID>" . "</t>")))
  '(package-selected-packages
    (quote
-    (rspec-mode evil-goggles doom-modeline haskell-mode counsel swiper ivy helm helm-core org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (toml-mode racer flycheck-rust counsel-gtags cargo rust-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv ranger projectile-rails rake prodigy ox-reveal minitest lua-mode intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-pos-tip pos-tip flycheck-haskell flycheck feature-mode evil-snipe enh-ruby-mode ein polymode deferred websocket deft company-ghci company-ghc ghc haskell-mode company-cabal command-log-mode cmm-mode chruby bundler inf-ruby org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -592,7 +955,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv ranger projectile-rails rake prodigy ox-reveal minitest lua-mode intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-pos-tip pos-tip flycheck-haskell flycheck feature-mode evil-snipe enh-ruby-mode ein polymode deferred websocket deft company-ghci company-ghc ghc haskell-mode company-cabal command-log-mode cmm-mode chruby bundler inf-ruby org-super-agenda org-projectile org-pomodoro org-alert alert magit-gitflow livid-mode evil-magit zeal-at-point yapfify yaml-mode xterm-color web-mode web-beautify unfill tagedit sql-indent smeargle slime-company slime slim-mode skewer-mode shell-pop scss-mode sass-mode reveal-in-osx-finder pyvenv pytest pyenv-mode py-isort pug-mode plantuml-mode pip-requirements pbcopy pandoc-mode ox-twbs ox-pandoc ox-gfm osx-trash osx-dictionary orgit magit git-commit ghub async ht org-category-capture org-present log4e org-mime org-download gntp nginx-mode mwim multi-term mmm-mode markdown-toc markdown-mode treepy graphql simple-httpd live-py-mode launchctl js2-refactor js2-mode js-doc jinja2-mode imenu-list ibuffer-projectile hy-mode htmlize helm-pydoc helm-gtags helm-gitignore helm-dash helm-css-scss helm-company helm-c-yasnippet haml-mode go-guru go-eldoc gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link with-editor gh-md ggtags fuzzy dash eshell-z eshell-prompt-extras esh-help emmet-mode dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-go go-mode company-auctex company-ansible company-anaconda company common-lisp-snippets coffee-mode cnfonts clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider sesman queue clojure-mode auto-yasnippet yasnippet auctex ansible-doc ansible anaconda-mode pythonic adoc-mode markup-faces ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
