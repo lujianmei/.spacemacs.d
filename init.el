@@ -918,7 +918,7 @@ plugin the html text in the exported file."
 
   (setq org-pomodoro-length 45)
 
-  (global-set-key (kbd "S-<SPC>") 'toggle-input-method)
+  (global-set-key (kbd "C-<SPC>") 'toggle-input-method)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
