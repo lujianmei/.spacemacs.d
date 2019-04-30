@@ -34,7 +34,7 @@ values."
    '(rust
      react
      asciidoc
-      pandoc
+     pandoc
      ;; windows-scripts
      nginx
      sql
@@ -42,7 +42,7 @@ values."
      deft
      prodigy
      (ranger :variables
-              ranger-show-preview t)
+             ranger-show-preview t)
      clojure
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -126,7 +126,7 @@ values."
      (imenu-list :variables
                  imenu-list-auto-resize nil
                  imenu-list-size 0.25)
-    ;; vimscript
+     ;; vimscript
      yaml
      (ruby :variables
            ruby-enable-enh-ruby-mode t
@@ -146,7 +146,7 @@ values."
      ;; sql
      ;; java
      ;; (go :variables go-use-gometalinter t
-      (go :variables gofmt-command "goimports"
+     (go :variables gofmt-command "goimports"
          go-tab-width 4)
      ;; parinfer
      (python :variables
@@ -161,7 +161,7 @@ values."
      ;;           wakatime-api-key  "0c4d964f-f6d6-4ca3-82d4-9dc09f5f6b36"
      ;;           use the actual wakatime path
      ;;           wakatime-cli-path "/usr/local/bin/wakatime")
-;
+                                        ;
      ;; (elfeed :variables
      ;;         elfeed-feeds '(("http://nullprogram.com/feed/" blog emacs)
      ;;                        "http://www.50ply.com/atom.xml"  ; no autotagging
@@ -180,7 +180,7 @@ values."
             shell-default-full-span nil
             shell-enable-smart-eshell t
             shell-default-position 'bottom)
-     ; shell-scripts
+                                        ; shell-scripts
      docker
 
      ;; evil-cleverparens
@@ -463,8 +463,6 @@ before packages are loaded. If you are unsure, you should try in setting them in
 ;
 
   ;; (setq debug-on-error t)
-  ;; (setq mu4e-mu-binary "/usr/local/bin/mu")
-
 
   )
 
@@ -502,13 +500,13 @@ you should place your code here."
   (add-hook 'lisp-mode #'evil-cleverparens-mode)
 
   ;; https://github.com/syl20bnr/spacemacs/issues/3225
-;; Mac OS Edition for swich input method automatically
-;; This code helps us to work with Spacemacs (Emacs + Evil mode) in multilanguage mode
-;; You need to install https://github.com/vovkasm/input-source-switcher 
-;; It's a console utilite to switch input language.
-;; Pavel Pavlov (c) 2015
-;; In other OS you'll have to change name of langages layers and name of Switcher like issw 
-;; In thу Terminal # issw   show you namу of the current layout
+  ;; Mac OS Edition for swich input method automatically
+  ;; This code helps us to work with Spacemacs (Emacs + Evil mode) in multilanguage mode
+  ;; You need to install https://github.com/vovkasm/input-source-switcher 
+  ;; It's a console utilite to switch input language.
+  ;; Pavel Pavlov (c) 2015
+  ;; In other OS you'll have to change name of langages layers and name of Switcher like issw 
+  ;; In thу Terminal # issw   show you namу of the current layout
   ;; when is a mac, using issw for the input-method command change method
   ;; (setq lang_source "com.apple.keylayout.US")                     ;set default var lang_source for issw arg
   ;; (add-hook 'evil-insert-state-entry-hook                         ;what we do when enter insert mode
@@ -548,7 +546,7 @@ you should place your code here."
   ;;             (shell-command "issw com.apple.keylayout.US")))
 
 
-        ;; add my own configurations
+  ;; add my own configurations
   ;; (push "/Users/kevin/.spacemacs.d/" load-path)
   ;; add def extension support configuration
   (setq deft-extensions '("org" "md"))
@@ -671,71 +669,71 @@ you should place your code here."
     (setq org-agenda-files (list org-agenda-dir))
 
     ;; the %i would copy the selected text into the template
-  ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
-  ;;add multi-file journal
-  (setq org-capture-templates
-        '(("1" "运营平台" entry (file+olp org-agenda-file-gtd "2019" "工作计划" "运营平台项目工作")
-           "**** TODO [#A] %?\n"
-           :empty-lines 1)
-          ("2" "运维平台" entry (file+olp org-agenda-file-note "2019" "工作计划" "运维平台项目工作")
-           "**** TODO [#A] %?\n"
-           :empty-lines 1)
-          ("3" "大数据ACP" entry (file+olp org-agenda-file-note "2019" "工作计划" "大数据ACP认证")
-           "**** TODO [#A] %?\n"
-           :empty-lines 1)
-          ("4" "招聘工作" entry (file+olp org-agenda-file-note "2019" "工作计划" "招聘工作")
-           "**** TODO [#B] %?\n"
-           :empty-lines 1)
-          ("5" "高中数学复习" entry (file+olp org-agenda-file-note "2019" "学习计划" "高中数学复习")
-           "**** TODO [#B] %?\n"
-           :empty-lines 1)
-          ("6" "数学建模" entry (file+olp org-agenda-file-note "2019" "学习计划" "数学建模")
-           "**** TODO [#B] %?\n"
-           :empty-lines 1)
-          ("7" "算法与数据结构" entry (file+olp org-agenda-file-note "2019" "学习计划" "算法与数据结构学习")
-           "**** TODO [#B] %?\n"
-           :empty-lines 1)
-          ("8" "厦门大学金融课" entry (file+olp org-agenda-file-note "2019" "学习计划" "厦门大学金融课")
-           "**** TODO [#B] %?\n"
-           :empty-lines 1)
-          ("9" "日常任务" entry (file+olp org-agenda-file-note "2019" "日常任务")
-           "**** TODO [#C] %?\n"
-           :empty-lines 1)
-          ("a" "其它学习任务" entry (file+olp org-agenda-file-note "2019" "学习计划" "其它学习任务")
-           "**** TODO [#B] %?\n"
-           :empty-lines 1)
+    ;;http://www.howardism.org/Technical/Emacs/journaling-org.html
+    ;;add multi-file journal
+    (setq org-capture-templates
+          '(("1" "运营平台" entry (file+olp org-agenda-file-gtd "2019" "工作计划" "运营平台项目工作")
+             "**** TODO [#A] %?\n"
+             :empty-lines 1)
+            ("2" "运维平台" entry (file+olp org-agenda-file-note "2019" "工作计划" "运维平台项目工作")
+             "**** TODO [#A] %?\n"
+             :empty-lines 1)
+            ("3" "大数据ACP" entry (file+olp org-agenda-file-note "2019" "工作计划" "大数据ACP认证")
+             "**** TODO [#A] %?\n"
+             :empty-lines 1)
+            ("4" "招聘工作" entry (file+olp org-agenda-file-note "2019" "工作计划" "招聘工作")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("5" "高中数学复习" entry (file+olp org-agenda-file-note "2019" "学习计划" "高中数学复习")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("6" "数学建模" entry (file+olp org-agenda-file-note "2019" "学习计划" "数学建模")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("7" "算法与数据结构" entry (file+olp org-agenda-file-note "2019" "学习计划" "算法与数据结构学习")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("8" "厦门大学金融课" entry (file+olp org-agenda-file-note "2019" "学习计划" "厦门大学金融课")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
+            ("9" "日常任务" entry (file+olp org-agenda-file-note "2019" "日常任务")
+             "**** TODO [#C] %?\n"
+             :empty-lines 1)
+            ("a" "其它学习任务" entry (file+olp org-agenda-file-note "2019" "学习计划" "其它学习任务")
+             "**** TODO [#B] %?\n"
+             :empty-lines 1)
 
-          ("i" "Code Snippet" entry
-           (file org-agenda-file-code-snippet)
-           "** %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
-          ("c" "Chrome" entry (file+olp org-agenda-file-note "2019" "Captures")
-           "*** TODO [#C] %?\n %(zilongshanren/retrieve-chrome-current-tab-url)\n %i\n %U"
-           :empty-lines 1)
-          ("l" "links" entry (file+headline org-agenda-file-note "Captures")
-           "*** TODO [#C] %?\n  %i\n %a \n %U"
-           :empty-lines 1)
-          ("j" "2019年日记"
-           entry (file+datetree org-agenda-file-journal "日记")
-           "* %?"
-           :empty-lines 1)
-          ))
+            ("i" "Code Snippet" entry
+             (file org-agenda-file-code-snippet)
+             "** %?\t%^g\n#+BEGIN_SRC %^{language}\n\n#+END_SRC")
+            ("c" "Chrome" entry (file+olp org-agenda-file-note "2019" "Captures")
+             "*** TODO [#C] %?\n %(zilongshanren/retrieve-chrome-current-tab-url)\n %i\n %U"
+             :empty-lines 1)
+            ("l" "links" entry (file+headline org-agenda-file-note "Captures")
+             "*** TODO [#C] %?\n  %i\n %a \n %U"
+             :empty-lines 1)
+            ("j" "2019年日记"
+             entry (file+datetree org-agenda-file-journal "日记")
+             "* %?"
+             :empty-lines 1)
+            ))
 
-  ;;An entry without a cookie is treated just like priority ' B '.
-  ;;So when create new task, they are default 重要且紧急
-  (setq org-agenda-custom-commands
-        '(
-          ("w" . "任务安排")
-          ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
-          ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
-          ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
-          ;; ("b" "Blog" tags-todo "BLOG")
-          ("p" . "项目安排")
-          ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"operation-work-task\"")
-          ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"manage-work-task\"")
-          ("W" "Weekly Review"
-           ((stuck "") ;; review stuck projects as designated by org-stuck-projects
-            (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
-            ))))
+    ;;An entry without a cookie is treated just like priority ' B '.
+    ;;So when create new task, they are default 重要且紧急
+    (setq org-agenda-custom-commands
+          '(
+            ("w" . "任务安排")
+            ("wa" "重要且紧急的任务" tags-todo "+PRIORITY=\"A\"")
+            ("wb" "重要且不紧急的任务" tags-todo "-Weekly-Monthly-Daily+PRIORITY=\"B\"")
+            ("wc" "不重要且紧急的任务" tags-todo "+PRIORITY=\"C\"")
+            ;; ("b" "Blog" tags-todo "BLOG")
+            ("p" . "项目安排")
+            ("pw" tags-todo "PROJECT+WORK+CATEGORY=\"operation-work-task\"")
+            ("pl" tags-todo "PROJECT+DREAM+CATEGORY=\"manage-work-task\"")
+            ("W" "Weekly Review"
+             ((stuck "") ;; review stuck projects as designated by org-stuck-projects
+              (tags-todo "PROJECT") ;; review all projects (assuming you use todo keywords to designate projects)
+              ))))
 
     )
 
@@ -854,53 +852,52 @@ plugin the html text in the exported file."
   ;; ******************************** start
   ;; (with-eval-after-load 'org)
   ;; here goes your Org config :)
-    ;;(setq org-pomodoro-length)
-    ;; start cnfonts with startup
-    (cnfonts-enable)
-    (setq cnfonts-use-face-font-rescale t)
-    ;; (use-package org-alert
-    ;;   :defer t
-    ;;   :ensure t
-    ;;   :init
-    ;;   (progn
-    ;;     (setq alert-default-style 'notifier)))
+  ;;(setq org-pomodoro-length)
+  ;; start cnfonts with startup
+  (cnfonts-enable)
+  (setq cnfonts-use-face-font-rescale t)
+  ;; (use-package org-alert
+  ;;   :defer t
+  ;;   :ensure t
+  ;;   :init
+  ;;   (progn
+  ;;     (setq alert-default-style 'notifier)))
 
-    ;; add GOPATH env
-;;     (when (memq window-system '(mac ns))
-;;       (exec-path-from-shell-initialize)
-;;       (exec-path-from-shell-copy-env "PATH"))
-;; ;; example of setting env var named “path”, by appending a new path to existing path
-;; (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/"))
-;; (setq exec-path (append exec-path '("/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/")))
+  ;; add GOPATH env
+  ;;     (when (memq window-system '(mac ns))
+  ;;       (exec-path-from-shell-initialize)
+  ;;       (exec-path-from-shell-copy-env "PATH"))
+  ;; ;; example of setting env var named “path”, by appending a new path to existing path
+  ;; (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/"))
+  ;; (setq exec-path (append exec-path '("/usr/local/bin:/usr/local/textlive/2018/bin/x86_64-darwin/")))
 
-;; default options for all output formats
-(setq org-pandoc-options '((standalone . t)))
-;; cancel above settings only for 'docx' format
-(setq org-pandoc-options-for-docx '((standalone . nil)))
-;; special settings for beamer-pdf and latex-pdf exporters
-(setq org-pandoc-options-for-beamer-pdf '((pdf-engine . "xelatex")))
-(setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex")))
-;; (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "pdflatex")))
-;; special extensions for markdown_github output
-(setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
+  ;; default options for all output formats
+  (setq org-pandoc-options '((standalone . t)))
+  ;; cancel above settings only for 'docx' format
+  (setq org-pandoc-options-for-docx '((standalone . nil)))
+  ;; special settings for beamer-pdf and latex-pdf exporters
+  (setq org-pandoc-options-for-beamer-pdf '((pdf-engine . "xelatex")))
+  (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "xelatex")))
+  ;; (setq org-pandoc-options-for-latex-pdf '((pdf-engine . "pdflatex")))
+  ;; special extensions for markdown_github output
+  (setq org-pandoc-format-extensions '(markdown_github+pipe_tables+raw_html))
 
 
-;; For paredit
+  ;; For paredit
 
-(autoload 'paredit-mode "paredit"
-  "Minor mode for pseudo-structurally editing Lisp code." t)
-(add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
-(add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
-(add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
-(add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
-(add-hook 'clojure-mode-hook          (lambda () (paredit-mode +1)))
-(add-hook 'slime-mode-hook            (lambda () (smartparens-mode +1)))
+  (autoload 'paredit-mode "paredit"
+    "Minor mode for pseudo-structurally editing Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook       (lambda () (paredit-mode +1)))
+  (add-hook 'lisp-mode-hook             (lambda () (paredit-mode +1)))
+  (add-hook 'lisp-interaction-mode-hook (lambda () (paredit-mode +1)))
+  (add-hook 'scheme-mode-hook           (lambda () (paredit-mode +1)))
+  (add-hook 'clojure-mode-hook          (lambda () (paredit-mode +1)))
+  (add-hook 'slime-mode-hook            (lambda () (smartparens-mode +1)))
 
 
   ;; ******************************** start
   ;; (other configuration goes here)
   ;; ....
-
   ;; switch between insert state and normal state by quickly pressing the fd keys
   (setq-default evil-escape-key-sequence "jj")
   ;; (setq plantuml-jar-path "~/dotfiles-mac/.spacemacs.d/third-plugins/plantuml.1.2017.19.jar")
@@ -921,7 +918,7 @@ plugin the html text in the exported file."
 
   (setq org-pomodoro-length 45)
 
-  (global-set-key (kbd "S-<SPC>") 'toggle-input-method)
+  (global-set-key (kbd "C-<SPC>") 'toggle-input-method)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
